@@ -1,0 +1,135 @@
+<?php
+header('Content-Type: application/javascript');
+
+echo 'var traducciones = ' . json_encode([
+    'signin_title' => 'Sign In',
+    'signin_description' => 'Enter your email address and password to access account.',
+    'signin_email_label' => 'Email address',
+    'signin_email_placeholder' => 'Enter your email',
+    'signin_password_label' => 'Password',
+    'signin_password_placeholder' => 'Enter your password',
+    'signin_forgot_password' => 'Forgot your password?',
+    'signin_language_label' => 'Language',
+    'signin_language_select' => 'Select Language...',
+    'signin_language_spanish' => 'Spanish',
+    'signin_language_english' => 'English',
+    'signin_button' => 'Log In',
+
+    'signup_title' => 'Free Sign Up',
+    'signup_description' => "Don't have an account? Create your account, it takes less than a minute",
+    'signup_first_name_label' => 'First Name',
+    'signup_first_name_placeholder' => 'Enter your first name',
+    'signup_last_name_label' => 'Last Name',
+    'signup_last_name_placeholder' => 'Enter your last name',
+    'signup_gender_label' => 'Gender',
+    'signup_gender_male' => 'Male',
+    'signup_gender_female' => 'Female',
+    'signup_birthday_label' => 'Birthday',
+    'signup_birthday_placeholder' => 'Enter your Birthday',
+    'signup_height_label' => 'Height Inches',
+    'signup_height_placeholder' => "Enter your Height Inches (5'-07)",
+    'signup_email_label' => 'Email address',
+    'signup_email_placeholder' => 'Enter your email',
+    'signup_telephone_label' => 'Telephone',
+    'signup_telephone_placeholder' => 'e.g (xxx) xxx-xxxx',
+    'signup_password_label' => 'Password',
+    'signup_password_placeholder' => 'Enter your password',
+    'signup_button' => 'Sign Up',
+    'signup_country' => 'Country',
+    'signup_confirm_password' => 'Confirm Password',
+
+
+    'complete_your_profile' => 'Complete Your Profile',
+'please_register_security_questions' => 'Please register your security questions to complete your profile.',
+'security_question_1' => 'Security Question 1',
+'enter_first_question' => 'Enter your first question',
+'answer_1' => 'Answer 1',
+'enter_answer' => 'Enter answer',
+'security_question_2' => 'Security Question 2',
+'enter_second_question' => 'Enter your second question',
+'save_questions' => 'Save Questions',
+
+
+'back' => 'Back',
+    'invalid_telephone' => 'Invalid telephone number.',
+    'telephone_already_used' => 'This telephone has already been used.',
+    'telephone_available' => 'Telephone is available.',
+
+//reset
+
+'email_reset' => 'Email',
+'email_placeholder_reset' => 'Enter your email',
+'check_email_reset' => 'Check Email',
+
+'security_questions_reset' => 'Security Questions',
+'question_1_reset' => 'Question 1',
+'answer_1_reset' => 'Answer 1',
+'question_2_reset' => 'Question 2',
+'answer_2_reset' => 'Answer 2',
+'enter_answer_reset' => 'Enter answer',
+'verify_answers_reset' => 'Verify Answers',
+
+'change_password_reset' => 'Change Password',
+'new_password_reset' => 'New Password',
+'new_password_placeholder_reset' => 'Enter new password',
+'update_password_reset' => 'Update Password',
+
+ 'error' => 'Error!',
+    'success' => 'Sucess!',
+  'invalid_email_format' => 'Invalid email format.',
+    'email_required' => 'Email parameter is required.',
+    'email_not_found' => 'Email not found.',
+    'email_found' => 'Email found. Please answer the security questions.',
+    'security_questions_error' => 'Failed to retrieve security questions.',
+    'security_questions_not_found' => 'No security questions found for this user.',
+    'security_answers_verified' => 'Security answers successfully verified.',
+    'security_answers_incorrect' => 'Incorrect security answers.',
+    'missing_answers_or_id' => 'Missing security answers or user ID.',
+    'invalid_user_id' => 'Invalid user ID.',
+    'password_too_short' => 'Password must be at least 6 characters long.',
+    'password_update_success' => 'Password successfully updated. You will be redirected to log in.',
+    'password_update_failed' => 'Failed to update the password. Please try again.',
+    'missing_password_or_id' => 'Missing new password or user ID.',
+
+
+
+
+    'error_passwords_no_match' => 'Passwords do not match. Please try again.',
+'registered_success' => 'Registered!',
+'error' => 'Error',
+'error_register_generic' => 'An error occurred during registration.',
+'welcome' => 'Welcome',
+'login_error_generic' => 'An error occurred while logging in.',
+'login_starting' => 'Starting session...',
+
+
+      'field_first_name_required' => 'First name is required.',
+    'field_last_name_required' => 'Last name is required.',
+    'field_birthday_required' => 'Birthday is required.',
+    'field_height_required' => 'Height is required.',
+    'field_email_required' => 'Email is required.',
+    'field_password_required' => 'Password is required.',
+    'field_sex_required' => 'Sex is required.',
+    'field_telephone_required' => 'Telephone is required.',
+
+    'invalid_email_format' => 'Invalid email format.',
+    'password_too_short' => 'Password must be at least 8 characters long.',
+    'email_already_registered' => 'This email is already registered.',
+
+    'registration_successful' => 'Registration successful. Please log in.',
+    'registration_failed' => 'Registration could not be completed. Please try again later.',
+    'error_register_generic' => 'An error occurred during registration.',
+
+    'login_required_fields' => 'Email and password are required.',
+    'invalid_email' => 'Invalid email format.',
+    'user_not_found' => 'User not found.',
+    'incorrect_password' => 'Incorrect password.',
+    'login_error_generic' => 'An error occurred while logging in.',
+    'login_successful' => 'Starting session...',
+
+    'error' => 'Error',
+    'success' => 'Success',
+    'welcome' => 'Welcome',
+'showPassword' => 'Show password',
+'hidePassword' => 'Hide password',
+]);

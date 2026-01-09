@@ -1,0 +1,90 @@
+{
+  "value": true,
+  "message": "",
+  "data": [
+    {
+      "second_opinion_id": "uuid-request-1",
+      "user_id": "uuid-patient-1",
+      "first_name": "Jade M.",
+      "last_name": "Walker",
+      "status": "pending",
+      "notes": "Patient reports feeling dizzy and experiencing palpitations, especially in the morning. Wants to discuss potential causes and next steps.",
+      "created_at": "2025-10-27T10:00:00Z",
+      "updated_at": "2025-10-27T10:00:00Z",
+      "type_request": "appointment_request",
+      "service_type": "Full Consultation",
+      "cost_request": "150.00",
+      "request_date_to": "2025-11-05T14:00:00Z"
+    },
+    {
+      "second_opinion_id": "uuid-request-2",
+      "user_id": "uuid-patient-2",
+      "first_name": "Carlos",
+      "last_name": "Rivas",
+      "status": "awaiting_payment",
+      "notes": "Requesting a second opinion on a recent stress test.",
+      "created_at": "2025-10-26T11:30:00Z",
+      "updated_at": "2025-10-27T09:00:00Z",
+      "type_request": "document_review",
+      "service_type": "Full Evaluation",
+      "cost_request": "50.00",
+      "request_date_to": null
+    },
+    {
+      "second_opinion_id": "uuid-request-3",
+      "user_id": "uuid-patient-3",
+      "first_name": "Evelyn",
+      "last_name": "Reed",
+      "status": "upcoming",
+      "notes": "Follow-up regarding blood pressure medication.",
+      "created_at": "2025-10-25T15:00:00Z",
+      "updated_at": "2025-10-26T18:00:00Z",
+      "type_request": "appointment_request",
+      "service_type": "Follow-up",
+      "cost_request": "75.00",
+      "request_date_to": "2025-11-10T11:00:00Z"
+    },
+    {
+      "second_opinion_id": "uuid-request-4",
+      "user_id": "uuid-patient-4",
+      "first_name": "Ana",
+      "last_name": "Pérez",
+      "status": "rejected",
+      "notes": "This case falls outside of my primary area of expertise. I recommend seeking a specialist in rheumatology for a more accurate evaluation.",
+      "created_at": "2025-10-24T09:00:00Z",
+      "updated_at": "2025-10-24T10:15:00Z",
+      "type_request": "document_review",
+      "service_type": "Partial Review",
+      "cost_request": "40.00",
+      "request_date_to": null
+    },
+    {
+      "second_opinion_id": "uuid-request-5",
+      "user_id": "uuid-patient-5",
+      "first_name": "Paul J.",
+      "last_name": "Friend",
+      "status": "completed",
+      "notes": "Review of recent cardiology report.",
+      "created_at": "2025-10-20T14:00:00Z",
+      "updated_at": "2025-10-22T16:30:00Z",
+      "type_request": "document_review",
+      "service_type": "Full Medical History",
+      "cost_request": "150.00",
+      "request_date_to": null
+    },
+    {
+      "second_opinion_id": "uuid-request-6",
+      "user_id": "uuid-patient-6",
+      "first_name": "Miguel",
+      "last_name": "Torres",
+      "status": "cancelled",
+      "notes": "Patient cancelled due to scheduling conflict.",
+      "created_at": "2025-10-19T18:00:00Z",
+      "updated_at": "2025-10-21T11:00:00Z",
+      "type_request": "appointment_request",
+      "service_type": "Free Consultation",
+      "cost_request": "0.00",
+      "request_date_to": "2025-10-28T10:00:00Z"
+    }
+  ]
+}
