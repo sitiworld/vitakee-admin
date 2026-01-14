@@ -215,7 +215,7 @@
         const modal = new bootstrap.Modal(document.getElementById('sessionConfigModal'));
 
         try {
-            const res = await fetch('<?= BASE_URL ?>/session-config');
+            const res = await fetch('<?= BASE_URL ?>session-config');
             const json = await res.json();
 
             if (json.value && json.data) {
@@ -271,7 +271,7 @@
         });
 
         try {
-            const response = await fetch('<?= BASE_URL ?>/session-config', {
+            const response = await fetch('<?= BASE_URL ?>session-config', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
