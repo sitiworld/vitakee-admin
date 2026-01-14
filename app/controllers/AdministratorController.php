@@ -352,7 +352,7 @@ class AdministratorController
 
         // ──────── BLOQUEO POR SESIÓN ────────
         $maxAttempts = 3;
-        $lockoutTime = 60; // en segundos
+        $lockoutTime = 600; // 10 minutos en segundos
         $attemptKey = 'admin_login_attempts_' . md5($email);
         $now = time();
         $attemptData = $_SESSION[$attemptKey] ?? ['count' => 0, 'last_attempt' => 0, 'locked_until' => 0];
@@ -438,19 +438,13 @@ class AdministratorController
                 $attemptData['count']++;
                 $attemptData['last_attempt'] = $now;
 
-                // 🔒 Bloqueo definitivo si alcanza el límite
-                if ($attemptData['count'] >= $maxAttempts && isset($admin['administrator_id'])) {
-                    $this->adminModel->updateStatus([
-                        'administrator_id' => $admin['administrator_id'],
-                        'status' => 0
-                    ]);
-                    $failureCode = 'user_blocked';
+                // 🔒 Solo bloqueo temporal por múltiples intentos (NO bloqueo permanente)
+                if ($attemptData['count'] >= $maxAttempts) {
+                    $attemptData['locked_until'] = $now + $lockoutTime;
+                    $failureCode = 'too_many_attempts';
                     $details = getFailureDetails($failureCode);
                 }
 
-                if ($attemptData['count'] >= $maxAttempts) {
-                    $attemptData['locked_until'] = $now + $lockoutTime;
-                }
                 $_SESSION[$attemptKey] = $attemptData;
 
                 return $this->jsonResponse(false, $lang['failure_' . $details['code']], ['code' => $details['code']], 401);

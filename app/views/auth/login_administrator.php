@@ -79,13 +79,16 @@
                     </div>
 
                     <div class="text-center mb-4">
-
+                        <?php 
+                        // Obtener el idioma desde la URL o usar inglés por defecto
+                        $currentLang = strtolower($_GET['lang'] ?? $_SESSION['idioma'] ?? 'en');
+                        ?>
                         <select id="language-switcher" class="form-select mx-auto" style="width: auto;">
 
-                            <option value="es" <?= strtolower($lang ?? 'es') == 'es' ? 'selected' : '' ?>>
+                            <option value="es" <?= $currentLang === 'es' ? 'selected' : '' ?>>
                                 Español
                             </option>
-                            <option value="en" <?= strtolower($lang ?? 'en') == 'en' ? 'selected' : '' ?>>
+                            <option value="en" <?= $currentLang === 'en' ? 'selected' : '' ?>>
                                 English
                             </option>
                         </select>
@@ -238,24 +241,31 @@
                         console.log(response);
 
                         if (response.value) {
-                            showConfirmation({
-                                type: 'success', actionCallback: () => {
-                                    console.log(response);
-
-                                    window.location.href = "<?= BASE_URL ?>" + response.data.redirect; // Example redirect
-                                },
-                                message: {
-                                    title: response.message,
-                                }
-                            })
-
+                            // Redirigir automáticamente sin mostrar mensaje
+                            window.location.href = "<?= BASE_URL ?>" + response.data.redirect;
                         } else {
+                            // Construir el mensaje de error
+                            let errorTitle = response.message || 'Error';
+                            let errorText = '';
+                            
+                            // Si hay información adicional en data
+                            if (response.data) {
+                                if (response.data.wait_minutes) {
+                                    const selectedLang = $('#language-switcher').val() || 'en';
+                                    errorText = selectedLang === 'es' 
+                                        ? `Por favor espera ${response.data.wait_minutes} minuto(s) antes de intentar nuevamente.`
+                                        : `Please wait ${response.data.wait_minutes} minute(s) before trying again.`;
+                                }
+                            }
+                            
                             showConfirmation({
-                                type: 'error', actionCallback: () => {
+                                type: 'error', 
+                                actionCallback: () => {
                                     console.log('Login failed: ' + response.message);
                                 },
                                 message: {
-                                    title: response.message,
+                                    title: errorTitle,
+                                    text: errorText,
                                     confirmButtonText: 'OK'
                                 }
                             });
@@ -264,8 +274,38 @@
                     error: function (xhr, status, error) {
                         // Handle errors
                         console.log(xhr);
+                        
+                        // Obtener el idioma seleccionado
+                        const selectedLang = $('#language-switcher').val() || 'en';
+                        
+                        let errorMessage = selectedLang === 'es' ? 'Error de inicio de sesión' : 'Login Error';
+                        let errorText = selectedLang === 'es' ? 'Ocurrió un error al procesar la solicitud.' : 'An error occurred while processing the request.';
+                        
+                        // Intentar obtener el mensaje del servidor
+                        try {
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorText = xhr.responseJSON.message;
+                            } else if (xhr.responseText) {
+                                // Intentar parsear el responseText
+                                const response = JSON.parse(xhr.responseText);
+                                if (response.message) {
+                                    errorText = response.message;
+                                }
+                            }
+                        } catch (e) {
+                            // Si no se puede parsear, usar el responseText directamente si es texto
+                            if (xhr.responseText && xhr.responseText.length < 200) {
+                                errorText = xhr.responseText;
+                            }
+                        }
 
-                        showConfirmation({ type: 'error', message: { title: 'Error de inicio de sesión', text: xhr.responseText } });
+                        showConfirmation({ 
+                            type: 'error', 
+                            message: { 
+                                title: errorMessage, 
+                                text: errorText 
+                            } 
+                        });
                         console.error('Login error:', xhr.responseText);
                     },
                     complete: function (data) {
