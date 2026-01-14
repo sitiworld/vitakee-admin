@@ -253,7 +253,7 @@ class SpecialistVerificationRequestsModel
      */
     private function syncSpecialistVerifiedStatus(string $specialistId, string $status): void
     {
-        if (!in_array($status, ['APPROVED','REJECTED'], true)) {
+        if (!in_array($status, ['APPROVED', 'REJECTED', 'AWAITING_PAYMENT'], true)) {
             return;
         }
         $stmt = $this->db->prepare("UPDATE specialists SET verified_status = ? WHERE specialist_id = ? AND deleted_at IS NULL");

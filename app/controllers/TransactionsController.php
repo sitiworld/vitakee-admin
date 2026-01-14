@@ -42,16 +42,34 @@ class TransactionsController
 
     public function create()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'], $_POST['specialist_id'], $_POST['amount_usd'], $_POST['type'])) {
+        // Para transacciones de VERIFICATION, user_id no es requerido
+        $type = $_POST['type'] ?? null;
+        $requiredFields = ['specialist_id', 'amount_usd', 'type'];
+        
+        // Solo requerir user_id si NO es una transacción de verificación
+        if ($type !== 'VERIFICATION') {
+            $requiredFields[] = 'user_id';
+        }
+        
+        // Verificar que todos los campos requeridos estén presentes
+        $missingFields = [];
+        foreach ($requiredFields as $field) {
+            if (!isset($_POST[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($missingFields)) {
             $data = [
-                'user_id'           => $_POST['user_id'],
-                'specialist_id'     => $_POST['specialist_id'],
-                'pricing_id'        => $_POST['pricing_id'] ?? null,
-                'amount_usd'        => $_POST['amount_usd'],
-                'type'              => $_POST['type'],
-                'platform_fee'      => $_POST['platform_fee'] ?? 0,
-                'status'            => $_POST['status'] ?? 'PENDING',
-                'payment_reference' => $_POST['payment_reference'] ?? ''
+                'user_id'                  => $_POST['user_id'] ?? null,
+                'specialist_id'            => $_POST['specialist_id'],
+                'pricing_id'               => $_POST['pricing_id'] ?? null,
+                'verification_request_id'  => $_POST['verification_request_id'] ?? null,
+                'amount_usd'               => $_POST['amount_usd'],
+                'type'                     => $_POST['type'],
+                'platform_fee'             => $_POST['platform_fee'] ?? 0,
+                'status'                   => $_POST['status'] ?? 'PENDING',
+                'payment_reference'        => $_POST['payment_reference'] ?? ''
             ];
 
             try {
@@ -61,7 +79,8 @@ class TransactionsController
                 $this->errorResponse(400, "Error creating transaction: " . $e->getMessage());
             }
         } else {
-            $this->errorResponse(400, 'Missing required fields: user_id, specialist_id, amount_usd, type');
+            $missingFieldsStr = implode(', ', $missingFields);
+            $this->errorResponse(400, "Missing required fields: $missingFieldsStr");
         }
     }
 

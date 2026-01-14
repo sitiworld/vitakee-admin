@@ -47,15 +47,28 @@ class TransactionsModel
             $transactionId = $this->generateUUIDv4();
 
             $stmt = $this->db->prepare("INSERT INTO {$this->table}
-            (transaction_id, user_id, specialist_id, pricing_id, amount_usd, type, platform_fee, status, payment_reference, created_at, created_by)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            (transaction_id, user_id, specialist_id, pricing_id, verification_request_id, amount_usd, type, platform_fee, status, payment_reference, created_at, created_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            // Para transacciones de verificación, user_id es el mismo que specialist_id
+            // porque el especialista está pagando por su propia verificación
+            $transactionType = $data['type'] ?? null;
+            if ($transactionType === 'VERIFICATION') {
+                $transactionUserId = $data['specialist_id'];
+            } else {
+                $transactionUserId = $data['user_id'] ?? null;
+            }
+            
+            $pricingId = $data['pricing_id'] ?? null;
+            $verificationRequestId = $data['verification_request_id'] ?? null;
 
             $stmt->bind_param(
-                "ssssssdssss",
+                "ssssssddssss",
                 $transactionId,
-                $data['user_id'],
+                $transactionUserId,
                 $data['specialist_id'],
-                $data['pricing_id'],
+                $pricingId,
+                $verificationRequestId,
                 $data['amount_usd'],
                 $data['type'],
                 $data['platform_fee'],
@@ -131,5 +144,20 @@ class TransactionsModel
             $this->db->rollback();
             throw $e;
         }
+    }
+
+    private function generateUUIDv4(): string
+    {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff)
+        );
     }
 }
