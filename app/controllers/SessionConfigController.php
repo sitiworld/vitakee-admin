@@ -41,14 +41,19 @@ class SessionConfigController
     {
         $data = $this->getJsonInput();
         $timeout = isset($data['timeout_minutes']) ? (int) $data['timeout_minutes'] : 0;
+        $birthdayMin = isset($data['birthday_min']) ? (int) $data['birthday_min'] : 0;
 
         if ($timeout <= 0) {
             return $this->jsonResponse(false, 'Invalid timeout value.');
         }
 
+        if ($birthdayMin <= 0 || $birthdayMin > 150) {
+            return $this->jsonResponse(false, 'Invalid minimum age value. Must be between 1 and 150.');
+        }
+
         try {
-            $success = $this->model->updateTimeout($timeout);
-            $this->jsonResponse($success, $success ? 'Session timeout updated.' : 'Update failed.');
+            $success = $this->model->updateConfig($timeout, $birthdayMin);
+            $this->jsonResponse($success, $success ? 'Session configuration updated.' : 'Update failed.');
         } catch (Exception $e) {
             $this->jsonResponse(false, $e->getMessage());
         }

@@ -247,6 +247,41 @@ return [
   'telephone_placeholder' => 'ej. (xxx) xxx-xxxx',
   'password_register_placeholder' => 'Introduce tu contraseña',
 
+  // Términos y Condiciones
+  'terms_and_conditions' => 'Términos y Condiciones',
+  'accept_terms' => 'Acepto los',
+  'read_terms' => 'Leer Términos y Condiciones',
+  'terms_required' => 'Debes aceptar los términos y condiciones para continuar',
+  'terms_modal_title' => 'Términos y Condiciones de Uso - Vitakee',
+  'terms_close' => 'Cerrar',
+  
+  // Contenido de términos y condiciones
+  'terms_intro' => 'Bienvenido a Vitakee. Al utilizar nuestra plataforma de monitoreo de salud y biomarcadores, usted acepta los siguientes términos y condiciones:',
+  
+  'terms_section_1_title' => '1. Propósito de la Plataforma',
+  'terms_section_1_content' => 'Vitakee es una plataforma diseñada para el seguimiento y monitoreo de biomarcadores de salud. Nuestro servicio proporciona herramientas para registrar, visualizar y analizar datos de salud personales, incluyendo pero no limitado a: composición corporal, perfil lipídico, glucosa, cetonas, función renal y otros biomarcadores relevantes.',
+  
+  'terms_section_2_title' => '2. Uso de la Información Médica',
+  'terms_section_2_content' => 'La información proporcionada en Vitakee tiene fines informativos y educativos únicamente. Los datos y análisis presentados NO sustituyen el consejo, diagnóstico o tratamiento médico profesional. Siempre consulte a un profesional de la salud calificado antes de tomar decisiones sobre su salud basándose en la información de esta plataforma.',
+  
+  'terms_section_3_title' => '3. Privacidad y Protección de Datos',
+  'terms_section_3_content' => 'Nos comprometemos a proteger su información personal y de salud. Todos los datos de biomarcadores y registros médicos son almacenados de forma segura y encriptada. No compartiremos su información personal con terceros sin su consentimiento explícito, excepto cuando sea requerido por ley o para proporcionar los servicios solicitados.',
+  
+  'terms_section_4_title' => '4. Responsabilidad del Usuario',
+  'terms_section_4_content' => 'Usted es responsable de: (a) Proporcionar información precisa y actualizada, (b) Mantener la confidencialidad de su cuenta, (c) Consultar con profesionales de la salud antes de realizar cambios significativos en su estilo de vida o tratamiento médico basándose en los datos de la plataforma, (d) Utilizar la plataforma de manera responsable y ética.',
+  
+  'terms_section_5_title' => '5. Limitación de Responsabilidad',
+  'terms_section_5_content' => 'Vitakee no se hace responsable de: (a) Decisiones médicas tomadas basándose únicamente en la información de la plataforma, (b) Errores en los datos ingresados por el usuario, (c) Interpretaciones incorrectas de los resultados, (d) Problemas de salud no detectados por la plataforma. Los rangos de referencia y análisis son orientativos y pueden variar según factores individuales.',
+  
+  'terms_section_6_title' => '6. Consultas con Especialistas',
+  'terms_section_6_content' => 'Nuestra plataforma puede conectarlo con profesionales de la salud verificados. Sin embargo, estas consultas no reemplazan una evaluación médica completa en persona. Los especialistas proporcionan orientación basada en la información disponible, pero pueden requerir exámenes adicionales o consultas presenciales para diagnósticos definitivos.',
+  
+  'terms_section_7_title' => '7. Modificaciones del Servicio',
+  'terms_section_7_content' => 'Nos reservamos el derecho de modificar, suspender o descontinuar cualquier aspecto de la plataforma en cualquier momento. Notificaremos a los usuarios sobre cambios significativos en los términos de servicio.',
+  
+  'terms_section_8_title' => '8. Aceptación de Términos',
+  'terms_section_8_content' => 'Al registrarse y utilizar Vitakee, usted confirma que ha leído, comprendido y aceptado estos términos y condiciones. Si no está de acuerdo con alguno de estos términos, por favor no utilice nuestra plataforma.',
+
   // Usuarios
   'page_title_users' => 'Usuarios',
   'add_new_user' => 'Agregar Usuario',
@@ -276,6 +311,21 @@ return [
   'select_speciality_specialists' => 'Seleccionar...',
   'select_title_specialists' => 'Selecciona...',
   'view_specialist_title' => 'Detalles de  Especialista',
+  'english' => 'Inglés',
+  'spanish' => 'Español',
+  'available' => 'Disponible',
+  'not_available' => 'No disponible',
+  'not_specified' => 'No especificado',
+  'invalid_format' => 'Formato inválido',
+  'whatsapp_link' => 'WhatsApp',
+  'website_url' => 'Sitio web',
+  'bio' => 'Biografía',
+  'verified_status' => 'Estado de verificación',
+  'languages' => 'Idiomas',
+  'available_for_free_consults' => 'Consultas gratuitas disponibles',
+  'max_free_consults' => 'Máximo por mes',
+  'verified_pending' => 'Pendiente',
+  'verified_approved' => 'Aprobado',
   'verified_rejected' => 'Rechazado',
   'verified_blocked' => 'Bloqueado',
   'verified_suspended' => 'Suspendido',
@@ -439,14 +489,35 @@ return [
   'tumblr' => 'Tumblr',
   'github' => 'GitHub',
   "whatsapp" => "WhatsApp",
+
+  // VERIFICACIÓN DE ESPECIALISTAS
+  'request_verification' => 'Solicitar Verificación',
+  'request_verification_btn' => 'Solicitar Verificación',
+  'verification_modal_title' => 'Verificación de Especialista',
+  'verification_modal_subtitle' => 'Conviértete en un Especialista Médico Verificado',
+  'verification_benefits_title' => 'Beneficios de la Verificación:',
+  'verification_benefit_1_title' => 'Credibilidad Mejorada',
+  'verification_benefit_1_desc' => 'Muestra una insignia de verificación en tu perfil para generar confianza con los pacientes',
+  'verification_benefit_2_title' => 'Visibilidad Prioritaria',
+  'verification_benefit_2_desc' => 'Aparece en posiciones más altas en los resultados de búsqueda y listados de especialistas',
+  'verification_benefit_3_title' => 'Mayor Confianza del Paciente',
+  'verification_benefit_3_desc' => 'Las credenciales verificadas aumentan significativamente las tasas de reserva de pacientes',
+  'verification_benefit_4_title' => 'Reconocimiento Profesional',
+  'verification_benefit_4_desc' => 'Únete a un grupo selecto de profesionales de la salud verificados en nuestra plataforma',
+  'verification_requirements_note' => 'Sus credenciales y certificaciones cargadas serán revisadas cuidadosamente por nuestro equipo de verificación médica. El proceso de verificación generalmente toma de 2 a 3 días hábiles.',
+  'submit_verification_request' => 'Enviar Solicitud de Verificación',
+  'verification_request_submitted' => 'Su solicitud de verificación ha sido enviada exitosamente. Nuestro equipo revisará sus credenciales y se pondrá en contacto con usted en un plazo de 2 a 3 días hábiles.',
+  'verification_request_error' => 'Error al enviar la solicitud de verificación. Por favor, inténtelo de nuevo o contacte con soporte.',
+  'verification_status_pending' => 'Verificación Pendiente',
+  'verification_status_approved' => 'Especialista Verificado',
+  'verification_status_rejected' => 'Verificación Rechazada',
+  'verification_no_documents' => 'Por favor, cargue sus credenciales profesionales antes de solicitar la verificación.',
   'telegram' => 'Telegram',
   'whatsapp_business' => 'WhatsApp Business',
-
-
-
-
-
-
+  
+  // FLUJO DE PAGO DE VERIFICACIÓN
+  'verification_pending_message' => 'Su solicitud de verificación está siendo revisada por nuestro equipo.',
+  'verification_approved_message' => '¡Felicitaciones! Ahora eres un especialista verificado.',
   // ADMINISTRADORES
 
   // --- Títulos y Botones ---

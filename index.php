@@ -1123,7 +1123,7 @@ $router->delete('/specialist-verification-requests/{id}', [
 
     // Session Config
     $router->get('/session-config', ['controlador' => SessionConfigController::class, 'accion' => 'show']);
-    $router->post('/session-config', ['controlador' => SessionConfigController::class, 'accion' => 'update', 'roles' => ['administrator']]);
+    $router->post('/session-config', ['controlador' => SessionConfigController::class, 'accion' => 'update']);
 
     // Comment Biomarker
     /* ============================================================

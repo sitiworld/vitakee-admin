@@ -233,6 +233,41 @@ return [
   'telephone_placeholder' => 'e.g (xxx) xxx-xxxx',
   'password_register_placeholder' => 'Enter your password',
 
+  // Terms and Conditions
+  'terms_and_conditions' => 'Terms and Conditions',
+  'accept_terms' => 'I accept the',
+  'read_terms' => 'Read Terms and Conditions',
+  'terms_required' => 'You must accept the terms and conditions to continue',
+  'terms_modal_title' => 'Terms and Conditions of Use - Vitakee',
+  'terms_close' => 'Close',
+  
+  // Terms and conditions content
+  'terms_intro' => 'Welcome to Vitakee. By using our health and biomarker monitoring platform, you agree to the following terms and conditions:',
+  
+  'terms_section_1_title' => '1. Platform Purpose',
+  'terms_section_1_content' => 'Vitakee is a platform designed for tracking and monitoring health biomarkers. Our service provides tools to record, visualize, and analyze personal health data, including but not limited to: body composition, lipid profile, glucose, ketones, kidney function, and other relevant biomarkers.',
+  
+  'terms_section_2_title' => '2. Use of Medical Information',
+  'terms_section_2_content' => 'The information provided on Vitakee is for informational and educational purposes only. The data and analyses presented do NOT replace professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional before making health decisions based on information from this platform.',
+  
+  'terms_section_3_title' => '3. Privacy and Data Protection',
+  'terms_section_3_content' => 'We are committed to protecting your personal and health information. All biomarker data and medical records are stored securely and encrypted. We will not share your personal information with third parties without your explicit consent, except when required by law or to provide requested services.',
+  
+  'terms_section_4_title' => '4. User Responsibility',
+  'terms_section_4_content' => 'You are responsible for: (a) Providing accurate and up-to-date information, (b) Maintaining the confidentiality of your account, (c) Consulting with healthcare professionals before making significant changes to your lifestyle or medical treatment based on platform data, (d) Using the platform responsibly and ethically.',
+  
+  'terms_section_5_title' => '5. Limitation of Liability',
+  'terms_section_5_content' => 'Vitakee is not responsible for: (a) Medical decisions made based solely on platform information, (b) Errors in user-entered data, (c) Incorrect interpretations of results, (d) Health problems not detected by the platform. Reference ranges and analyses are indicative and may vary based on individual factors.',
+  
+  'terms_section_6_title' => '6. Specialist Consultations',
+  'terms_section_6_content' => 'Our platform may connect you with verified healthcare professionals. However, these consultations do not replace a complete in-person medical evaluation. Specialists provide guidance based on available information but may require additional tests or in-person consultations for definitive diagnoses.',
+  
+  'terms_section_7_title' => '7. Service Modifications',
+  'terms_section_7_content' => 'We reserve the right to modify, suspend, or discontinue any aspect of the platform at any time. We will notify users of significant changes to the terms of service.',
+  
+  'terms_section_8_title' => '8. Acceptance of Terms',
+  'terms_section_8_content' => 'By registering and using Vitakee, you confirm that you have read, understood, and accepted these terms and conditions. If you do not agree with any of these terms, please do not use our platform.',
+
   // Usuarios
   'page_title_users' => 'Users',
   'add_new_user' => 'Add User',
@@ -448,14 +483,35 @@ return [
   'tumblr' => 'Tumblr',
   'github' => 'GitHub',
   "whatsapp" => "WhatsApp",
+
+  // SPECIALIST VERIFICATION
+  'request_verification' => 'Request Verification',
+  'request_verification_btn' => 'Request Verification',
+  'verification_modal_title' => 'Specialist Verification',
+  'verification_modal_subtitle' => 'Become a Verified Medical Specialist',
+  'verification_benefits_title' => 'Benefits of Verification:',
+  'verification_benefit_1_title' => 'Enhanced Credibility',
+  'verification_benefit_1_desc' => 'Display a verified badge on your profile to build trust with patients',
+  'verification_benefit_2_title' => 'Priority Visibility',
+  'verification_benefit_2_desc' => 'Appear higher in search results and specialist listings',
+  'verification_benefit_3_title' => 'Increased Patient Confidence',
+  'verification_benefit_3_desc' => 'Verified credentials significantly increase patient booking rates',
+  'verification_benefit_4_title' => 'Professional Recognition',
+  'verification_benefit_4_desc' => 'Join an elite group of verified healthcare professionals on our platform',
+  'verification_requirements_note' => 'Your uploaded credentials and certifications will be carefully reviewed by our medical verification team. The verification process typically takes 2-3 business days.',
+  'submit_verification_request' => 'Submit Verification Request',
+  'verification_request_submitted' => 'Your verification request has been submitted successfully. Our team will review your credentials and contact you within 2-3 business days.',
+  'verification_request_error' => 'Failed to submit verification request. Please try again or contact support.',
+  'verification_status_pending' => 'Verification Pending',
+  'verification_status_approved' => 'Verified Specialist',
+  'verification_status_rejected' => 'Verification Declined',
+  'verification_no_documents' => 'Please upload your professional credentials before requesting verification.',
   'telegram' => 'Telegram',
   'whatsapp_business' => 'WhatsApp Business',
-
-
-
-
-
-
+  
+  // VERIFICATION PAYMENT FLOW
+  'verification_pending_message' => 'Your verification request is being reviewed by our team.',
+  'verification_approved_message' => 'Congratulations! You are now a verified specialist.',
   // Administradores
   'page_title_admins' => 'Administrators',
   'add_new_admin' => 'Add Administrator',
@@ -2166,6 +2222,20 @@ This process allows you to securely share selected data for a professional revie
 
   // --- New for Modal ---
   'profile_modal_title' => 'Specialist Profile',
+  'about_me_title' => 'About Me:',
+  'full_name_label' => 'Full Name:',
+  'mobile_label' => 'Mobile:',
+  'email_label' => 'Email (login):',
+  'location_label' => 'Location:',
+  'social_media_label' => 'Social Media:',
+  'more_info_title' => 'More Information:',
+  'credentials_tab' => 'Credentials/Pricing',
+  'certifications_tab' => 'Certifications',
+  'reviews_tab' => 'Reviews',
+  'no_credentials_text' => 'No pricing information available.',
+  'no_certifications_text' => 'No certifications to display.',
+  'no_reviews_text_modal' => 'This specialist does not have any reviews yet.',
+  'view_all_reviews_button' => 'View All Reviews',
   'modal_close_button' => 'Close',
   'loading_profile_text' => 'Loading profile...',
 

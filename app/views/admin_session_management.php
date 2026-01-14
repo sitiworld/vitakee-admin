@@ -4,14 +4,7 @@
         <button class="btn btn-add-user" id="btnSessionConfig">
             <i class="mdi mdi-cog-outline"></i>
             <?= $traducciones['session_config'] ?? 'Session Config' ?>
-        </button>
-        <button class="btn btn-action-lipid" id="btnExportCSV">
-            <i class="mdi mdi-file-export-outline"></i>
-            <?= $traducciones['export_csv_button'] ?? 'Export to CSV' ?>
-        </button>
-
-
-    </div>
+        </button>    </div>
 
     <div class="card">
         <div class="card-body">
@@ -89,6 +82,14 @@
                         <input type="text" min="1" max="99999" class="form-control number" id="inactivityTime"
                             name="inactivityTime" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="birthdayMin" class="form-label">
+                            <?= $traducciones['birthday_min_age'] ?? 'Minimum age required (years)' ?> <span
+                                class="text-danger">*</span>
+                        </label>
+                        <input type="text" min="1" max="150" class="form-control number" id="birthdayMin"
+                            name="birthdayMin" required>
+                    </div>
                     <div class="text-muted fst-italic small">
                         <?= $traducciones['required_fields_note'] ?? '* Required fields' ?>
                     </div>
@@ -133,7 +134,7 @@
         });
     });
 </script>
-<script src="public/assets/js/logout.js"></script>
+<script src="<?= BASE_URL ?>public/assets/js/logout.js"></script>
 <script type="module">
     function hideAllModals() {
         // Oculta cualquier modal abierto
@@ -153,11 +154,8 @@
     }
 
     const tableId = '#sessionAuditTable';
-    const exportBtnId = 'btnExportCSV';
-
     document.addEventListener('DOMContentLoaded', () => {
         inicializarTablaAuditoria();
-        configurarExportarCSV();
     });
 
     function inicializarTablaAuditoria() {
@@ -202,7 +200,7 @@
             pageList: [5, 10, 20, 50, 100],
             showRefresh: true,
             showColumns: true,
-            url: 'session-audit',
+            url: '<?= BASE_URL ?>session-audit',
             responseHandler: res => res.data || []
         });
     }
@@ -221,14 +219,17 @@
             const json = await res.json();
 
             if (json.value && json.data) {
-                const { timeout_minutes } = json.data;
+                const { timeout_minutes, birthday_min } = json.data;
                 document.getElementById('inactivityTime').value = timeout_minutes || '';
+                document.getElementById('birthdayMin').value = birthday_min || 18;
             } else {
                 document.getElementById('inactivityTime').value = '';
+                document.getElementById('birthdayMin').value = 18;
             }
         } catch (error) {
             console.error('❌ Error al obtener configuración de sesión:', error);
             document.getElementById('inactivityTime').value = '';
+            document.getElementById('birthdayMin').value = 18;
             Swal.fire({
                 icon: 'error',
                 title: language.session_config_error_title || 'Error',
@@ -244,11 +245,21 @@
         e.preventDefault();
 
         const timeout = parseInt(document.getElementById('inactivityTime').value);
+        const birthdayMin = parseInt(document.getElementById('birthdayMin').value);
+        
         if (isNaN(timeout) || timeout < 1) {
             return Swal.fire({
                 icon: 'warning',
                 title: language.invalid_timeout_title || 'Invalid Value',
                 text: language.invalid_timeout_text || 'Please enter a valid number greater than 0.'
+            });
+        }
+
+        if (isNaN(birthdayMin) || birthdayMin < 1 || birthdayMin > 150) {
+            return Swal.fire({
+                icon: 'warning',
+                title: language.invalid_timeout_title || 'Invalid Value',
+                text: 'Please enter a valid age between 1 and 150 years.'
             });
         }
 
@@ -263,7 +274,10 @@
             const response = await fetch('<?= BASE_URL ?>/session-config', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ timeout_minutes: timeout })
+                body: JSON.stringify({ 
+                    timeout_minutes: timeout,
+                    birthday_min: birthdayMin
+                })
             });
 
             const result = await response.json();
@@ -273,7 +287,7 @@
                 Swal.fire({
                     icon: 'success',
                     title: language.update_success_title || 'Updated!',
-                    text: language.update_success_text || 'Session timeout updated successfully.'
+                    text: language.update_success_text || 'Session configuration updated successfully.'
                 });
 
                 const modal = bootstrap.Modal.getInstance(document.getElementById('sessionConfigModal'));
@@ -282,12 +296,12 @@
                 Swal.fire({
                     icon: 'error',
                     title: language.update_error_title || 'Error updating',
-                    text: result.message || language.update_error_text || 'Could not update session timeout.'
+                    text: result.message || language.update_error_text || 'Could not update session configuration.'
                 });
             }
 
         } catch (error) {
-            let errorMessage = language.update_error_text || 'Could not update session timeout.';
+            let errorMessage = language.update_error_text || 'Could not update session configuration.';
 
             try {
                 const errData = await error.response?.json?.();
@@ -607,49 +621,4 @@
         return `${MM}/${DD}/${YYYY} ${hh}:${mm}:${ss}`;
     }
 
-    function configurarExportarCSV() {
-        const exportBtn = document.getElementById(exportBtnId);
-        if (!exportBtn) return;
-
-        exportBtn.addEventListener('click', async () => {
-            Swal.fire({
-                title: language?.exportLoadingTitle || 'Exporting...',
-                text: language?.exportLoadingText || 'Generating file, please wait...',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => Swal.showLoading()
-            });
-
-            try {
-                const response = await fetch('session-audit/export/1');
-                const contentType = response.headers.get("Content-Type");
-
-                if (contentType && contentType.includes("text/csv")) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `${language?.csvFilenamePrefix_session_audit || 'session_audit'}.csv`;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                    Swal.close();
-                } else {
-                    const res = await response.json();
-                    Swal.fire({
-                        icon: 'info',
-                        title: language?.noRecordsTitle || 'No Records',
-                        text: language?.noRecordsText || 'No data available to export.'
-                    });
-                }
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: language?.exportErrorTitle || 'Export Error',
-                    text: language?.exportErrorText || 'An error occurred while exporting.'
-                });
-            }
-        });
-    }
 </script>

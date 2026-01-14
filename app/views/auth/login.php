@@ -47,6 +47,20 @@
                                         <p class="text-muted mb-3">
                                             <?= htmlspecialchars($traducciones['signin_description']) ?>
                                         </p>
+                                        
+                                        <!-- Social Login Buttons -->
+                                        <div class="mb-3">
+                                            <div class="d-grid gap-2">
+                                                <a href="<?= BASE_URL ?>auth/google" class="btn btn-light border">
+                                                    <i class="mdi mdi-google text-danger me-1"></i>
+                                                    Sign in with Google
+                                                </a>
+                                            </div>
+                                            <div class="text-center my-3">
+                                                <span class="text-muted">or</span>
+                                            </div>
+                                        </div>
+
                                         <form id="login-form" method="POST" data-validation="reactive" novalidate>
                                             <div class="mb-3">
                                                 <label for="email_login"
@@ -92,6 +106,20 @@
                                         <p class="text-muted mb-4">
                                             <?= htmlspecialchars($traducciones['signup_description']) ?>
                                         </p>
+                                        
+                                        <!-- Social Register Buttons -->
+                                        <div class="mb-3">
+                                            <div class="d-grid gap-2">
+                                                <a href="<?= BASE_URL ?>auth/google" class="btn btn-light border">
+                                                    <i class="mdi mdi-google text-danger me-1"></i>
+                                                    Sign up with Google
+                                                </a>
+                                            </div>
+                                            <div class="text-center my-3">
+                                                <span class="text-muted">or</span>
+                                            </div>
+                                        </div>
+
                                         <form id="register-form" method="POST" data-validation="reactive" novalidate>
                                             <div class="mb-3">
                                                 <label for="first_name"
@@ -231,6 +259,24 @@
                                                     </button>
                                                 </div>
                                             </div>
+                                            
+                                            <!-- Terms and Conditions Checkbox -->
+                                            <div class="mb-3">
+                                                <div class="form-check" id="terms-checkbox-group">
+                                                    <input class="form-check-input" type="checkbox" id="accept_terms" 
+                                                        name="accept_terms"
+                                                        data-rules="noVacio"
+                                                        data-message-no-vacio="<?= htmlspecialchars($traducciones['terms_required']) ?>"
+                                                        data-error-container="#terms-checkbox-group">
+                                                    <label class="form-check-label" for="accept_terms">
+                                                        <?= htmlspecialchars($traducciones['accept_terms']) ?> 
+                                                        <a href="#" id="terms-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#termsModal">
+                                                            <?= htmlspecialchars($traducciones['terms_and_conditions']) ?>
+                                                        </a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
                                             <div class="mb-0">
                                                 <button class="btn btn-sign-up float-sm-end"
                                                     type="submit"><?= htmlspecialchars($traducciones['signup_button']) ?></button>
@@ -246,13 +292,71 @@
         </div>
     </div>
 
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel"><?= htmlspecialchars($traducciones['terms_modal_title']) ?></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="lead"><?= htmlspecialchars($traducciones['terms_intro']) ?></p>
+                    
+                    <div class="mt-4">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_1_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_1_content']) ?></p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_2_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_2_content']) ?></p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_3_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_3_content']) ?></p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_4_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_4_content']) ?></p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_5_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_5_content']) ?></p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_6_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_6_content']) ?></p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_7_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_7_content']) ?></p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="fw-bold"><?= htmlspecialchars($traducciones['terms_section_8_title']) ?></h6>
+                        <p><?= htmlspecialchars($traducciones['terms_section_8_content']) ?></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= htmlspecialchars($traducciones['terms_close']) ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-    <script src="public/assets/js/vendor.min.js"></script>
-    <script type="module" src="public/assets/js/app2.js"></script>
 
-    <script src="public/assets/js/imask.js"></script>
-    <script src="public/assets/libs/select2/js/select2.min.js"></script>
+    <script src="<?= BASE_URL ?>public/assets/js/vendor.min.js"></script>
+    <script type="module" src="<?= BASE_URL ?>public/assets/js/app2.js"></script>
+
+    <script src="<?= BASE_URL ?>public/assets/js/imask.js"></script>
+    <script src="<?= BASE_URL ?>public/assets/libs/select2/js/select2.min.js"></script>
     <script src="<?= BASE_URL ?>public/assets/libs/flatpickr/flatpickr.min.js"></script>
     <script src="<?= BASE_URL ?>public/assets/libs/flatpickr/l10n/es.js"></script>
 
@@ -318,7 +422,7 @@
         });
     </script>
     <script type="module">
-        import { countrySelect } from "./public/assets/js/components/countrySelect.js";
+        import { countrySelect } from "<?= BASE_URL ?>public/assets/js/components/countrySelect.js";
         countrySelect('telephone', '[data-phone-select]');
     </script>
     <script type="module">
@@ -327,10 +431,10 @@
         // ==================================================
 
         // 1. Importar el nuevo validador (se ejecutará automáticamente)
-        import "./public/assets/js/helpers/validarFormulario.js";
+        import "<?= BASE_URL ?>public/assets/js/helpers/validarFormulario.js";
 
         // 2. Importar solo los helpers que aún se usan
-        import { clearValidationMessages, showConfirmation } from "./public/assets/js/helpers/helpers.js";
+        import { clearValidationMessages, showConfirmation } from "<?= BASE_URL ?>public/assets/js/helpers/helpers.js";
 
         function isMobileDevice() {
             return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
