@@ -1,7 +1,7 @@
 import { hideLoader, showAlert, showLoader } from './helpers/helpers.js'
 
 export function getBaseUrl() {
-  const localBaseUrl = 'http://localhost/vitakee' // Cambia esta URL según tu configuración local
+  const localBaseUrl = 'http://localhost/vitakee-admin' // Cambia esta URL según tu configuración local
   const prodBaseUrl = 'https://admin.vitakee.com' // Cambia esta URL por la de tu servidor de producción
 
   // Verificamos si estamos en un entorno de localhost
