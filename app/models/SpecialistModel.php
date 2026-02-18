@@ -1805,6 +1805,8 @@ GROUP BY
                 throw new \mysqli_sql_exception(($t['error_preparing_insert'] ?? 'Error preparando insert: ') . $this->db->error);
             }
 
+                $verifiedStatus = $data['verified_status'] ?? 'PENDING';
+
             $stmt->bind_param(
                 "ssssssssssssssiisssss",
                 $uuid,
@@ -1819,7 +1821,7 @@ GROUP BY
                 $data['whatsapp_link'],
                 $data['website_url'],
                 $data['avatar_url'],
-                $data['verified_status'],
+                $verifiedStatus,
                 $data['languages'],
                 $data['available_for_free_consults'],
                 $data['max_free_consults_per_month'],
@@ -2106,6 +2108,12 @@ GROUP BY
                 $updatedBy
             ];
             $types = "ssssssssisss";
+
+            if (array_key_exists('verified_status', $data)) {
+                 $sql .= ", verified_status = ?";
+                 $params[] = $data['verified_status'];
+                 $types .= "s";
+            }
 
             if (!empty($data['password'])) {
                 $sql .= ", password = ?";
