@@ -37,15 +37,17 @@ $folder = $folderMap[$role] ?? 'users';
 if (!empty($_SESSION['avatar_url'])) {
     $userImagePath = $_SESSION['avatar_url'];
 } else {
-    // 2. Intentar con la ruta user_{id}.jpg
-    $userImagePath = "/uploads/{$folder}/user_" . $userId . ".jpg";
-    if (!file_exists(PROJECT_ROOT . $userImagePath)) {
+    $userImagePath = "uploads/{$folder}/user_" . $userId . ".jpg";
+    if (file_exists(PROJECT_ROOT . '/' . $userImagePath)) {
+        $userImagePath .= '?v=' . filemtime(PROJECT_ROOT . '/' . $userImagePath);
+    } else {
         // 3. Fallback a imagen por defecto
         $userImagePath = "public/assets/images/users/user_boy.jpeg";
     }
 }
 
-
+// Ensure the path does not start with an extra slash if we are appending to BASE_URL which ends with /
+$userImagePath = ltrim($userImagePath, '/');
 $_SESSION['user_image'] = $userImagePath;
 
 

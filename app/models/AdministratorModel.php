@@ -58,6 +58,13 @@ class AdministratorModel
 
             $admin['emails'] = $emailModel->getByEntity('administrator', $admin['administrator_id']);
             $admin['phones'] = $phoneModel->getByEntity('administrator', $admin['administrator_id']);
+
+            $imagePathRel = "uploads/administrator/user_" . $admin['administrator_id'] . ".jpg";
+            if (file_exists(PROJECT_ROOT . '/' . $imagePathRel)) {
+                $admin['profile_image_url'] = $imagePathRel . '?v=' . filemtime(PROJECT_ROOT . '/' . $imagePathRel);
+            } else {
+                $admin['profile_image_url'] = "public/assets/images/users/user_boy.jpeg";
+            }
         }
 
         return $admin;
@@ -1164,6 +1171,13 @@ class AdministratorModel
             }
 
             $admin_data = $result->fetch_assoc();
+
+            $imagePathRel = "uploads/administrator/user_" . $admin_data['administrator_id'] . ".jpg";
+            if (file_exists(PROJECT_ROOT . '/' . $imagePathRel)) {
+                $admin_data['profile_image_url'] = $imagePathRel . '?v=' . filemtime(PROJECT_ROOT . '/' . $imagePathRel);
+            } else {
+                $admin_data['profile_image_url'] = "public/assets/images/users/user_boy.jpeg";
+            }
 
             return $admin_data;
         } catch (mysqli_sql_exception $e) {

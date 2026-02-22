@@ -338,7 +338,36 @@ export const validarInput = async (input) => {
         nombreRegla.charAt(0).toUpperCase() + nombreRegla.slice(1)
       }`
 
-      const mensaje = input.dataset[nombreMensaje] || language.validation_error
+      let mensaje = input.dataset[nombreMensaje] || language.validation_error
+
+      // --- Reemplazo de marcadores dinámicos ---
+      if (mensaje) {
+        if (nombreRegla === 'esTipoArchivo' && args.length > 0) {
+          const extensiones = args
+            .map((tipo) => {
+              const partes = tipo.split('/')
+              return partes[1] ? `.${partes[1].toUpperCase()}` : tipo
+            })
+            .join(', ')
+          mensaje = mensaje.replace('{types}', extensiones)
+        }
+        if (nombreRegla === 'tamanoMaximoArchivo' && args.length > 0) {
+          mensaje = mensaje.replace('{maxMB}', args[0]) /** Reemplaza {maxMB} por el valor del argumento (ej: 5) */
+          mensaje = mensaje.replace('{max}', args[0]) // Soporte para {max} también si se usa
+        }
+        if (nombreRegla === 'longitudMaxima' && args.length > 0) {
+          mensaje = mensaje.replace('{max}', args[0])
+        }
+        if (nombreRegla === 'longitudMinima' && args.length > 0) {
+          mensaje = mensaje.replace('{min}', args[0])
+        }
+        if (nombreRegla === 'longitudExacta' && args.length > 0) {
+          mensaje = mensaje.replace('{len}', args[0])
+        }
+        if (nombreRegla === 'esNumeroEnRango' && args.length >= 2) {
+          mensaje = mensaje.replace('{min}', args[0]).replace('{max}', args[1])
+        }
+      }
 
       mostrarError(input, mensaje)
       esValido = false

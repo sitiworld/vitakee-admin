@@ -329,11 +329,32 @@
 
                         <div class="mb-3">
                             <label for="profile_image" class="form-label"><?= $traducciones['profile_image'] ?></label>
-                            <input type="file" id="profile_image" name="profile_image" class="form-control"
-                                accept="image/jpeg,image/png,image/webp"
-                                data-rules="esTipoArchivo:image/jpeg,image/png,image/webp|tamanoMaximoArchivo:5"
-                                data-message-es-tipo-archivo="<?= htmlspecialchars($traducciones['validation_file_type'] ?? 'Solo se permiten imágenes (jpg, png, webp)') ?>"
-                                data-message-tamano-maximo-archivo="<?= htmlspecialchars($traducciones['validation_file_size'] ?? 'La imagen no debe superar los 5MB') ?>">
+                            
+                            <div class="mb-2 d-flex align-items-center gap-3">
+                                <div>
+                                    <p class="text-muted small mb-1 fw-bold"><?= $traducciones['current_image'] ?? 'Imagen actual' ?>:</p>
+                                    <img id="current_profile_image" src="" alt="Current Profile" class="img-thumbnail rounded-circle" style="width: 80px; height: 80px; object-fit: cover; display: none;">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <input type="file" id="profile_image" name="profile_image" class="form-control"
+                                        accept="image/jpeg,image/png,image/webp"
+                                        data-rules="esTipoArchivo:image/jpeg,image/png,image/webp|tamanoMaximoArchivo:5"
+                                        data-message-es-tipo-archivo="<?= htmlspecialchars($traducciones['validation_file_type'] ?? 'Solo se permiten imágenes (jpg, png, webp)') ?>"
+                                        data-message-tamano-maximo-archivo="<?= htmlspecialchars($traducciones['validation_file_size'] ?? 'La imagen no debe superar los 5MB') ?>">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-2 text-center" style="width: 100%;">
+                                <img id="preview_cropper" style="display:none; max-width:100%; margin: 0 auto;">
+                            </div>
+                            <div class="mt-2 text-center" id="cropper-buttons" style="display:none;">
+                                <button type="button" id="flipHorizontal" class="btn btn-sm btn-add me-2">
+                                    <i class="mdi mdi-flip-horizontal"></i> <?= $traducciones['flip_horizontal'] ?? 'Horizontal' ?>
+                                </button>
+                                <button type="button" id="flipVertical" class="btn btn-sm btn-add">
+                                    <i class="mdi mdi-flip-vertical"></i> <?= $traducciones['flip_vertical'] ?? 'Vertical' ?>
+                                </button>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="timezoneSelect"
@@ -606,9 +627,16 @@
                     success: function (response) {
                         if (response.value === true) {
                             user = response.data;
-                            const user_image_path = "<?php echo $_SESSION['user_image']; ?>";
+                            const baseUrl = "<?= BASE_URL ?>";
+                            let user_image_path = user.profile_image_url || "<?php echo $_SESSION['user_image']; ?>";
+                            if (!user_image_path.startsWith('http') && !user_image_path.startsWith('/')) {
+                                user_image_path = baseUrl + user_image_path;
+                            } else if (user_image_path.startsWith('/') && baseUrl.endsWith('/')) {
+                                user_image_path = baseUrl + user_image_path.substring(1);
+                            }
 
                             $('#profile-image').attr('src', user_image_path);
+                            $('#topbar-profile-image').attr('src', user_image_path);
                             $('#profile-name').text(user.first_name + ' ' + user.last_name);
 
                             // --- INICIO DE MODIFICACIONES ---
@@ -761,6 +789,21 @@
                 if (window.countrySelectMasks) { /* ... limpiar máscaras ... */ }
                 if (Array.isArray(user.emails)) { user.emails.forEach(email => addEmailRow(email)); }
                 if (Array.isArray(user.phones)) { user.phones.forEach(tel => addTelephoneRow(tel)); }
+
+                if (cropper) {
+                    cropper.destroy();
+                    cropper = null;
+                }
+                const imageIn = document.getElementById('profile_image');
+                if (imageIn) imageIn.value = "";
+                $('#preview_cropper').attr('src', '').hide();
+                $('#cropper-buttons').hide();
+                
+                if ($('#profile-image').attr('src')) {
+                    $('#current_profile_image').attr('src', $('#profile-image').attr('src')).show();
+                } else {
+                    $('#current_profile_image').hide();
+                }
 
                 // === INICIO: NUEVA LÓGICA DE VALIDACIÓN ===
                 $('#email').attr('data-initial-value', user.email || '');
