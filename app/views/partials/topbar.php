@@ -42,7 +42,7 @@ if (!empty($_SESSION['avatar_url'])) {
         $userImagePath .= '?v=' . filemtime(PROJECT_ROOT . '/' . $userImagePath);
     } else {
         // 3. Fallback a imagen por defecto
-        $userImagePath = "public/assets/images/users/user_boy.jpeg";
+        $userImagePath = "public/assets/images/users/user_boy.svg";
     }
 }
 

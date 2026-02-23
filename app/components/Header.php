@@ -48,7 +48,7 @@ class Header
 
         // Verificar si la imagen existe
         if (!file_exists(PROJECT_ROOT . $userImagePath)) {
-            $userImagePath = "public/assets/images/users/user_boy.jpeg";
+            $userImagePath = "public/assets/images/users/user_boy.svg";
         }
 
         $_SESSION['user_image'] = $userImagePath;

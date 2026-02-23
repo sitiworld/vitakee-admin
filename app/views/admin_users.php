@@ -653,7 +653,7 @@ $system_type = strtolower($_SESSION['system_type'] ?? 'us');
             // --- Construcción dinámica del contenido del modal ---
             const birthdayFormatted = window.birthdayFormatter(row.birthday);
             const sexoTexto = window.genderFormatter(row.sex_biological);
-            let initialImg = row.sex_biological === 'm' ? 'public/assets/images/users/user_boy.jpeg' : 'public/assets/images/users/user_girl.jpeg';
+            let initialImg = row.sex_biological === 'm' ? 'public/assets/images/users/user_boy.svg' : 'public/assets/images/users/user_girl.svg';
 
             // Emails adicionales
             let emailsHtml = '';

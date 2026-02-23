@@ -66,7 +66,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-start mb-3">
                             <img class="d-flex me-3 rounded-circle avatar-lg" id="profile-image"
-                                src="public/assets/images/users/user_boy.jpeg" alt="Admin Profile Image">
+                                src="public/assets/images/users/user_boy.svg" alt="Admin Profile Image">
                             <div class="w-100">
                                 <h4 class="mt-0 mb-1" id="profile-name"></h4>
                                 <p class="text-muted" id="profile-role">

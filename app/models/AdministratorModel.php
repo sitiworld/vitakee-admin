@@ -63,7 +63,7 @@ class AdministratorModel
             if (file_exists(PROJECT_ROOT . '/' . $imagePathRel)) {
                 $admin['profile_image_url'] = $imagePathRel . '?v=' . filemtime(PROJECT_ROOT . '/' . $imagePathRel);
             } else {
-                $admin['profile_image_url'] = "public/assets/images/users/user_boy.jpeg";
+                $admin['profile_image_url'] = "public/assets/images/users/user_boy.svg";
             }
         }
 
@@ -1176,7 +1176,7 @@ class AdministratorModel
             if (file_exists(PROJECT_ROOT . '/' . $imagePathRel)) {
                 $admin_data['profile_image_url'] = $imagePathRel . '?v=' . filemtime(PROJECT_ROOT . '/' . $imagePathRel);
             } else {
-                $admin_data['profile_image_url'] = "public/assets/images/users/user_boy.jpeg";
+                $admin_data['profile_image_url'] = "public/assets/images/users/user_boy.svg";
             }
 
             return $admin_data;

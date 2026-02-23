@@ -39,7 +39,7 @@
           <div class="card text-center">
             <div class="card-body">
               <div class="d-flex align-items-center mb-1">
-                <img id="profile-image" src="public/assets/images/users/user_boy.jpeg" alt="Profile"
+                <img id="profile-image" src="public/assets/images/users/user_boy.svg" alt="Profile"
                   class="rounded-circle avatar-lg img-thumbnail">
                 <div class="w-100">
                   <h4 class="mt-3" id="profile-name">-</h4>

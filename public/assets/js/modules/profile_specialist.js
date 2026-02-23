@@ -81,7 +81,7 @@ import {
       new bootstrap.Tab(tabAvatarBtn).show()
       setTimeout(() => {
         const chooseBtn = document.querySelector(
-          '[data-bs-target="#avatarPickerModal"]'
+          '[data-bs-target="#avatarPickerModal"]',
         )
         if (chooseBtn) chooseBtn.focus()
       }, 150)
@@ -177,11 +177,11 @@ function addEmailRow(data = {}) {
         <div class="d-flex gap-3 align-items-center">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="email_is_primary" id="email_primary_${newIndex}" ${
-    isPrimary ? 'checked' : ''
-  }>
+                  isPrimary ? 'checked' : ''
+                }>
                 <label class="form-check-label small" for="email_primary_${newIndex}">${
-    translations['profile_specialist_primary']
-  }</label>
+                  translations['profile_specialist_primary']
+                }</label>
             </div>
             <div class="d-flex align-items-center">
                 <input type="checkbox" class="js-switch-small email-active-switch" ${
@@ -235,11 +235,11 @@ function addTelephoneRow(data = {}) {
         <div class="d-flex gap-3 align-items-center">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="telephone_is_primary" id="tel_primary_${newIndex}" ${
-    isPrimary ? 'checked' : ''
-  }>
+                  isPrimary ? 'checked' : ''
+                }>
                 <label class="form-check-label small" for="tel_primary_${newIndex}">${
-    translations['profile_specialist_primary']
-  }</label>
+                  translations['profile_specialist_primary']
+                }</label>
             </div>
             <div class="d-flex align-items-center">
                 <input type="checkbox" class="js-switch-small telephone-active-switch" ${
@@ -283,7 +283,7 @@ function addTelephoneRow(data = {}) {
     telephoneInputId,
     `#country-select-container-${newIndex}`,
     data.phone_number || null,
-    '#editUserModal .modal-body'
+    '#editUserModal .modal-body',
   )
 }
 
@@ -721,7 +721,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (priceInput.dataset.originalRules) {
           priceInput.setAttribute(
             'data-rules',
-            priceInput.dataset.originalRules
+            priceInput.dataset.originalRules,
           )
           delete priceInput.dataset.originalRules
         }
@@ -747,7 +747,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'telephone',
         '#editUserModal [data-phone-select]',
         currentSpecialistData.phone,
-        '#editUserModal .modal-body'
+        '#editUserModal .modal-body',
       )
       birthdayPicker = flatpickr('#birthday', {
         dateFormat: 'Y-m-d',
@@ -764,7 +764,7 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       $('#timezoneSelect').val(currentSpecialistData.timezone).trigger('change')
       const modal = new bootstrap.Modal(
-        document.getElementById('editUserModal')
+        document.getElementById('editUserModal'),
       )
       modal.show()
     } else {
@@ -862,12 +862,12 @@ document.addEventListener('DOMContentLoaded', function () {
   document
     .getElementById('flipHorizontal')
     .addEventListener('click', () =>
-      cropper.scaleX(-cropper.getData().scaleX || -1)
+      cropper.scaleX(-cropper.getData().scaleX || -1),
     )
   document
     .getElementById('flipVertical')
     .addEventListener('click', () =>
-      cropper.scaleY(-cropper.getData().scaleY || -1)
+      cropper.scaleY(-cropper.getData().scaleY || -1),
     )
 
   document
@@ -898,7 +898,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   $(document).on('click', '.btn-remove-row', function () {
     const rowWrapper = $(this).closest(
-      '.telephone-row-wrapper, .email-row-wrapper'
+      '.telephone-row-wrapper, .email-row-wrapper',
     )
     const container = rowWrapper.parent()
     if (rowWrapper.hasClass('telephone-row-wrapper')) {
@@ -932,13 +932,12 @@ async function loadProfile(specialistId) {
       const specialist = result.data
       const user_image_path = pageData.userImage
 
-      document.getElementById(
-        'profile-name'
-      ).innerText = `${specialist.first_name} ${specialist.last_name}`
+      document.getElementById('profile-name').innerText =
+        `${specialist.first_name} ${specialist.last_name}`
       document.getElementById('profile-role').innerText =
         specialist.title_display_name || translations['profile_specialist_role']
 
-      let profileImage = 'public/assets/images/users/user_boy.jpeg'
+      let profileImage = 'public/assets/images/users/user_boy.svg'
       if (specialist.avatar_url !== null) {
         profileImage = specialist.avatar_url
       } else if (user_image_path) {
@@ -949,15 +948,13 @@ async function loadProfile(specialistId) {
       document.getElementById('profile-bio').innerText = specialist.bio || '-'
 
       if (specialist.email) {
-        document.getElementById(
-          'profile-email'
-        ).innerHTML = `<a href="mailto:${specialist.email}" class="text-body">${specialist.email}</a>`
+        document.getElementById('profile-email').innerHTML =
+          `<a href="mailto:${specialist.email}" class="text-body">${specialist.email}</a>`
       }
       if (specialist.phone) {
         const cleanPhone = String(specialist.phone).replace(/[\s()-]/g, '')
-        document.getElementById(
-          'profile-telephone'
-        ).innerHTML = `<a href="tel:${cleanPhone}" class="text-body">${specialist.phone}</a>`
+        document.getElementById('profile-telephone').innerHTML =
+          `<a href="tel:${cleanPhone}" class="text-body">${specialist.phone}</a>`
       }
 
       const ageText = translations['profile_years']
@@ -972,9 +969,8 @@ async function loadProfile(specialistId) {
         const primaryLocation =
           specialist.locations.find((loc) => loc.is_primary == 1) ||
           specialist.locations[0]
-        document.getElementById(
-          'profile-location'
-        ).innerText = `${primaryLocation.city_name}, ${primaryLocation.country_name}`
+        document.getElementById('profile-location').innerText =
+          `${primaryLocation.city_name}, ${primaryLocation.country_name}`
       } else {
         document.getElementById('profile-location').innerText = '-'
       }
@@ -982,7 +978,7 @@ async function loadProfile(specialistId) {
       if (specialist.system_type) {
         const sys = String(specialist.system_type).toLowerCase()
         const el = document.querySelector(
-          `input[name="card_height_system"][value="${sys}"]`
+          `input[name="card_height_system"][value="${sys}"]`,
         )
         if (el) {
           el.checked = true
@@ -990,7 +986,7 @@ async function loadProfile(specialistId) {
       }
 
       const websiteLinkContainer = document.getElementById(
-        'profile-website-link'
+        'profile-website-link',
       )
       const websiteText = translations['website_url']
       websiteLinkContainer.innerHTML = specialist.website_url
@@ -1027,7 +1023,7 @@ function updateMeasurementSystem(specialistId, newSystem) {
 $('.system-update-radio').on('change', function () {
   const newSystem = this.value
   const originalSystem = String(
-    currentSpecialistData?.system_type || ''
+    currentSpecialistData?.system_type || '',
   ).toLowerCase()
   const specialistId = currentSpecialistData?.specialist_id
 
@@ -1067,7 +1063,7 @@ $('.system-update-radio').on('change', function () {
         .catch((error) => {
           if (originalSystem) {
             $(
-              `input[name="card_height_system"][value="${originalSystem}"]`
+              `input[name="card_height_system"][value="${originalSystem}"]`,
             ).prop('checked', true)
           }
           Swal.fire({
@@ -1080,7 +1076,7 @@ $('.system-update-radio').on('change', function () {
       if (originalSystem) {
         $(`input[name="card_height_system"][value="${originalSystem}"]`).prop(
           'checked',
-          true
+          true,
         )
       }
     }
@@ -1143,7 +1139,7 @@ function populateTabs(specialist) {
                 : `<span class="badge red ms-1">${translations['status_inactive']}</span>`
             }
         </div>
-    </div>`
+    </div>`,
       )
       .join('') || ''
 
@@ -1154,8 +1150,8 @@ function populateTabs(specialist) {
         return `
       <div class="d-flex justify-content-between align-items-center mb-1">
           <a href="tel:${cleanPhoneNumber}" class="text-body">${
-          phone.phone_number
-        }</a>
+            phone.phone_number
+          }</a>
           <div class="d-flex flex-nowrap">
                ${
                  phone.is_primary == 1
@@ -1175,25 +1171,25 @@ function populateTabs(specialist) {
   document.getElementById('v-pills-general').innerHTML = `
     <h4>${translations['profile_specialist_general_info_title']}</h4>
     <p><strong>${translations['full_name']}:</strong> ${
-    specialist.title_display_name || ''
-  } ${specialist.first_name} ${specialist.last_name}</p>
+      specialist.title_display_name || ''
+    } ${specialist.first_name} ${specialist.last_name}</p>
     <p><strong>${translations['specialty']}:</strong> ${
-    specialist.specialty_display_name || '-'
-  }</p>
+      specialist.specialty_display_name || '-'
+    }</p>
     <p><strong>${
       translations['profile_specialist_primary_location_title']
     }:</strong> ${primaryLocationText}</p>
     <hr>
     <h6>${translations['profile_specialist_contact_info_title']}</h6>
     <p><strong>${translations['email']}:</strong> <a href="mailto:${
-    specialist.email
-  }" class="text-body">${specialist.email || '-'}</a></p>
+      specialist.email
+    }" class="text-body">${specialist.email || '-'}</a></p>
     <p><strong>${
       translations['profile_specialist_phone_label']
     }:</strong> <a href="tel:${String(specialist.phone).replace(
-    /[\s()-]/g,
-    ''
-  )}" class="text-body">${specialist.phone || '-'}</a></p>
+      /[\s()-]/g,
+      '',
+    )}" class="text-body">${specialist.phone || '-'}</a></p>
     ${
       emailsHtml || phonesHtml
         ? `<hr><h6 class="mt-3">${translations['additional_contacts']}</h6>`
@@ -1231,24 +1227,24 @@ function populateTabs(specialist) {
         return `<div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
               <div>
                   <strong>${cert.title}</strong><p class="mb-0 text-muted">${
-          cert.description || ''
-        }</p>${viewLink}
+                    cert.description || ''
+                  }</p>${viewLink}
                   <span class="badge ${
                     (cert.visibility || 'PUBLIC') === 'PUBLIC'
                       ? 'green-item'
                       : 'yellow-item'
                   } ms-2">${
-          translations[cert.visibility.toLowerCase() || 'public']
-        }</span>
+                    translations[cert.visibility.toLowerCase() || 'public']
+                  }</span>
               </div>
               <div>
                   <button class="btn btn-sm action-icon edit-cert-btn" data-id="${
                     cert.certification_id
                   }" data-title="${cert.title}" data-description="${
-          cert.description || ''
-        }" data-visibility="${
-          cert.visibility || 'PUBLIC'
-        }"><i class="mdi mdi-pencil "></i></button>
+                    cert.description || ''
+                  }" data-visibility="${
+                    cert.visibility || 'PUBLIC'
+                  }"><i class="mdi mdi-pencil "></i></button>
                   <button class="btn btn-sm  action-icon delete-cert-btn" data-id="${
                     cert.certification_id
                   }"><i class="mdi mdi-delete"></i></button>
@@ -1270,8 +1266,8 @@ function populateTabs(specialist) {
        <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
             <div>
                 <strong>${loc.city_name}, ${loc.state_name}, ${
-          loc.country_name
-        }</strong>
+                  loc.country_name
+                }</strong>
                 ${
                   loc.is_primary == 1
                     ? `<span class="badge blue-item ms-2">${translations['profile_specialist_primary']}</span>`
@@ -1282,16 +1278,16 @@ function populateTabs(specialist) {
                 <button class="btn btn-sm action-icon edit-location-btn" data-id="${
                   loc.location_id
                 }" data-country_id="${loc.country_id}" data-state_id="${
-          loc.state_id
-        }" data-city_id="${loc.city_id}" data-is_primary="${
-          loc.is_primary
-        }"><i class="mdi mdi-pencil"></i></button>
+                  loc.state_id
+                }" data-city_id="${loc.city_id}" data-is_primary="${
+                  loc.is_primary
+                }"><i class="mdi mdi-pencil"></i></button>
                 <button class="btn btn-sm action-icon delete-location-btn" data-id="${
                   loc.location_id
                 }"><i class="mdi mdi-delete"></i></button>
             </div>
         </div>
-      `
+      `,
       )
       .join('')
   } else {
@@ -1319,17 +1315,17 @@ function populateTabs(specialist) {
             <div>
               <strong>${translateWeekday(avail.weekday)}</strong>
               <p class="mb-0 text-muted">${formatTime12h(
-                avail.start_time
+                avail.start_time,
               )} - ${formatTime12h(avail.end_time)} (${avail.timezone})</p>
             </div>
             <div>
               <button class="btn btn-sm action-icon edit-avail-btn" data-id="${
                 avail.availability_id
               }" data-weekday="${avail.weekday}" data-start="${
-          avail.start_time
-        }" data-end="${avail.end_time}" data-timezone="${
-          avail.timezone
-        }"><i class="mdi mdi-pencil"></i></button>
+                avail.start_time
+              }" data-end="${avail.end_time}" data-timezone="${
+                avail.timezone
+              }"><i class="mdi mdi-pencil"></i></button>
               <button class="btn btn-sm action-icon delete-avail-btn" data-id="${
                 avail.availability_id
               }"><i class="mdi mdi-delete"></i></button>
@@ -1351,7 +1347,7 @@ function populateTabs(specialist) {
     if (specialistTimezone && availabilityArray.length > 0) {
       // Usamos .every() para verificar si TODOS los horarios coinciden
       areAllSynced = availabilityArray.every(
-        (avail) => avail.timezone === specialistTimezone
+        (avail) => avail.timezone === specialistTimezone,
       )
     }
     // Establece el estado del switch (marcado/desmarcado)
@@ -1397,7 +1393,7 @@ function populateTabs(specialist) {
             'Note: This event was created in a different timezone ({timezone})'
           warningText = warningText.replace(
             '{timezone}',
-            `<strong>${blockTimezone}</strong>`
+            `<strong>${blockTimezone}</strong>`,
           )
 
           timezoneWarningHtml = `
@@ -1467,10 +1463,10 @@ function populateTabs(specialist) {
         <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
           <div>
             <strong>${translateServiceType(
-              price.service_type
+              price.service_type,
             )} ${durationText} - ${
-          isFree ? '$0.00' : `$${priceValue.toFixed(2)}`
-        }</strong>
+              isFree ? '$0.00' : `$${priceValue.toFixed(2)}`
+            }</strong>
             ${
               isFree
                 ? `<span class="badge bg-success ms-2">${
@@ -1482,10 +1478,10 @@ function populateTabs(specialist) {
             <span class="badge ${
               price.is_active == 1 ? 'green-item' : 'red-item'
             }">${
-          price.is_active == 1
-            ? translations['status_active']
-            : translations['status_inactive']
-        }</span>
+              price.is_active == 1
+                ? translations['status_active']
+                : translations['status_inactive']
+            }</span>
           </div>
           <div>
             <button class="btn btn-sm action-icon edit-pricing-btn" 
@@ -1494,7 +1490,7 @@ function populateTabs(specialist) {
                 data-price_usd="${price.price_usd}" 
                 data-description="${(price.description || '').replace(
                   /"/g,
-                  '&quot;'
+                  '&quot;',
                 )}" 
                 data-is_active="${price.is_active}"
                 data-duration_services="${price.duration_services || ''}"
@@ -1526,7 +1522,7 @@ function populateSocialLinks(specialist) {
         `<a href="${link.url}" target="_blank" class="text-icons me-1" title="${
           link.platform
         }">
-        ${getPlatformIcon(link.platform)}</a>`
+        ${getPlatformIcon(link.platform)}</a>`,
     )
     .join('')
 
@@ -1541,20 +1537,20 @@ function populateSocialLinks(specialist) {
                     <a href="${
                       link.url
                     }" target="_blank" style="text-transform: capitalize;">${
-          link.platform
-        }</a>
+                      link.platform
+                    }</a>
                 </div>
                 <div>
                     <button class="btn btn-sm action-icon edit-link-btn" data-id="${
                       link.social_link_id
                     }" data-platform="${link.platform}" data-url="${
-          link.url
-        }"><i class="mdi mdi-pencil"></i></button>
+                      link.url
+                    }"><i class="mdi mdi-pencil"></i></button>
                     <button class="btn btn-sm action-icon delete-link-btn" data-id="${
                       link.social_link_id
                     }"><i class="mdi mdi-delete"></i></button>
                 </div>
-            </div>`
+            </div>`,
       )
       .join('')
   } else {
@@ -1571,7 +1567,7 @@ function populateEditForm(specialist) {
         form.elements[key].checked = specialist[key] == 1
       } else if (form.elements[key].type === 'radio') {
         const radio = form.querySelector(
-          `[name="${key}"][value="${specialist[key].toLowerCase()}"]`
+          `[name="${key}"][value="${specialist[key].toLowerCase()}"]`,
         )
         if (radio) radio.checked = true
       } else {
@@ -1647,10 +1643,10 @@ function handleCertListClick(e) {
     certForm.title.value = title
     certForm.description.value = description
     certForm.querySelector(
-      `input[name="visibility"][value="${visibility}"]`
+      `input[name="visibility"][value="${visibility}"]`,
     ).checked = true
     const cert = currentSpecialistData.certifications.find(
-      (c) => c.certification_id == id
+      (c) => c.certification_id == id,
     )
     if (cert && cert.file_url) {
       const fileUrl = cert.file_url.startsWith('http')
@@ -1658,7 +1654,7 @@ function handleCertListClick(e) {
         : pageData.baseUrl + cert.file_url
       updateCertPreview(
         fileUrl,
-        translations['profile_specialist_current_document_preview']
+        translations['profile_specialist_current_document_preview'],
       )
     }
   }
@@ -1680,7 +1676,7 @@ function handleCertListClick(e) {
     const fileUrl = viewBtn.dataset.fileUrl
     const isImage = viewBtn.dataset.isImage === 'true'
     const modal = new bootstrap.Modal(
-      document.getElementById('certificationViewerModal')
+      document.getElementById('certificationViewerModal'),
     )
     const iframe = document.getElementById('certViewerIframe')
     const image = document.getElementById('certViewerImage')
@@ -1711,7 +1707,7 @@ function handleCertFilePreview(e) {
   updateCertPreview(
     objectUrl,
     translations['profile_specialist_new_document_preview'],
-    file.type
+    file.type,
   )
 }
 
@@ -1913,7 +1909,7 @@ function handleFormSubmit(e) {
         await sendFormData(
           formData,
           `specialist/update-profile/${pageData.userId}`,
-          'POST'
+          'POST',
         )
       }, 'image/jpeg')
   } else {
@@ -1921,7 +1917,7 @@ function handleFormSubmit(e) {
     sendFormData(
       formData,
       `specialist/update-profile/${pageData.userId}`,
-      'POST'
+      'POST',
     )
   }
 }
@@ -2043,7 +2039,7 @@ async function handleSyncTimezone(e) {
   const specialistTimezone = currentSpecialistData.timezone
   let confirmText = (translations['sync_timezone_confirm_text'] || '').replace(
     '{timezone}',
-    `<strong>${specialistTimezone}</strong>`
+    `<strong>${specialistTimezone}</strong>`,
   )
 
   const result = await Swal.fire({
@@ -2147,7 +2143,7 @@ async function sendFormData(formData, endpoint, method) {
       })
       if (endpoint.includes('update-profile')) {
         bootstrap.Modal.getInstance(
-          document.getElementById('editUserModal')
+          document.getElementById('editUserModal'),
         ).hide()
       }
     } else {
@@ -2177,7 +2173,7 @@ async function loadCountries(selectedCountry, selectedState, selectedCity) {
       countrySelect.html('<option></option>')
       result.data.forEach((country) => {
         countrySelect.append(
-          new Option(country.country_name, country.country_id)
+          new Option(country.country_name, country.country_id),
         )
       })
       if (selectedCountry) {
