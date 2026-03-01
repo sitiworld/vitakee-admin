@@ -679,6 +679,24 @@ return [
   'dashboard_top_alerts_action' => 'Action',
   'dashboard_top_alerts_export' => 'Export Report',
   'dashboard_modal_alert_details_title' => 'Alert Details',
+
+  // --- Admin Dashboard: New KPIs ---
+  'kpi_total_users'              => 'Total Users',
+  'kpi_total_specialists'        => 'Total Specialists',
+  'kpi_standard_verifications'   => 'Standard Verifications',
+  'kpi_plus_verifications'       => 'Plus Verifications',
+
+  // --- Admin Dashboard: Top Users by Exams table ---
+  'dashboard_top_users_exams_title'  => 'Top Users by Exams',
+  'dashboard_table_user'             => 'User',
+  'dashboard_table_total_exams'      => 'Exams',
+
+  // --- Admin Dashboard: Top Specialists by Consultations table ---
+  'dashboard_top_specialists_consult_title' => 'Top Specialists by Consultations',
+  'dashboard_table_specialist'              => 'Specialist',
+  'dashboard_table_title'                   => 'Title',
+  'dashboard_table_total_consultations'     => 'Consultations',
+
   //auditoria de sesiones
   'session_audit_title' => 'Session Audit Log',
   'user_name' => 'User Name',

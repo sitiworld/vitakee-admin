@@ -107,6 +107,7 @@ require_once "app/controllers/CitiesController.php";
 require_once "app/controllers/StatesController.php";
 require_once "app/controllers/ContactEmailController.php";
 require_once "app/controllers/ContactPhoneController.php";
+require_once "app/controllers/DashboardAdminController.php";
 
 
 // --- Inicialización ---
@@ -319,7 +320,21 @@ $router->group(['middleware' => 'AuthMiddleware', 'roles' => ['administrator']],
         'accion' => 'delete'
     ]);
 
-
+    // ============================================================
+    // --- DASHBOARD ADMIN API (KPIs y tablas de ranking) ---
+    // ============================================================
+    $router->agregarRuta('GET', 'admin-dashboard/kpis', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getKpis'
+    ]);
+    $router->agregarRuta('GET', 'admin-dashboard/top-users', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getTopUsersByExams'
+    ]);
+    $router->agregarRuta('GET', 'admin-dashboard/top-specialists', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getTopSpecialistsByConsultations'
+    ]);
 
 
 

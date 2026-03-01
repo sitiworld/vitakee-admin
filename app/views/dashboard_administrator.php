@@ -41,80 +41,21 @@
 
 
 
-                    <div class="row">
-                        <!-- Card 1: Active Markers -->
+                    <div class="row" id="admin-kpi-cards">
+                        <!-- KPI 1: Total Usuarios -->
                         <div class="col-md-6 col-xl-3">
                             <div class="widget-rounded-circle card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-6">
-                                            <div
-                                                class="avatar-lg justify-content-center align-items-center d-flex rounded-circle border-kpi-person bg-white-light">
-                                                <span class="mdi mdi-account-outline text-kpi-person"
-                                                    style="font-size: 24px;"></span>
+                                            <div class="avatar-lg justify-content-center align-items-center d-flex rounded-circle border-kpi-person bg-white-light">
+                                                <span class="mdi mdi-account-group-outline text-kpi-person" style="font-size: 24px;"></span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center flex-column col-6">
                                             <div class="text-end">
-                                                <h3 class="mt-1 mb-0"><span id="bm2-out-range">0</span></h3>
-                                                <p class="text-muted mb-0 text-truncate" id="bm2-label-out-range">
-                                                    <?= $traducciones['dashboard_cards_total_users'] ?>
-                                                </p>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2: This Month -->
-                        <div class="col-md-6 col-xl-3">
-                            <div class="widget-rounded-circle card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div
-                                                class="avatar-lg justify-content-center align-items-center d-flex rounded-circle bg-white-light border-kpi-calendar">
-                                                <span class="mdi mdi-calendar-blank-outline text-kpi-calendar"
-                                                    style="font-size: 24px;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center flex-column col-6">
-                                            <div class="text-end">
-                                                <h3 class="mt-1 mb-0"><span id="bm2-finish">0</span></h3>
-                                                <p class="text-muted mb-0 data-range" id="bm2-label-finish">
-                                                    <?= $traducciones['dashboard_cards_entries'] ?>
-
-                                                </p>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: In Range % -->
-                        <div class="col-md-6 col-xl-3">
-                            <div class="widget-rounded-circle card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div
-                                                class="avatar-lg justify-content-center align-items-center d-flex rounded-circle bg-white-light border-kpi-view">
-                                                <span class="dripicons-bell"
-                                                    style="font-size: 24px; color: #3EBBD0;"></span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center flex-column col-6">
-                                            <div class="text-end">
-                                                <h3 class="mt-1 mb-0"><span id="bm2-this-month">0</span></h3>
-                                                <p class="text-muted mb-0 text-truncate" id="bm2-label-this-month">
-                                                    <?= $traducciones['dashboard_cards_alerts_active'] ?>
-                                                </p>
+                                                <h3 class="mt-1 mb-0"><span id="kpi-total-users"><i class="mdi mdi-loading mdi-spin"></i></span></h3>
+                                                <p class="text-muted mb-0 text-truncate"><?= $traducciones['kpi_total_users'] ?? 'Total Usuarios' ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -122,39 +63,69 @@
                             </div>
                         </div>
 
-                        <!-- Card 4 -->
+                        <!-- KPI 2: Total Especialistas -->
                         <div class="col-md-6 col-xl-3">
                             <div class="widget-rounded-circle card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-6">
-                                            <div
-                                                class="avatar-lg justify-content-center align-items-center d-flex rounded-circle bg-white-light border-kpi-calendar">
-                                                <span class="mdi mdi-clipboard-check-multiple-outline text-kpi-calendar"
-                                                    style="font-size: 24px;"></span>
-
+                                            <div class="avatar-lg justify-content-center align-items-center d-flex rounded-circle bg-white-light border-kpi-calendar">
+                                                <span class="mdi mdi-doctor text-kpi-calendar" style="font-size: 24px;"></span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center flex-column col-6">
                                             <div class="text-end">
-                                                <h3 class="mt-1 mb-0"><span id="bm2-in-range">0</span>%</h3>
-                                                <p class="text-muted mb-0 text-truncate" id="bm2-label-in-range">
-                                                    <?= $traducciones['dashboard_cards_global_in_range'] ?>
-                                                </p>
+                                                <h3 class="mt-1 mb-0"><span id="kpi-total-specialists"><i class="mdi mdi-loading mdi-spin"></i></span></h3>
+                                                <p class="text-muted mb-0 text-truncate"><?= $traducciones['kpi_total_specialists'] ?? 'Total Especialistas' ?></p>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                        <!-- KPI 3: Verificaciones Standard -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="widget-rounded-circle card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg justify-content-center align-items-center d-flex rounded-circle bg-white-light border-kpi-view">
+                                                <span class="mdi mdi-shield-check-outline" style="font-size: 24px; color: #3EBBD0;"></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center flex-column col-6">
+                                            <div class="text-end">
+                                                <h3 class="mt-1 mb-0"><span id="kpi-standard-verif"><i class="mdi mdi-loading mdi-spin"></i></span></h3>
+                                                <p class="text-muted mb-0 text-truncate"><?= $traducciones['kpi_standard_verifications'] ?? 'Verif. Standard' ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-
-
-
-
+                        <!-- KPI 4: Verificaciones Plus -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="widget-rounded-circle card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="avatar-lg justify-content-center align-items-center d-flex rounded-circle bg-white-light border-kpi-calendar">
+                                                <span class="mdi mdi-shield-star-outline text-kpi-calendar" style="font-size: 24px;"></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center flex-column col-6">
+                                            <div class="text-end">
+                                                <h3 class="mt-1 mb-0"><span id="kpi-plus-verif"><i class="mdi mdi-loading mdi-spin"></i></span></h3>
+                                                <p class="text-muted mb-0 text-truncate"><?= $traducciones['kpi_plus_verifications'] ?? 'Verif. Plus' ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end KPI row -->
 
 
 
@@ -282,47 +253,37 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a href="javascript:void(0);" class="dropdown-item"
-                                                onclick="exportToPDF2();"><?= $traducciones['dashboard_top_alerts_export'] ?></a>
+                                                onclick="exportTopUsersPDF()"><?= $traducciones['dashboard_top_alerts_export'] ?? 'Export PDF' ?></a>
                                         </div>
                                     </div>
 
                                     <!-- Title -->
                                     <h4 class="header-title mb-3">
-                                        <?= $traducciones['dashboard_recent_records_title'] ?>
+                                        <i class="mdi mdi-trophy-outline me-1 text-yellow-text"></i>
+                                        <?= $traducciones['dashboard_top_users_exams_title'] ?? 'Top Usuarios con más Exámenes' ?>
                                     </h4>
 
-                                    <!-- Table administrador registros de todos usuarios -->
+                                    <!-- Table: Top Users by Exams -->
                                     <div class="table-responsive">
                                         <table id="allUsersTable" data-toggle="table" data-search="true"
                                             data-show-refresh="true" data-page-list="[5, 10, 20]" data-page-size="5"
                                             data-show-columns="true" data-pagination="true" data-url=""
                                             data-show-pagination-switch="true" class="table-borderless"
                                             data-locale="<?= $locale ?>">
-                                            <thead class="">
+                                            <thead>
                                                 <tr>
-                                                    <th data-field="date" data-sortable="true">
-                                                        <?= $traducciones['dashboard_recent_records_date'] ?>
+                                                    <th data-field="rank" data-sortable="false" data-escape="false">#</th>
+                                                    <th data-field="full_name" data-sortable="true">
+                                                        <?= $traducciones['dashboard_table_user'] ?? 'Usuario' ?>
                                                     </th>
-                                                    <th data-field="user" data-sortable="true">
-                                                        <?= $traducciones['dashboard_recent_records_user'] ?>
-                                                    </th>
-                                                    <th data-field="biomarker" data-sortable="true">
-                                                        <?= $traducciones['dashboard_recent_records_biomarker'] ?>
-                                                    </th>
-                                                    <th data-field="value" data-sortable="true">
-                                                        <?= $traducciones['dashboard_recent_records_value'] ?>
-                                                    </th>
-                                                    <th data-field="status" data-class="text-center"
-                                                        data-formatter="statusFormatter">
-                                                        <?= $traducciones['dashboard_recent_records_status'] ?>
-                                                    </th>
-                                                    <th data-field="actions" data-align="center">
-                                                        <?= $traducciones['dashboard_recent_records_actions'] ?>
+                                                    <th data-field="email" data-sortable="true">Email</th>
+                                                    <th data-field="total_exams" data-align="center" data-sortable="true">
+                                                        <?= $traducciones['dashboard_table_total_exams'] ?? 'Exámenes' ?>
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <!-- Aquí van los datos de la tabla -->
+                                                <!-- Loaded via JS -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -366,41 +327,39 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a href="javascript:void(0);" class="dropdown-item"
-                                                onclick="exportToPDF();"><?= $traducciones['dashboard_export_report'] ?></a>
+                                                onclick="exportTopSpecialistsPDF()"><?= $traducciones['dashboard_export_report'] ?? 'Export PDF' ?></a>
                                         </div>
                                     </div>
 
                                     <!-- Title -->
                                     <h4 class="header-title mb-3">
-                                        <?= $traducciones['dashboard_top_alerts_title'] ?>
+                                        <i class="mdi mdi-star-circle-outline me-1 text-accent"></i>
+                                        <?= $traducciones['dashboard_top_specialists_consult_title'] ?? 'Top Especialistas con más Consultas' ?>
                                     </h4>
 
-                                    <!-- Table Administrador Alertas -->
+                                    <!-- Table: Top Specialists by Consultations -->
                                     <div class="table-responsive">
                                         <table id="topUsersTable" data-toggle="table" data-search="true"
                                             data-show-refresh="true" data-page-list="[5, 10, 20]" data-page-size="5"
                                             data-show-columns="true" data-pagination="true"
                                             data-show-pagination-switch="true" class="table-borderless"
                                             data-locale="<?= $locale ?>">
-                                            <thead class="">
+                                            <thead>
                                                 <tr>
-                                                    <th data-field="user" data-sortable="true">
-                                                        <?= $traducciones['dashboard_top_alerts_user'] ?>
+                                                    <th data-field="rank" data-sortable="false" data-escape="false">#</th>
+                                                    <th data-field="full_name" data-sortable="true">
+                                                        <?= $traducciones['dashboard_table_specialist'] ?? 'Especialista' ?>
                                                     </th>
-                                                    <th data-field="alerts" data-align="center" data-sortable="true">
-                                                        <?= $traducciones['dashboard_top_alerts_alerts'] ?>
+                                                    <th data-field="title_display" data-sortable="true">
+                                                        <?= $traducciones['dashboard_table_title'] ?? 'Título' ?>
                                                     </th>
-                                                    <th data-field="latest_marker" data-sortable="true">
-                                                        <?= $traducciones['dashboard_top_alerts_latest_marker'] ?>
-                                                    </th>
-                                                    <th data-field="id" data-align="center"
-                                                        data-formatter="actionFormatterTop">
-                                                        <?= $traducciones['dashboard_top_alerts_action'] ?>
+                                                    <th data-field="total_consultations" data-align="center" data-sortable="true">
+                                                        <?= $traducciones['dashboard_table_total_consultations'] ?? 'Consultas' ?>
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <!-- Aquí van los datos de la tabla -->
+                                                <!-- Loaded via JS -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -558,6 +517,84 @@
             });
     });
 
+    // ============================================================
+    // === DASHBOARD ADMIN: KPIs + Ranking tables ================
+    // ============================================================
+    $(document).ready(function () {
+
+        // --- Helper: render a number with animation ---
+        function animateCount(spanId, target) {
+            const el = document.getElementById(spanId);
+            if (!el) return;
+            let current = 0;
+            const step = Math.ceil(target / 30);
+            const timer = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = current.toLocaleString();
+                if (current >= target) clearInterval(timer);
+            }, 30);
+        }
+
+        // --- 1. KPIs ---
+        fetch('admin-dashboard/kpis', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (res.value && res.data) {
+                const d = Array.isArray(res.data) ? res.data[0] : res.data;
+                animateCount('kpi-total-users',        parseInt(d.total_users)            || 0);
+                animateCount('kpi-total-specialists',  parseInt(d.total_specialists)      || 0);
+                animateCount('kpi-standard-verif',     parseInt(d.standard_verifications) || 0);
+                animateCount('kpi-plus-verif',         parseInt(d.plus_verifications)     || 0);
+            }
+        })
+        .catch(err => {
+            console.error('[AdminDashboard] KPI fetch error:', err);
+            ['kpi-total-users','kpi-total-specialists','kpi-standard-verif','kpi-plus-verif'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = '—';
+            });
+        });
+
+        // --- 2. Top Users by Exams → allUsersTable ---
+        fetch('admin-dashboard/top-users?limit=20', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (!res.value || !Array.isArray(res.data)) return;
+            const rows = res.data.map((row, i) => ({
+                rank:        `<span class="badge ${i === 0 ? 'bg-primary-app' : i === 1 ? 'bg-accent' : i === 2 ? 'bg-electric-blue' : 'bg-sapphire-blue'} text-white">${i + 1}</span>`,
+                full_name:   row.full_name   || '—',
+                email:       row.email       || '—',
+                total_exams: row.total_exams || 0,
+            }));
+            $('#allUsersTable').bootstrapTable('load', rows);
+        })
+        .catch(err => console.error('[AdminDashboard] Top users fetch error:', err));
+
+        // --- 3. Top Specialists by Consultations → topUsersTable ---
+        fetch('admin-dashboard/top-specialists?limit=20', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (!res.value || !Array.isArray(res.data)) return;
+            const rows = res.data.map((row, i) => ({
+                rank:                `<span class="badge ${i === 0 ? 'bg-primary-app' : i === 1 ? 'bg-accent' : i === 2 ? 'bg-electric-blue' : 'bg-sapphire-blue'} text-white">${i + 1}</span>`,
+                full_name:           row.full_name            || '—',
+                title_display:       row.title_display        || '—',
+                total_consultations: row.total_consultations  || 0,
+            }));
+            $('#topUsersTable').bootstrapTable('load', rows);
+        })
+        .catch(err => console.error('[AdminDashboard] Top specialists fetch error:', err));
+
+    });
 
     $(document).ready(function () {
         // Seguridad al sacar PHP
@@ -630,9 +667,9 @@
 
 
 
-        // All Users Recent Records (simplified: no search, no pagination)
+        // allUsersTable now shows top users by exams — no longer uses allUsersData
         function renderAllUsersTable() {
-            $('#allUsersTable').bootstrapTable('load', allUsersData);
+            // Table replaced: data loaded via admin-dashboard/top-users
         }
         function statusFormatter(value, row, index) {
             return `<span class="badge ${getStatusColor(value)}">${value}</span>`;
@@ -640,27 +677,10 @@
 
 
         //tabla alerts user adminisstrador
-        // ✅ Función que carga la tabla y activa los botones
+        // Función que carga la tabla y activa los botones
         function renderTopUsersTable() {
-            const query = $('#top-user-search-input').val()?.toLowerCase() || '';
-
-            const filtered = topUsersData.filter(item =>
-                item.user.toLowerCase().includes(query) ||
-                String(item.alerts).includes(query) ||
-                item.latest_out_marker.toLowerCase().includes(query)
-            );
-
-            const mapped = filtered.map(item => ({
-                user: item.user,
-                alerts: item.alerts,
-                latest_marker: item.latest_out_marker,
-                id: item.id_user
-            }));
-
-            // ✅ Cargar en la tabla correcta
-            $('#topUsersTable').bootstrapTable('load', mapped);
+            // Table replaced: data loaded via admin-dashboard/top-specialists
         }
-
 
 
 
@@ -753,118 +773,47 @@
             }
         }
 
-        //tabla recent record all user adminisstrador
-        let currentMinDate = '';
-        let currentMaxDate = '';
-
+        // allUsersTable now shows top users by exams — old biomarker AJAX removed
         function loadAllUsersRecords(minDate = '', maxDate = '') {
-            console.log("Cargando registros por usuario...");
-
-            const query = new URLSearchParams();
-
-            if (minDate) query.append('minDate', minDate);
-            if (maxDate) query.append('maxDate', maxDate);
-            currentMinDate = minDate; // 💾 Guardar
-            currentMaxDate = maxDate;
-
-            $.ajax({
-                url: `biomarkers/users-status/${userId}?` + query.toString(),
-                method: 'GET',
-                dataType: 'json',
-                success(response) {
-                    console.log(response);
-                    if (!response || !response.value || !Array.isArray(response.data)) {
-                        console.warn('Respuesta inválida:', response);
-                        return;
-                    }
-
-                    allUsersData = response.data.map((item, index) => {
-                        const viewBtn = `
-                    <button class="btn btn-view action-icon" data-index="${index}" data-bs-toggle="modal" data-bs-target="#viewUserModal">
-                        <i class="mdi mdi-eye-outline"></i>
-                    </button>
-                `;
-
-                        return {
-                            ...item,
-                            status: `<span class="badge ${getStatusColor(item.status)}">${item.status}</span>`,
-                            actions: viewBtn
-                        };
-                    });
-
-                    allUsersPage = 1;
-                    renderAllUsersTable();
-
-                    // Delegar evento al botón de ojo
-                    $('#allUsersTable').on('click', 'button[data-bs-target="#viewUserModal"]', function () {
-                        const index = $(this).data('index');
-                        const user = allUsersData[index];
-
-                        $('#viewUserModalLabel').text(`${translations[lang].detailsTitle} ${user.biomarker || ''}`);
-                        $('#viewUserModalBody').html(`
-                    <p><strong>${translations[lang].name}:</strong> ${user.user || ''}</p>
-                    <p><strong>${translations[lang].biomarker}:</strong> ${user.biomarker || ''}</p>
-                    <p><strong>${translations[lang].value}:</strong> ${user.value || ''}</p>
-                    <p><strong>${translations[lang].date}:</strong> ${user.date || ''}</p>
-                    <p><strong>${translations[lang].status}:</strong> ${user.status || ''}</p>
-                `);
-                    });
-                },
-                error(xhr, status, err) {
-                    console.error('Error al cargar registros de usuarios:', err);
-                }
-            });
+            // Table replaced: now shows top users by exams (loaded on page init)
         }
 
         $('#allUsersTable').on('refresh.bs.table', function () {
-            loadAllUsersRecords(currentMinDate, currentMaxDate);
+            fetch('admin-dashboard/top-users?limit=20', { headers: { 'Accept': 'application/json' } })
+                .then(r => r.json()).then(res => {
+                    if (!res.value || !Array.isArray(res.data)) return;
+                    const rows = res.data.map((row, i) => ({
+                        rank:        `<span class="badge ${i === 0 ? 'bg-primary-app' : i === 1 ? 'bg-accent' : i === 2 ? 'bg-electric-blue' : 'bg-sapphire-blue'} text-white">${i + 1}</span>`,
+                        full_name:   row.full_name   || '—',
+                        email:       row.email       || '—',
+                        total_exams: row.total_exams || 0,
+                    }));
+                    $('#allUsersTable').bootstrapTable('load', rows);
+                });
         });
 
 
-        let currentAlertMinDate = '';
-        let currentAlertMaxDate = '';
-        let currentAlertUserId = userId; // Asegúrate de tener el userId disponible
-
+        // topUsersTable now shows top specialists by consultations — no AJAX reload needed
         function loadTopUsersWithAlerts(minDate = '', maxDate = '') {
-            currentAlertMinDate = minDate;
-            currentAlertMaxDate = maxDate;
-
-            console.log("Cargando top de usuarios con alertas...");
-
-            const query = new URLSearchParams();
-            if (minDate) query.append('minDate', minDate);
-            if (maxDate) query.append('maxDate', maxDate);
-
-            const finalUrl = `biomarkers/out-of-range/${currentAlertUserId}?${query.toString()}`;
-
-            // Puedes elegir entre usar AJAX manual (como haces ahora) o directamente Bootstrap Table:
-            $.ajax({
-                url: finalUrl,
-                method: 'GET',
-                dataType: 'json',
-                success(response) {
-                    if (!response || !response.value || !Array.isArray(response.data)) {
-                        console.warn('Respuesta inválida:', response);
-                        return;
-                    }
-                    topUsersData = response.data;
-                    topUsersPage = 1;
-                    renderTopUsersTable();
-                },
-                error(xhr, status, err) {
-                    console.error('Error al cargar alertas de usuarios:', err);
-                }
-            });
-
-            // Alternativa automática si en algún momento decides usar `data-url` con `bootstrapTable('refresh')`
-            // $('#topUsersTable').bootstrapTable('refresh', {
-            //     url: finalUrl
-            // });
+            // Table replaced: now shows top specialists by consultations (loaded on page init)
+        }
+        function renderTopUsersTable() {
+            // Table replaced: data loaded via admin-dashboard/top-specialists
         }
 
-        // Refrescar la tabla al hacer clic en el botón de refresh
         $('#topUsersTable').on('refresh.bs.table', function () {
-            loadTopUsersWithAlerts(currentAlertMinDate, currentAlertMaxDate);
+            // Re-fetch top specialists on manual refresh
+            fetch('admin-dashboard/top-specialists?limit=20', { headers: { 'Accept': 'application/json' } })
+                .then(r => r.json()).then(res => {
+                    if (!res.value || !Array.isArray(res.data)) return;
+                    const rows = res.data.map((row, i) => ({
+                        rank:                `<span class="badge ${i === 0 ? 'bg-primary-app' : i === 1 ? 'bg-accent' : i === 2 ? 'bg-electric-blue' : 'bg-sapphire-blue'} text-white">${i + 1}</span>`,
+                        full_name:           row.full_name            || '—',
+                        title_display:       row.title_display        || '—',
+                        total_consultations: row.total_consultations  || 0,
+                    }));
+                    $('#topUsersTable').bootstrapTable('load', rows);
+                });
         });
 
 
@@ -907,7 +856,7 @@
                     } else {
                         $('#bm2-finish').text(resp.data.total);
 
-                        myTippy1[0].setContent(`${formatearFecha(minDate).replaceAll('-', '/')} - ${formatearFecha(maxDate).replaceAll('-', '/')}`); // Cambia el contenido del tooltip
+                        if (myTippy1 && myTippy1[0]) myTippy1[0].setContent(`${formatearFecha(minDate).replaceAll('-', '/')} - ${formatearFecha(maxDate).replaceAll('-', '/')}`); // Cambia el contenido del tooltip
 
                         // ENTRIES TODAY
 

@@ -846,6 +846,24 @@ return [
   'dashboard_top_alerts_export' => 'Exportar reporte',
   'dashboard_modal_alert_details_title' => 'Detalles de alerta',
 
+  // --- Dashboard Admin: Nuevos KPIs ---
+  'kpi_total_users'              => 'Total de Usuarios',
+  'kpi_total_specialists'        => 'Total de Especialistas',
+  'kpi_standard_verifications'   => 'Verif. Standard',
+  'kpi_plus_verifications'       => 'Verif. Plus',
+
+  // --- Dashboard Admin: Tabla Top Usuarios por Exámenes ---
+  'dashboard_top_users_exams_title'  => 'Top Usuarios con más Exámenes',
+  'dashboard_table_user'             => 'Usuario',
+  'dashboard_table_total_exams'      => 'Exámenes',
+
+  // --- Dashboard Admin: Tabla Top Especialistas por Consultas ---
+  'dashboard_top_specialists_consult_title' => 'Top Especialistas con más Consultas',
+  'dashboard_table_specialist'              => 'Especialista',
+  'dashboard_table_title'                   => 'Título',
+  'dashboard_table_total_consultations'     => 'Consultas',
+
+
   //auditoria de sesiones
   'session_audit_title' => 'Registro de Auditoría de Sesiones',
   'user_name' => 'Nombre de Usuario',
