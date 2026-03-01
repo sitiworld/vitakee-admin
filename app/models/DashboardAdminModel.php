@@ -185,4 +185,122 @@ class DashboardAdminModel
         $stmt->close();
         return $rows;
     }
+
+    /**
+     * Distribución de usuarios y especialistas por país.
+     * Identifica el país extrayendo el prefijo normalizado del teléfono
+     * en formato "(+NNN) XXXXXXX" y buscándolo en countries.normalized_prefix.
+     *
+     * Respuesta por país:
+     *   country_name, flag (emoji Unicode), users_count, specialists_count, total, percentage
+     *
+     * @param int $limit Máx de países devueltos (ordenados por total desc)
+     */
+    public function getCountryDistribution(int $limit = 15, string $type = 'users'): array
+    {
+        $limit = max(1, min(50, $limit));
+
+        // Subqueries para usuarios y especialistas
+        $userQuery = "
+            SELECT
+                CONCAT('+', SUBSTRING_INDEX(SUBSTRING_INDEX(telephone, ')', 1), '(+', -1)) AS raw_prefix,
+                'user' AS type
+            FROM users
+            WHERE deleted_at IS NULL
+              AND telephone IS NOT NULL
+              AND telephone LIKE '(+%)%'
+        ";
+
+        $specialistQuery = "
+            SELECT
+                CONCAT('+', SUBSTRING_INDEX(SUBSTRING_INDEX(phone, ')', 1), '(+', -1)) AS raw_prefix,
+                'specialist' AS type
+            FROM specialists
+            WHERE deleted_at IS NULL
+              AND phone IS NOT NULL
+              AND phone LIKE '(+%)%'
+        ";
+
+        $subqueries = [];
+        if ($type === 'all' || $type === 'users') {
+            $subqueries[] = $userQuery;
+        }
+        if ($type === 'all' || $type === 'specialists') {
+            $subqueries[] = $specialistQuery;
+        }
+
+        // Si por alguna razón no coincide el tipo (evitamos error SQL vació)
+        if (empty($subqueries)) {
+            $subqueries[] = $userQuery;
+        }
+
+        $unionSql = implode(" UNION ALL ", $subqueries);
+
+        $sql = "SELECT
+                    c.country_name,
+                    c.suffix,
+                    SUM(CASE WHEN src.type = 'user'       THEN 1 ELSE 0 END) AS users_count,
+                    SUM(CASE WHEN src.type = 'specialist' THEN 1 ELSE 0 END) AS specialists_count,
+                    COUNT(*) AS total
+                FROM (
+                    {$unionSql}
+                ) AS src
+                INNER JOIN (
+                    -- Agrupa por prefix para evitar duplicados en prefijos compartidos como +1
+                    SELECT
+                        normalized_prefix,
+                        MAX(country_name) AS country_name,
+                        MAX(suffix) AS suffix
+                    FROM countries
+                    WHERE deleted_at IS NULL
+                    GROUP BY normalized_prefix
+                ) c ON c.normalized_prefix = src.raw_prefix
+                GROUP BY c.country_name, c.suffix
+                ORDER BY total DESC
+                LIMIT ?";
+
+        $stmt = $this->db->prepare($sql);
+        if (!$stmt) {
+            error_log('[DashboardAdminModel.getCountryDistribution] Prepare error: ' . $this->db->error);
+            return [];
+        }
+        $stmt->bind_param('i', $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $rows  = [];
+        $grand = 0;
+        while ($row = $result->fetch_assoc()) {
+            $rows[]  = $row;
+            $grand  += (int)$row['total'];
+        }
+        $stmt->close();
+
+        return array_map(function ($row) use ($grand) {
+            $iso2 = strtoupper($row['suffix'] ?? '');
+            $flag = $iso2 ? $this->isoToFlag($iso2) : '🏳️';
+            return [
+                'country_name'      => $row['country_name'],
+                'flag'              => $flag,
+                'users_count'       => (int)$row['users_count'],
+                'specialists_count' => (int)$row['specialists_count'],
+                'total'             => (int)$row['total'],
+                'percentage'        => $grand > 0 ? round(($row['total'] / $grand) * 100, 1) : 0,
+            ];
+        }, $rows);
+    }
+
+    /**
+     * Convierte código ISO-2 en emoji de bandera (Regional Indicator Symbols).
+     * Funciona en PHP 7.4+ con mbstring.
+     */
+    private function isoToFlag(string $iso2): string
+    {
+        $offset = 0x1F1E6 - ord('A');
+        $chars  = [];
+        foreach (str_split(strtoupper($iso2)) as $char) {
+            $chars[] = mb_chr($offset + ord($char), 'UTF-8');
+        }
+        return implode('', $chars);
+    }
 }

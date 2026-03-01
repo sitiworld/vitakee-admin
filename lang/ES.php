@@ -863,6 +863,10 @@ return [
   'dashboard_table_title'                   => 'Título',
   'dashboard_table_total_consultations'     => 'Consultas',
 
+  // --- Dashboard Admin: Gráficos de distribución por país ---
+  'dashboard_country_donut_title' => 'Distribución por País',
+  'dashboard_country_bar_title'   => 'Usuarios y Especialistas por País',
+
 
   //auditoria de sesiones
   'session_audit_title' => 'Registro de Auditoría de Sesiones',

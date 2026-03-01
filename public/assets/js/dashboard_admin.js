@@ -193,13 +193,15 @@ const validateInputs = async () => {
   optionsUsers.unshift(`<option value=''>All users</option>`)
 
   let selectBiomarker = d.getElementById('id_biomarker')
+  let selectUsers = d.getElementById('id_user')
+
+  // Guard: if the filter selects don't exist on this page, skip DOM manipulation
+  if (!selectBiomarker || !selectUsers) return
 
   selectBiomarker.innerHTML =
     optionsBiomarker.length > 0
       ? optionsBiomarker.join('')
       : `<option value=''>No biomarkers registered</option>`
-
-  let selectUsers = d.getElementById('id_user')
 
   selectUsers.innerHTML =
     optionsUsers.length > 0
@@ -242,6 +244,9 @@ const validateInputs = async () => {
 }
 
 const updateGraphics = async (type, dateRange) => {
+  // Guard: only run the biomarker chart logic when the filter selects exist
+  if (!d.getElementById('id_biomarker')) return
+
   // OBTENER REGISTROS
   let records = await getAvgUserBiomarker({
     id_biomarker: stateValues.id_biomarker,
@@ -309,6 +314,9 @@ const updateGraphics = async (type, dateRange) => {
 }
 
 export const barAndLinesChart = () => {
+  // Guard: only initialise the old biomarker bar chart when the filter selects exist
+  if (!d.getElementById('id_biomarker')) return
+
   const element = document.querySelector('#barlines-chart-admin')
 
   if (!element) {

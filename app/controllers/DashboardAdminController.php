@@ -74,4 +74,21 @@ class DashboardAdminController
             $this->errorResponse(500, 'Error al obtener top especialistas: ' . $e->getMessage());
         }
     }
+
+    /**
+     * GET /admin-dashboard/country-distribution
+     * Retorna la distribución de usuarios y especialistas por país (identificado por prefijo telefónico).
+     */
+    public function getCountryDistribution($params = []): void
+    {
+        try {
+            $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 15;
+            $type  = isset($_GET['type']) ? $_GET['type'] : 'users';
+            $data  = $this->model->getCountryDistribution($limit, $type);
+            $this->jsonResponse(true, '', $data);
+        } catch (\Exception $e) {
+            error_log('[DashboardAdminController.getCountryDistribution] ' . $e->getMessage());
+            $this->errorResponse(500, 'Error al obtener distribución por país: ' . $e->getMessage());
+        }
+    }
 }

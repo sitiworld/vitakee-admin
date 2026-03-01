@@ -131,12 +131,12 @@
 
                     <div class="row">
 
+                        <!-- === Donut: % por país === -->
                         <div class="col-lg-4">
                             <div class="card" id="printable-section">
                                 <div class="card-body">
 
-
-                                    <div class="dropdown float-end" id="health-overview-dropdown">
+                                    <div class="dropdown float-end" id="country-donut-dropdown">
                                         <a href="#" class="dropdown-toggle arrow-none card-drop"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="mdi mdi-dots-vertical"></i>
@@ -144,99 +144,58 @@
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <a href="javascript:void(0);" class="dropdown-item"
                                                 onclick="printBiomarkerReport()"><?= $traducciones['dashboard_health_overview_print_pdf'] ?></a>
-
                                         </div>
-                                    </div>
-                                    <div class="float-end d-none d-md-inline-block">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-xs btn-time" data-toggle-donut="day">
-                                                <?= $traducciones['dashboard_health_overview_today'] ?>
-                                            </button>
-                                            <button type="button" class="btn btn-xs btn-time" data-toggle-donut="week">
-                                                <?= $traducciones['dashboard_health_overview_weekly'] ?>
-                                            </button>
-                                            <button type="button" class="btn btn-xs btn-time" data-toggle-donut="month">
-                                                <?= $traducciones['dashboard_health_overview_monthly'] ?>
-                                            </button>
-                                        </div>
-
                                     </div>
 
                                     <h4 class="header-title mb-0">
-                                        <?= $traducciones['dashboard_health_overview_title_admin'] ?>
+                                        <i class="mdi mdi-earth me-1 text-accent"></i>
+                                        <?= $traducciones['dashboard_country_donut_title'] ?? 'Distribución por País' ?>
                                     </h4>
 
-
-
-
                                     <div class="widget-chart text-center" dir="ltr">
-                                        <div id="donut-chart-admin" class="mt-0" data-colors="#f1556c"></div>
+                                        <div id="donut-chart-admin" class="mt-2"></div>
                                     </div>
-                                </div>
-                            </div> <!-- end card -->
-                        </div> <!-- end col-->
 
+                                    <!-- Legend list -->
+                                    <ul class="list-unstyled mb-0 mt-1" id="country-donut-legend"
+                                        style="max-height:160px;overflow-y:auto;font-size:.82rem;"></ul>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- === Bar: usuarios vs especialistas por país === -->
                         <div class="col-lg-8">
                             <div class="card pb-2">
                                 <div class="row d-flex justify-content-start align-items-center">
                                     <div class="card-body">
-                                        <div
-                                            class="px-2 d-flex flex-wrap w-100 align-items-center justify-content-between gap-2">
-                                            <div class="d-flex w-md-50 flex-wrap align-items-center gap-2">
-                                                <h4 class="header-title m-0 w-100 " style="max-width: 200px;">
-                                                    <?= $traducciones['dashboard_biomarkers_distribution_title'] ?>
-                                                </h4>
-                                                <select class="form-select flex-grow-2" name="id_biomarker"
-                                                    id="id_biomarker" style="width: 150px;">
-                                                    <option value="">
-                                                        <?= $traducciones['dashboard_biomarkers_select_biomarker'] ?>
-                                                    </option>
-                                                </select>
-                                                <select class="form-select flex-grow-2" name="id_user" id="id_user"
-                                                    style="width: 100px;">
-                                                    <option value="">
-                                                        <?= $traducciones['dashboard_biomarkers_select_user'] ?>
-                                                    </option>
-                                                </select>
-                                                <select class="form-select flex-grow-1" name="status_range"
-                                                    style="width: 80px;" id="status_range">
-                                                    <option value="">
-                                                        <?= $traducciones['dashboard_biomarkers_select_status'] ?>
-                                                    </option>
-                                                    <option value="all" selected>
-                                                        <?= $traducciones['dashboard_biomarkers_all'] ?>
-                                                    </option>
-                                                    <option value="in">
-                                                        <?= $traducciones['dashboard_biomarkers_in_range'] ?>
-                                                    </option>
-                                                    <option value="out">
-                                                        <?= $traducciones['dashboard_biomarkers_out_range'] ?>
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="btn-group w-md-50 flex-wrap mr-2" style="margin-right: .5rem;
-">
-                                                <button type="button" class="btn btn-xs btn-time"
-                                                    data-toggle-bar="day"><?= $traducciones['dashboard_health_overview_today'] ?></button>
-                                                <button type="button" class="btn btn-xs btn-time"
-                                                    data-toggle-bar="week"><?= $traducciones['dashboard_health_overview_weekly'] ?></button>
-                                                <button type="button" class="btn btn-xs btn-time"
-                                                    data-toggle-bar="month"><?= $traducciones['dashboard_health_overview_monthly'] ?></button>
+                                        <div class="px-2 d-flex flex-wrap w-100 align-items-center justify-content-between gap-2">
+                                            <h4 class="header-title m-0">
+                                                <i class="mdi mdi-account-group me-1 text-primary"></i>
+                                                <?= $traducciones['dashboard_country_bar_title'] ?? 'Usuarios y Especialistas por País' ?>
+                                            </h4>
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input country-filter-radio" type="radio" name="country_filter" id="countryFilterUsers" value="users" checked>
+                                                    <label class="form-check-label text-muted" for="countryFilterUsers"><?= $traducciones['kpi_total_users'] ?? 'Usuarios' ?></label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input country-filter-radio" type="radio" name="country_filter" id="countryFilterSpecs" value="specialists">
+                                                    <label class="form-check-label text-muted" for="countryFilterSpecs"><?= $traducciones['kpi_total_specialists'] ?? 'Especialistas' ?></label>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div dir="ltr">
-                                            <div id="barlines-chart-admin" class="mt-4" data-colors="#1abc9c,#4a81d4">
-                                            </div>
+                                            <div id="barlines-chart-admin" class="mt-4"></div>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-
-                        </div> <!-- end col-->
-                    </div>
+                    </div><!-- end row charts -->
 
 
 
@@ -593,6 +552,163 @@
             $('#topUsersTable').bootstrapTable('load', rows);
         })
         .catch(err => console.error('[AdminDashboard] Top specialists fetch error:', err));
+
+        // --- 4. Country Distribution → donut + bar charts ---
+        (function initCountryCharts() {
+            let countryDonutChart = null;
+            let countryBarChart   = null;
+
+            const PALETTE = [
+                '#3EBBD0','#2fbde0','#1a8ea3','#0d6e80',
+                '#2d9cdb','#56ccf2','#1abc9c','#16a085',
+                '#f39c12','#e67e22','#8e44ad','#c0392b',
+                '#27ae60','#2980b9','#7f8c8d'
+            ];
+
+            function loadCountryData(type = 'users') {
+                fetch(`admin-dashboard/country-distribution?limit=15&type=${type}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                })
+                .then(r => r.json())
+                .then(res => {
+                    const donutEl = document.getElementById('donut-chart-admin');
+                    if (!res.value || !Array.isArray(res.data) || res.data.length === 0) {
+                        if (donutEl) {
+                            donutEl.innerHTML = '<p class="text-muted text-center py-4"><i class="mdi mdi-information-outline"></i> Sin datos</p>';
+                        }
+                        return;
+                    }
+
+                    // Clear previous 'no data' messages if any exist
+                    if (donutEl) donutEl.innerHTML = '';
+
+                    const data     = res.data;
+                    const labels   = data.map(d => `${d.flag} ${d.country_name}`);
+                    const totals   = data.map(d => d.total);
+                    const users    = data.map(d => d.users_count);
+                    const specs    = data.map(d => d.specialists_count);
+                    const colors   = PALETTE.slice(0, data.length);
+                    const grand    = totals.reduce((a, b) => a + b, 0);
+
+                    // ── DONUT (C3) ──────────────────────────────────────────────
+                    const colorsMap = {};
+                    const columns   = data.map((d, i) => {
+                        const lbl = `${d.flag} ${d.country_name}`;
+                        colorsMap[lbl] = PALETTE[i % PALETTE.length];
+                        return [lbl, d.total];
+                    });
+
+                    // Destroy old donut if exists
+                    if (countryDonutChart) {
+                        donutEl.innerHTML = ''; // Force complete clear
+                    }
+                    countryDonutChart = c3.generate({
+                        bindto: '#donut-chart-admin',
+                        data: {
+                            columns: columns,
+                            type:    'donut',
+                            colors:  colorsMap,
+                        },
+                        donut: {
+                            title: `${grand} total`,
+                            width: 22,
+                            label: { show: false },
+                        },
+                        tooltip: {
+                            format: {
+                                value: (value, ratio) =>
+                                    `${value} (${(ratio * 100).toFixed(1)}%)`
+                            }
+                        },
+                        size: { height: 220 },
+                    });
+
+                    // ── LEGEND LIST ─────────────────────────────────────────────
+                    const legendEl = document.getElementById('country-donut-legend');
+                    if (legendEl) {
+                        legendEl.innerHTML = data.map((d, i) => `
+                            <li class="d-flex align-items-center justify-content-between py-1 border-bottom">
+                                <span>
+                                    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;
+                                        background:${PALETTE[i % PALETTE.length]};margin-right:5px;"></span>
+                                    ${d.flag} ${d.country_name}
+                                </span>
+                                <span class="fw-bold">${d.percentage}%
+                                    <small class="text-muted">(${d.total})</small>
+                                </span>
+                            </li>`).join('');
+                    }
+
+                    // ── BAR (ApexCharts) ────────────────────────────────────────
+                    const barEl = document.getElementById('barlines-chart-admin');
+                    if (!barEl) return;
+
+                    if (countryBarChart) { countryBarChart.destroy(); }
+
+                    // Only show series based on selection
+                    const seriesData = [];
+                    const barColors = [];
+                    if (type === 'all' || type === 'users') {
+                        seriesData.push({ name: '<?= $traducciones['kpi_total_users'] ?? "Usuarios" ?>', data: users });
+                        barColors.push('#3EBBD0');
+                    }
+                    if (type === 'all' || type === 'specialists') {
+                        seriesData.push({ name: '<?= $traducciones['kpi_total_specialists'] ?? "Especialistas" ?>', data: specs });
+                        barColors.push(type === 'specialists' ? '#3EBBD0' : '#2d9cdb');
+                    }
+
+                    countryBarChart = new ApexCharts(barEl, {
+                        series: seriesData,
+                        chart: {
+                            type:    'bar',
+                            height:  340,
+                            stacked: false,
+                            toolbar: { show: false },
+                        },
+                        plotOptions: {
+                            bar: { horizontal: false, columnWidth: '55%', borderRadius: 3, grouped: true }
+                        },
+                        colors: barColors,
+                        dataLabels: { enabled: false },
+                        stroke: { show: true, width: 2, colors: ['transparent'] },
+                        xaxis: {
+                            categories: labels,
+                            labels: { rotate: -20, style: { fontSize: '11px' } }
+                        },
+                        yaxis: {
+                            title: { text: '<?= $traducciones['kpi_total_users'] ?? "Cantidad" ?>' },
+                            min: 0,
+                            labels: { formatter: val => Math.round(val) }
+                        },
+                        legend: { position: 'top', horizontalAlign: 'right' },
+                        tooltip: {
+                            shared: true,
+                            intersect: false,
+                            y: { formatter: val => `${val} personas` }
+                        },
+                        grid: { padding: { bottom: 10 } },
+                    });
+                    countryBarChart.render();
+                })
+                .catch(err => {
+                    console.error('[AdminDashboard] Country distribution fetch error:', err);
+                    const el = document.getElementById('donut-chart-admin');
+                    if (el) el.innerHTML = '<p class="text-danger text-center py-3"><i class="mdi mdi-alert-circle-outline"></i> Error al cargar datos</p>';
+                });
+            }
+
+            // Init fetch defaults to 'users'
+            loadCountryData('users');
+
+            // Event listener for radio buttons
+            const filterRadios = document.querySelectorAll('.country-filter-radio');
+            filterRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.checked) loadCountryData(e.target.value);
+                });
+            });
+        })();
 
     });
 

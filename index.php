@@ -335,6 +335,10 @@ $router->group(['middleware' => 'AuthMiddleware', 'roles' => ['administrator']],
         'controlador' => DashboardAdminController::class,
         'accion' => 'getTopSpecialistsByConsultations'
     ]);
+    $router->agregarRuta('GET', 'admin-dashboard/country-distribution', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getCountryDistribution'
+    ]);
 
 
 
