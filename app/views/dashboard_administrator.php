@@ -946,7 +946,6 @@
                 method: 'GET',
                 dataType: 'json',
                 success(resp) {
-                    console.log('count_users response:', resp);
                     if (!resp.value || !resp.data || typeof resp.data.total === 'undefined') {
                         console.error('Respuesta inválida:', resp);
                         $('#bm2-out-range').text('0');
@@ -965,7 +964,6 @@
                 method: 'GET',
                 dataType: 'json',
                 success(resp) {
-                    console.log('count_users_biomarkers_today_count response:', resp);
                     if (!resp.value || !resp.data || typeof resp.data.total === 'undefined') {
                         console.error('Respuesta inválida:', resp);
                         $('#bm2-finish').text('0');
@@ -988,7 +986,6 @@
                 method: 'GET',
                 dataType: 'json',
                 success(resp) {
-                    console.log('count_users_biomarkers_out_streak response:', resp);
                     if (!resp.value || !resp.data || typeof resp.data.total === 'undefined') {
                         console.error('Respuesta inválida:', resp);
                         $('#bm2-this-month').text('0.00');
@@ -1011,7 +1008,6 @@
                 method: 'GET',
                 dataType: 'json',
                 success(resp) {
-                    console.log('get_users_biomarkers_in_range_percentage response:', resp);
                     if (!resp.value || !resp.data || typeof resp.data.percentage === 'undefined') {
                         console.error('Respuesta inválida:', resp);
                         $('#bm2-in-range').text('0.00');

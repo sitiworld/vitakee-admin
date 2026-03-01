@@ -92,7 +92,6 @@ const validateDatePicker = async (id) => {
   stateValues.dateRange.max = max
 
   if (dataPicker && dataPicker.flatpickr) {
-    console.log('El input ya tiene una instancia de Flatpickr.')
 
     dataPicker.flatpickr().clear()
   }
@@ -135,7 +134,6 @@ const validateDatePicker = async (id) => {
 
 const validateInputs = async () => {
   let biomarkersResponse = await getAllBiomarkers()
-  console.log(biomarkersResponse)
   let mostFrecuentBiomarkerResponse = await getMostFrequentGlobal(
     userId,
     stateValues.dateRange.min,
@@ -237,8 +235,6 @@ const validateInputs = async () => {
 
       updateGraphics()
     })
-
-  console.log(stateValues)
 
   updateGraphics()
 }
