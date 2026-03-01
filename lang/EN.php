@@ -2618,4 +2618,11 @@ This process allows you to securely share selected data for a professional revie
 
   'password_reset_success_title' => 'Password Updated',
   'password_reset_success_desc' => 'Your password was successfully updated on {{date}}.',
+
+  // ── SEO & Metadata ──
+  'meta_default_description' => 'VITAKEE — Preventive health platform. Record, visualize, and understand your biomarkers from home. Your health, in your hands.',
+  'meta_keywords' => 'preventive health, biomarkers, glucose, ketones, lipid profile, health tracking, metabolism, VITAKEE, health monitoring',
+  'meta_og_locale' => 'en_US',
+  'meta_slogan' => 'Your health, in your hands. Smart biomarker tracking from home.',
+
 ];

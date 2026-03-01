@@ -2565,4 +2565,10 @@ return [
   'password_reset_success_title' => 'Contraseña actualizada',
   'password_reset_success_desc' => 'Tu contraseña ha sido actualizada exitosamente el {{date}}.',
 
+  // ── SEO & Metadata ──
+  'meta_default_description' => 'VITAKEE — Plataforma de salud preventiva. Registra, visualiza y comprende tus biomarcadores desde casa. Tu salud, en tus manos.',
+  'meta_keywords' => 'salud preventiva, biomarcadores, glucosa, cetonas, perfil lipídico, seguimiento de salud, metabolismo, VITAKEE, monitoreo de salud',
+  'meta_og_locale' => 'es_LA',
+  'meta_slogan' => 'Tu salud, en tus manos. Seguimiento inteligente de biomarcadores desde casa.',
+
 ];
