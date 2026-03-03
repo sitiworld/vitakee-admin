@@ -698,8 +698,17 @@ return [
   'dashboard_table_total_consultations'     => 'Consultations',
 
   // --- Admin Dashboard: Country distribution charts ---
-  'dashboard_country_donut_title' => 'Distribution by Country',
-  'dashboard_country_bar_title'   => 'Users & Specialists by Country',
+  'dashboard_country_donut_title'       => 'Distribution by Country',
+  'dashboard_country_bar_title'         => 'Users & Specialists by Country',
+  'dashboard_other_nationalities'       => 'Other Nationalities',
+  'dashboard_show_all_countries'        => 'Show All',
+  'dashboard_all_countries_modal_title' => 'Full Distribution by Nationality',
+  'dashboard_filter_label'             => 'Filter by',
+  'dashboard_filter_all'               => 'Both',
+  'dashboard_loading'                  => 'Loading...',
+  'dashboard_country_label'            => 'Country / Nationality',
+  'dashboard_table_total_label'        => 'Total',
+  'close_btn'                          => 'Close',
 
   //auditoria de sesiones
   'session_audit_title' => 'Session Audit Log',

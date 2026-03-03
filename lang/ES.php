@@ -864,8 +864,17 @@ return [
   'dashboard_table_total_consultations'     => 'Consultas',
 
   // --- Dashboard Admin: Gráficos de distribución por país ---
-  'dashboard_country_donut_title' => 'Distribución por País',
-  'dashboard_country_bar_title'   => 'Usuarios y Especialistas por País',
+  'dashboard_country_donut_title'       => 'Distribución por País',
+  'dashboard_country_bar_title'         => 'Usuarios y Especialistas por País',
+  'dashboard_other_nationalities'       => 'Otras Nacionalidades',
+  'dashboard_show_all_countries'        => 'Mostrar Todos',
+  'dashboard_all_countries_modal_title' => 'Distribución completa por Nacionalidad',
+  'dashboard_filter_label'             => 'Filtrar por',
+  'dashboard_filter_all'               => 'Ambos',
+  'dashboard_loading'                  => 'Cargando...',
+  'dashboard_country_label'            => 'País / Nacionalidad',
+  'dashboard_table_total_label'        => 'Total',
+  'close_btn'                          => 'Cerrar',
 
 
   //auditoria de sesiones

@@ -160,6 +160,13 @@
                                     <ul class="list-unstyled mb-0 mt-1" id="country-donut-legend"
                                         style="max-height:160px;overflow-y:auto;font-size:.82rem;"></ul>
 
+                                    <!-- Mostrar Todos button -->
+                                    <div class="text-center mt-2">
+                                        <button id="btn-show-all-countries" class="btn btn-sm btn-bright-turquoise-outline" onclick="openAllCountriesModal()">
+                                            <i class="mdi mdi-earth me-1"></i><?= $traducciones['dashboard_show_all_countries'] ?? 'Mostrar Todos' ?>
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -174,15 +181,18 @@
                                                 <i class="mdi mdi-account-group me-1 text-primary"></i>
                                                 <?= $traducciones['dashboard_country_bar_title'] ?? 'Usuarios y Especialistas por País' ?>
                                             </h4>
-                                            <div class="d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
+                                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                <div class="form-check form-check-inline mb-0">
                                                     <input class="form-check-input country-filter-radio" type="radio" name="country_filter" id="countryFilterUsers" value="users" checked>
                                                     <label class="form-check-label text-muted" for="countryFilterUsers"><?= $traducciones['kpi_total_users'] ?? 'Usuarios' ?></label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
+                                                <div class="form-check form-check-inline mb-0">
                                                     <input class="form-check-input country-filter-radio" type="radio" name="country_filter" id="countryFilterSpecs" value="specialists">
                                                     <label class="form-check-label text-muted" for="countryFilterSpecs"><?= $traducciones['kpi_total_specialists'] ?? 'Especialistas' ?></label>
                                                 </div>
+                                                <button class="btn btn-sm btn-bright-turquoise-outline" onclick="openAllCountriesModal()">
+                                                    <i class="mdi mdi-view-list me-1"></i><?= $traducciones['dashboard_show_all_countries'] ?? 'Mostrar Todos' ?>
+                                                </button>
                                             </div>
                                         </div>
 
@@ -338,6 +348,74 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body" id="alert-details-modal-body"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ============================================================ -->
+                        <!-- Modal: Detalle completo de todos los países                 -->
+                        <!-- ============================================================ -->
+                        <div class="modal fade" id="all-countries-modal" tabindex="-1" aria-labelledby="allCountriesModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="allCountriesModalLabel">
+                                            <i class="mdi mdi-earth me-2 text-accent"></i>
+                                            <?= $traducciones['dashboard_all_countries_modal_title'] ?? 'Distribución completa por Nacionalidad' ?>
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Filter radios -->
+                                        <div class="d-flex gap-3 mb-3 align-items-center flex-wrap">
+                                            <strong><?= $traducciones['dashboard_filter_label'] ?? 'Filtrar por' ?>:</strong>
+                                            <div class="form-check form-check-inline mb-0">
+                                                <input class="form-check-input" type="radio" name="modal_country_filter" id="modalFilterUsers" value="users" checked>
+                                                <label class="form-check-label" for="modalFilterUsers"><?= $traducciones['kpi_total_users'] ?? 'Usuarios' ?></label>
+                                            </div>
+                                            <div class="form-check form-check-inline mb-0">
+                                                <input class="form-check-input" type="radio" name="modal_country_filter" id="modalFilterSpecs" value="specialists">
+                                                <label class="form-check-label" for="modalFilterSpecs"><?= $traducciones['kpi_total_specialists'] ?? 'Especialistas' ?></label>
+                                            </div>
+                                            <div class="form-check form-check-inline mb-0">
+                                                <input class="form-check-input" type="radio" name="modal_country_filter" id="modalFilterAll" value="all">
+                                                <label class="form-check-label" for="modalFilterAll"><?= $traducciones['dashboard_filter_all'] ?? 'Ambos' ?></label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Loading state -->
+                                        <div id="all-countries-loading" class="text-center py-4">
+                                            <i class="mdi mdi-loading mdi-spin fs-3 text-muted"></i>
+                                            <p class="text-muted mt-2"><?= $traducciones['dashboard_loading'] ?? 'Cargando...' ?></p>
+                                        </div>
+
+                                        <!-- Content -->
+                                        <div id="all-countries-content" style="display:none;">
+                                            <!-- Bar chart overview -->
+                                            <div id="all-countries-bar-chart" class="mb-4"></div>
+
+                                            <!-- Table -->
+                                            <div class="table-responsive">
+                                                <table class="table table-hover table-borderless align-middle" id="all-countries-table">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th style="width:40px">#</th>
+                                                            <th><?= $traducciones['dashboard_country_label'] ?? 'País / Nacionalidad' ?></th>
+                                                            <th class="text-center"><?= $traducciones['kpi_total_users'] ?? 'Usuarios' ?></th>
+                                                            <th class="text-center"><?= $traducciones['kpi_total_specialists'] ?? 'Especialistas' ?></th>
+                                                            <th class="text-center"><?= $traducciones['dashboard_table_total_label'] ?? 'Total' ?></th>
+                                                            <th class="text-center">%</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="all-countries-tbody">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sapphire-blue" data-bs-dismiss="modal"><?= $traducciones['close_btn'] ?? 'Cerrar' ?></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -557,16 +635,63 @@
         (function initCountryCharts() {
             let countryDonutChart = null;
             let countryBarChart   = null;
+            let allCountriesBarChart = null;
+
+            // Store full raw data for the modal
+            window._countryFullData = {
+                users: [],
+                specialists: [],
+                all: []
+            };
 
             const PALETTE = [
                 '#3EBBD0','#2fbde0','#1a8ea3','#0d6e80',
                 '#2d9cdb','#56ccf2','#1abc9c','#16a085',
                 '#f39c12','#e67e22','#8e44ad','#c0392b',
-                '#27ae60','#2980b9','#7f8c8d'
+                '#27ae60','#2980b9','#7f8c8d','#e91e63','#9c27b0','#ff5722'
             ];
 
+            // Color for "Otras Nacionalidades" group
+            const OTHER_COLOR = '#95a5a6';
+            const OTHER_LABEL = '🌍 <?= $traducciones['dashboard_other_nationalities'] ?? 'Otras Nacionalidades' ?>';
+
+            /**
+             * Takes the full dataset and returns a condensed array:
+             * - Top 4 countries (by total) as individual entries
+             * - A 5th entry aggregating all the rest as "Otras Nacionalidades"
+             */
+            function buildTop4PlusOthers(data) {
+                if (!data || data.length === 0) return [];
+
+                // Sort descending by total
+                const sorted = [...data].sort((a, b) => b.total - a.total);
+
+                if (sorted.length <= 4) return sorted; // no "others" needed
+
+                const top4 = sorted.slice(0, 4);
+                const rest = sorted.slice(4);
+
+                const othersTotal = rest.reduce((s, d) => s + Number(d.total), 0);
+                const othersUsers = rest.reduce((s, d) => s + Number(d.users_count || 0), 0);
+                const othersSpecs = rest.reduce((s, d) => s + Number(d.specialists_count || 0), 0);
+                const grandTotal  = sorted.reduce((s, d) => s + Number(d.total), 0);
+
+                const others = {
+                    flag:               '🌍',
+                    country_name:       '<?= $traducciones['dashboard_other_nationalities'] ?? 'Otras Nacionalidades' ?>',
+                    total:              othersTotal,
+                    users_count:        othersUsers,
+                    specialists_count:  othersSpecs,
+                    percentage:         grandTotal > 0 ? ((othersTotal / grandTotal) * 100).toFixed(1) : '0.0',
+                    _isOthers:          true,
+                    _otherCountries:    rest
+                };
+
+                return [...top4, others];
+            }
+
             function loadCountryData(type = 'users') {
-                fetch(`admin-dashboard/country-distribution?limit=15&type=${type}`, {
+                fetch(`admin-dashboard/country-distribution?limit=100&type=${type}`, {
                     method: 'GET',
                     headers: { 'Accept': 'application/json' }
                 })
@@ -580,23 +705,28 @@
                         return;
                     }
 
+                    // Save full data for modal
+                    window._countryFullData[type] = res.data;
+
                     // Clear previous 'no data' messages if any exist
                     if (donutEl) donutEl.innerHTML = '';
 
-                    const data     = res.data;
+                    // Build the Top-4 + Others condensed dataset
+                    const data     = buildTop4PlusOthers(res.data);
+                    const grandAll = res.data.reduce((s, d) => s + Number(d.total), 0);
+
                     const labels   = data.map(d => `${d.flag} ${d.country_name}`);
-                    const totals   = data.map(d => d.total);
-                    const users    = data.map(d => d.users_count);
-                    const specs    = data.map(d => d.specialists_count);
-                    const colors   = PALETTE.slice(0, data.length);
-                    const grand    = totals.reduce((a, b) => a + b, 0);
+                    const totals   = data.map(d => Number(d.total));
+                    const users    = data.map(d => Number(d.users_count || 0));
+                    const specs    = data.map(d => Number(d.specialists_count || 0));
+                    const colors   = data.map((d, i) => d._isOthers ? OTHER_COLOR : PALETTE[i % PALETTE.length]);
 
                     // ── DONUT (C3) ──────────────────────────────────────────────
                     const colorsMap = {};
                     const columns   = data.map((d, i) => {
                         const lbl = `${d.flag} ${d.country_name}`;
-                        colorsMap[lbl] = PALETTE[i % PALETTE.length];
-                        return [lbl, d.total];
+                        colorsMap[lbl] = d._isOthers ? OTHER_COLOR : PALETTE[i % PALETTE.length];
+                        return [lbl, Number(d.total)];
                     });
 
                     // Destroy old donut if exists
@@ -611,7 +741,7 @@
                             colors:  colorsMap,
                         },
                         donut: {
-                            title: `${grand} total`,
+                            title: `${grandAll} total`,
                             width: 22,
                             label: { show: false },
                         },
@@ -627,24 +757,39 @@
                     // ── LEGEND LIST ─────────────────────────────────────────────
                     const legendEl = document.getElementById('country-donut-legend');
                     if (legendEl) {
-                        legendEl.innerHTML = data.map((d, i) => `
-                            <li class="d-flex align-items-center justify-content-between py-1 border-bottom">
+                        legendEl.innerHTML = data.map((d, i) => {
+                            const color = d._isOthers ? OTHER_COLOR : PALETTE[i % PALETTE.length];
+                            const tooltip = d._isOthers && d._otherCountries
+                                ? `title="${d._otherCountries.map(c => c.country_name).join(', ')}"`
+                                : '';
+                            return `
+                            <li class="d-flex align-items-center justify-content-between py-1 border-bottom" ${tooltip}>
                                 <span>
                                     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;
-                                        background:${PALETTE[i % PALETTE.length]};margin-right:5px;"></span>
+                                        background:${color};margin-right:5px;"></span>
                                     ${d.flag} ${d.country_name}
+                                    ${d._isOthers ? '<i class="mdi mdi-information-outline text-muted ms-1" style="font-size:.8rem"></i>' : ''}
                                 </span>
                                 <span class="fw-bold">${d.percentage}%
                                     <small class="text-muted">(${d.total})</small>
                                 </span>
-                            </li>`).join('');
+                            </li>`;
+                        }).join('');
                     }
 
                     // ── BAR (ApexCharts) ────────────────────────────────────────
                     const barEl = document.getElementById('barlines-chart-admin');
                     if (!barEl) return;
 
-                    if (countryBarChart) { countryBarChart.destroy(); }
+                    // Destroy previous instance cleanly, then wipe container
+                    if (countryBarChart) {
+                        try { countryBarChart.destroy(); } catch(e) {}
+                        countryBarChart = null;
+                    }
+                    barEl.innerHTML = '';
+                    // Mount on a fresh inner node to avoid ApexCharts SVG residues
+                    const barInner = document.createElement('div');
+                    barEl.appendChild(barInner);
 
                     // Only show series based on selection
                     const seriesData = [];
@@ -658,7 +803,7 @@
                         barColors.push(type === 'specialists' ? '#3EBBD0' : '#2d9cdb');
                     }
 
-                    countryBarChart = new ApexCharts(barEl, {
+                    countryBarChart = new ApexCharts(barInner, {
                         series: seriesData,
                         chart: {
                             type:    'bar',
@@ -667,9 +812,18 @@
                             toolbar: { show: false },
                         },
                         plotOptions: {
-                            bar: { horizontal: false, columnWidth: '55%', borderRadius: 3, grouped: true }
+                            bar: {
+                                horizontal:  false,
+                                columnWidth: '55%',
+                                borderRadius: 3,
+                                grouped:     true,
+                                colors: {
+                                    ranges: [],
+                                    backgroundBarColors: [],
+                                }
+                            }
                         },
-                        colors: barColors,
+                        colors: data.map((d, i) => d._isOthers ? OTHER_COLOR : (type === 'specialists' ? '#3EBBD0' : '#3EBBD0')),
                         dataLabels: { enabled: false },
                         stroke: { show: true, width: 2, colors: ['transparent'] },
                         xaxis: {
@@ -688,6 +842,21 @@
                             y: { formatter: val => `${val} personas` }
                         },
                         grid: { padding: { bottom: 10 } },
+                        fill: {
+                            type: 'solid'
+                        },
+                        annotations: {
+                            xaxis: data.map((d, i) => d._isOthers ? {
+                                x: labels[i],
+                                strokeDashArray: 0,
+                                borderColor: OTHER_COLOR,
+                                label: {
+                                    borderColor: OTHER_COLOR,
+                                    style: { color: '#fff', background: OTHER_COLOR, fontSize: '10px' },
+                                    text: ''
+                                }
+                            } : null).filter(Boolean)
+                        }
                     });
                     countryBarChart.render();
                 })
@@ -697,6 +866,169 @@
                     if (el) el.innerHTML = '<p class="text-danger text-center py-3"><i class="mdi mdi-alert-circle-outline"></i> Error al cargar datos</p>';
                 });
             }
+
+            // ── MODAL: All Countries ─────────────────────────────────────────
+            window.openAllCountriesModal = function() {
+                const modal = new bootstrap.Modal(document.getElementById('all-countries-modal'));
+                modal.show();
+
+                // Determine current filter
+                const activeRadio = document.querySelector('.country-filter-radio:checked');
+                const type = activeRadio ? activeRadio.value : 'users';
+
+                // Sync modal radios
+                const modalRadio = document.querySelector(`input[name="modal_country_filter"][value="${type}"]`);
+                if (modalRadio) modalRadio.checked = true;
+
+                renderAllCountriesModal(type);
+            };
+
+            function renderAllCountriesModal(type) {
+                const loadingEl  = document.getElementById('all-countries-loading');
+                const contentEl  = document.getElementById('all-countries-content');
+                const tbodyEl    = document.getElementById('all-countries-tbody');
+                const chartEl    = document.getElementById('all-countries-bar-chart');
+
+                if (loadingEl) loadingEl.style.display = 'block';
+                if (contentEl) contentEl.style.display = 'none';
+
+                // Use cached data if available, otherwise fetch
+                const cached = window._countryFullData[type];
+                if (cached && cached.length > 0) {
+                    _renderModalContent(cached, type, loadingEl, contentEl, tbodyEl, chartEl);
+                } else {
+                    fetch(`admin-dashboard/country-distribution?limit=100&type=${type}`, {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json' }
+                    })
+                    .then(r => r.json())
+                    .then(res => {
+                        if (!res.value || !Array.isArray(res.data)) return;
+                        window._countryFullData[type] = res.data;
+                        _renderModalContent(res.data, type, loadingEl, contentEl, tbodyEl, chartEl);
+                    })
+                    .catch(err => {
+                        console.error('[Modal] Error fetching all countries:', err);
+                        if (loadingEl) loadingEl.innerHTML = '<p class="text-danger text-center"><i class="mdi mdi-alert-circle-outline"></i> Error al cargar</p>';
+                    });
+                }
+            }
+
+            function _renderModalContent(data, type, loadingEl, contentEl, tbodyEl, chartEl) {
+                // Sort by total desc
+                const sorted = [...data].sort((a, b) => b.total - a.total);
+                const grandTotal = sorted.reduce((s, d) => s + Number(d.total), 0);
+
+                // Build table rows
+                if (tbodyEl) {
+                    tbodyEl.innerHTML = sorted.map((d, i) => {
+                        const pct = grandTotal > 0 ? ((Number(d.total) / grandTotal) * 100).toFixed(1) : '0.0';
+                        const barWidth = grandTotal > 0 ? Math.max(3, Math.round((Number(d.total) / grandTotal) * 100)) : 0;
+                        const color = PALETTE[i % PALETTE.length];
+                        return `
+                        <tr>
+                            <td><span class="badge" style="background:${color};color:#fff">${i + 1}</span></td>
+                            <td>
+                                <span style="font-size:1.1rem;">${d.flag}</span>
+                                <strong class="ms-1">${d.country_name}</strong>
+                            </td>
+                            <td class="text-center">${Number(d.users_count || 0).toLocaleString()}</td>
+                            <td class="text-center">${Number(d.specialists_count || 0).toLocaleString()}</td>
+                            <td class="text-center fw-bold">${Number(d.total).toLocaleString()}</td>
+                            <td class="text-center" style="min-width:120px">
+                                <div class="d-flex align-items-center gap-1">
+                                    <div style="flex:1;background:#e9ecef;border-radius:4px;height:8px;">
+                                        <div style="height:8px;border-radius:4px;width:${barWidth}%;background:${color};transition:width .4s"></div>
+                                    </div>
+                                    <small class="fw-bold" style="min-width:40px">${pct}%</small>
+                                </div>
+                            </td>
+                        </tr>`;
+                    }).join('');
+                }
+
+                // ── CRITICAL: show the content container BEFORE ApexCharts renders.
+                // ApexCharts needs the container to be visible so it can measure the
+                // actual pixel width. If display:none, width = 0 and the chart is blank.
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (contentEl) contentEl.style.display = 'block';
+
+                // Build full bar chart inside a requestAnimationFrame so the browser
+                // has a chance to compute layout before ApexCharts measures the container.
+                if (chartEl) {
+                    // Destroy previous instance then wipe wrapper completely
+                    if (allCountriesBarChart) {
+                        try { allCountriesBarChart.destroy(); } catch(e) {}
+                        allCountriesBarChart = null;
+                    }
+                    chartEl.innerHTML = '';
+
+                    const chartLabels = sorted.map(d => `${d.flag} ${d.country_name}`);
+                    const usersData  = sorted.map(d => Number(d.users_count || 0));
+                    const specsData  = sorted.map(d => Number(d.specialists_count || 0));
+
+                    const modalSeriesData = [];
+                    const modalColors = [];
+                    if (type === 'all' || type === 'users') {
+                        modalSeriesData.push({ name: '<?= $traducciones['kpi_total_users'] ?? "Usuarios" ?>', data: usersData });
+                        modalColors.push('#3EBBD0');
+                    }
+                    if (type === 'all' || type === 'specialists') {
+                        modalSeriesData.push({ name: '<?= $traducciones['kpi_total_specialists'] ?? "Especialistas" ?>', data: specsData });
+                        modalColors.push('#2d9cdb');
+                    }
+
+                    const chartHeight = Math.max(300, sorted.length * 28);
+                    const chartOptions = {
+                        series: modalSeriesData,
+                        chart: {
+                            type:    'bar',
+                            height:  chartHeight,
+                            stacked: false,
+                            toolbar: { show: false },
+                            animations: { enabled: true, speed: 400 },
+                        },
+                        plotOptions: {
+                            bar: { horizontal: true, barHeight: '60%', borderRadius: 3 }
+                        },
+                        colors: modalColors,
+                        dataLabels: {
+                            enabled: true,
+                            formatter: val => val > 0 ? val : '',
+                            style: { fontSize: '11px' }
+                        },
+                        xaxis: {
+                            categories: chartLabels,
+                            labels: { style: { fontSize: '11px' } }
+                        },
+                        yaxis: {
+                            labels: { style: { fontSize: '11px' } }
+                        },
+                        legend: { position: 'top' },
+                        tooltip: {
+                            shared: true,
+                            intersect: false,
+                            y: { formatter: val => `${val} personas` }
+                        },
+                        grid: { padding: { left: 10 } },
+                    };
+
+                    // Wait for the browser to paint the container, then render the chart
+                    requestAnimationFrame(() => {
+                        const modalChartInner = document.createElement('div');
+                        chartEl.appendChild(modalChartInner);
+                        allCountriesBarChart = new ApexCharts(modalChartInner, chartOptions);
+                        allCountriesBarChart.render();
+                    });
+                }
+            }
+
+            // Modal filter radio change
+            document.querySelectorAll('input[name="modal_country_filter"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.checked) renderAllCountriesModal(e.target.value);
+                });
+            });
 
             // Init fetch defaults to 'users'
             loadCountryData('users');
