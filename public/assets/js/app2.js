@@ -1,7 +1,5 @@
 import { validateNotifications } from './controllers/notificationsController.js'
 
-import { validateDashboard } from './dashboard.js'
-import { validateDashboardAdmin } from './dashboard_admin.js'
 import { hideLoader, showLoader } from './helpers/helpers.js'
 dayjs.extend(window.dayjs_plugin_isSameOrBefore)
 dayjs.extend(window.dayjs_plugin_isoWeek)
@@ -23,19 +21,6 @@ d.addEventListener('DOMContentLoaded', async () => {
   })
 
   validateNotifications()
-
-  if (d.getElementById('dashboard-view')) {
-    if (userRole === 1) {
-      validateDashboard()
-      console.log('user DASHBOARD LOADED')
-    }
-    console.log(userRole)
-
-    if (userRole === 0) {
-      console.log(' admin DASHBOARD LOADED')
-      validateDashboardAdmin()
-    }
-  }
 
   let viewsToCheck = [
     'dashboard',
@@ -94,7 +79,7 @@ export async function checkSecurityQuestions() {
         allowOutsideClick: false,
       }).then((result) => {
         const checked = document.getElementById(
-          'swal-security-checkbox'
+          'swal-security-checkbox',
         ).checked
         if (checked) {
           localStorage.setItem(localStorageKey, true)
