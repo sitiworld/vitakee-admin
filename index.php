@@ -175,6 +175,7 @@ $router->group(['middleware' => 'AuthMiddleware', 'roles' => ['administrator']],
         $router->agregarRuta('GET', 'my_profile', ['vista' => 'profile_administrator', 'vistaData' => ['titulo' => 'Profile Administrator', '' => '']]);
     }
     $router->agregarRuta('GET', 'dashboard_administrator', ['vista' => 'dashboard_administrator', 'vistaData' => ['titulo' => 'Dashboard - VITAKEE', '' => '']]);
+    $router->agregarRuta('GET', 'dashboard_administrator2', ['vista' => 'dashboard_administrator2', 'vistaData' => ['titulo' => 'Dashboard IA Demo - VITAKEE', '' => '']]);
     $router->agregarRuta('GET', 'backups_view', ['vista' => 'admin_backups', 'vistaData' => ['titulo' => 'Backups - VITAKEE', '' => '']]);
     $router->agregarRuta('GET', 'biomarkers', ['vista' => 'admin_biomarkers', 'vistaData' => ['titulo' => 'Biomarkers - VITAKEE', '' => '']]);
     $router->agregarRuta('GET', 'test_panels', ['vista' => 'admin_test_panels', 'vistaData' => ['titulo' => 'Test Panels - VITAKEE', '' => '']]);
