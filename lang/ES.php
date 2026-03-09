@@ -2602,4 +2602,11 @@ return [
   'meta_og_locale' => 'es_LA',
   'meta_slogan' => 'Tu salud, en tus manos. Seguimiento inteligente de biomarcadores desde casa.',
 
+  // --- Notificaciones de Solicitudes de Verificación ---
+  'verification_request_created_title' => 'Nueva Solicitud de Verificación',
+  'verification_request_created_desc' => 'Un nuevo especialista ha solicitado verificación.',
+  'verification_approved_title' => 'Verificación Aprobada',
+  'verification_approved_desc' => 'Tu solicitud de verificación ha sido aprobada.',
+  'verification_rejected_title' => 'Verificación Rechazada',
+  'verification_rejected_desc' => 'Tu solicitud de verificación ha sido rechazada. Por favor revisa los requisitos.',
 ];

@@ -155,6 +155,34 @@ class NotificationTemplateHelper
             'title_en' => 'New user registered',
             'desc_en'  => 'A new user has registered: {{user_name}}.'
         ],
+
+        /* =========================
+         * VERIFICATION REQUESTS
+         * ========================= */
+        'verification_request_created' => [
+            'module' => 'verification',
+            'rol'    => 'administrator',
+            'title'  => 'Nueva Solicitud de Verificación',
+            'desc'   => 'Un nuevo especialista ha solicitado verificación.',
+            'title_en' => 'New Verification Request',
+            'desc_en'  => 'A new specialist has requested verification.'
+        ],
+        'verification_approved' => [
+            'module' => 'verification',
+            'rol'    => 'specialist',
+            'title'  => 'Verificación Aprobada',
+            'desc'   => 'Tu solicitud de verificación ha sido aprobada.',
+            'title_en' => 'Verification Approved',
+            'desc_en'  => 'Your verification request has been approved.'
+        ],
+        'verification_rejected' => [
+            'module' => 'verification',
+            'rol'    => 'specialist',
+            'title'  => 'Verificación Rechazada',
+            'desc'   => 'Tu solicitud de verificación ha sido rechazada. Por favor revisa los requisitos.',
+            'title_en' => 'Verification Rejected',
+            'desc_en'  => 'Your verification request has been rejected. Please review prerequisites.'
+        ],
     ];
 
     public static function render($key, array $params = [], $overrideLang = null)
