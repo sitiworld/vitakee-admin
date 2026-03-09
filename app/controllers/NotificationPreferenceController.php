@@ -67,11 +67,18 @@ class NotificationPreferenceController
 
     private function resolveUser(): array
     {
-        $userId = $_SESSION['user_id'] ?? null;
+        // En vitakee-admin el ID se guarda en administrator_id
+        $userId = $_SESSION['administrator_id'] ?? $_SESSION['user_id'] ?? null;
         if (!$userId) {
             return [null, 'user'];
         }
 
+        // Si tenemos administrator_id, sabemos que es administrador
+        if (isset($_SESSION['administrator_id'])) {
+            return [$userId, 'administrator'];
+        }
+
+        // Fallback por si acaso
         $role = $_SESSION['roles_user'] ?? '';
         if (strtolower($role) === 'administrator') {
             return [$userId, 'administrator'];

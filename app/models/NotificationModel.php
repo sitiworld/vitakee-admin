@@ -927,8 +927,19 @@ class NotificationModel
             if (!isset(self::$emailScheduledFor[$user_id])) {
                 self::$emailScheduledFor[$user_id] = true;
                 
-                // Extraer el email del administrador (usando alias 'administrators')
-                $stmtUser = $this->db->prepare("SELECT email, CONCAT(first_name, ' ', last_name) as full_name FROM administrators WHERE administrator_id = ? LIMIT 1");
+                // Extraer el email del destinatario según su rol
+                if ($rol === 'specialist') {
+                    $targetTable = 'specialists';
+                    $idColumn    = 'specialist_id';
+                } elseif ($rol === 'administrator') {
+                    $targetTable = 'administrators';
+                    $idColumn    = 'administrator_id';
+                } else {
+                    $targetTable = 'users';
+                    $idColumn    = 'user_id';
+                }
+
+                $stmtUser = $this->db->prepare("SELECT email, CONCAT(first_name, ' ', last_name) as full_name FROM {$targetTable} WHERE {$idColumn} = ? LIMIT 1");
                 if ($stmtUser) {
                     $stmtUser->bind_param('s', $user_id);
                     $stmtUser->execute();
@@ -942,8 +953,8 @@ class NotificationModel
                         register_shutdown_function(function() use ($user_id, $rol, $userEmail, $userName, $currentLang) {
                             try {
                                 require_once __DIR__ . '/../services/NotificationEmailService.php';
-                                error_log("[NotificationModel] Ejecutando shutdown de email para {$user_id} - lang: {$currentLang}");
-                                NotificationEmailService::dispatchIfEnabled($user_id, 'administrator', $userEmail, null, $userName, $currentLang);
+                                error_log("[NotificationModel] Ejecutando shutdown de email para {$user_id} ({$rol}) - lang: {$currentLang}");
+                                NotificationEmailService::dispatchIfEnabled($user_id, $rol, $userEmail, null, $userName, $currentLang);
                             } catch (\Throwable $e) {
                                 error_log("[NotificationModel] Error en shutdown email: " . $e->getMessage());
                             }
@@ -964,7 +975,7 @@ class NotificationModel
                     $title = $rendered['title'] ?? 'Vitakee Admin';
                     $body  = $rendered['desc']  ?? '';
                     $url   = $route ?? '/';
-                    NotificationPushService::dispatchIfEnabled($user_id, 'administrator', $title, $body, $url);
+                    NotificationPushService::dispatchIfEnabled($user_id, $rol, $title, $body, $url);
                 } catch (\Throwable $e) {
                     error_log("[NotificationModel] Error en shutdown push: " . $e->getMessage());
                 }

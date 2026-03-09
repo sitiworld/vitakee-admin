@@ -2656,4 +2656,11 @@ This process allows you to securely share selected data for a professional revie
   'meta_og_locale' => 'en_US',
   'meta_slogan' => 'Your health, in your hands. Smart biomarker tracking from home.',
 
+  // --- Verification Requests Notifications ---
+  'verification_request_created_title' => 'New Verification Request',
+  'verification_request_created_desc' => 'A new specialist has requested verification.',
+  'verification_approved_title' => 'Verification Approved',
+  'verification_approved_desc' => 'Your verification request has been approved.',
+  'verification_rejected_title' => 'Verification Rejected',
+  'verification_rejected_desc' => 'Your verification request has been rejected. Please review prerequisites.',
 ];

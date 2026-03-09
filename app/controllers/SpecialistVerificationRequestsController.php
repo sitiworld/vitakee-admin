@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../models/SpecialistVerificationRequestsModel.php';
+require_once __DIR__ . '/../models/NotificationModel.php';
 
 class SpecialistVerificationRequestsController
 {
@@ -187,54 +188,85 @@ class SpecialistVerificationRequestsController
     }
 
     /* ========================
-     * PUT/POST /verification-requests/{id}/approve
-     * ======================== */
-    public function approve($parametros)
-    {
-        $isPut = $this->effectivePut();
-        $isPost = ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST';
+ * PUT/POST /verification-requests/{id}/approve
+ * ======================== */
+public function approve($parametros)
+{
+    $isPut = $this->effectivePut();
+    $isPost = ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST';
 
-        if (!($isPut || $isPost)) {
-            return $this->errorResponse(405, $this->msg('method_put'));
-        }
-
-        $id = $parametros['id'] ?? null;
-        if (!is_string($id) || trim($id) === '') {
-            return $this->jsonResponse(false, $this->msg('invalid_id'));
-        }
-
-        try {
-            $this->model->approveRequest($id);
-            $this->jsonResponse(true, $this->msg('approve_ok'));
-        } catch (mysqli_sql_exception $e) {
-            $this->errorResponse(400, $this->msg('approve_error') . $e->getMessage());
-        }
+    if (!($isPut || $isPost)) {
+        return $this->errorResponse(405, $this->msg('method_put'));
     }
 
+    $id = $parametros['id'] ?? null;
+    if (!is_string($id) || trim($id) === '') {
+        return $this->jsonResponse(false, $this->msg('invalid_id'));
+    }
+
+    try {
+        $record = $this->model->getByIdWithDetails($id);
+        if (!$record) {
+            return $this->jsonResponse(false, 'Request not found');
+        }
+
+        $this->model->approveRequest($id);
+
+        NotificationModel::create([
+            'user_id' => $record['specialist_id'],
+            'rol' => 'specialist',
+            'type' => 'VERIFICATION_APPROVED',
+            'status' => 'UNREAD',
+            'template_key' => 'verification_approved',
+            'route' => '/profile',
+            'template_params' => null
+        ]);
+
+        $this->jsonResponse(true, $this->msg('approve_ok'));
+    } catch (mysqli_sql_exception $e) {
+        $this->errorResponse(400, $this->msg('approve_error') . $e->getMessage());
+    }
+}
     /* ========================
-     * PUT/POST /verification-requests/{id}/reject
-     * ======================== */
-    public function reject($parametros)
-    {
-        $isPut = $this->effectivePut();
-        $isPost = ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST';
+ * PUT/POST /verification-requests/{id}/reject
+ * ======================== */
+public function reject($parametros)
+{
+    $isPut = $this->effectivePut();
+    $isPost = ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST';
 
-        if (!($isPut || $isPost)) {
-            return $this->errorResponse(405, $this->msg('method_put'));
-        }
-
-        $id = $parametros['id'] ?? null;
-        if (!is_string($id) || trim($id) === '') {
-            return $this->jsonResponse(false, $this->msg('invalid_id'));
-        }
-
-        try {
-            $this->model->rejectRequest($id);
-            $this->jsonResponse(true, $this->msg('reject_ok'));
-        } catch (mysqli_sql_exception $e) {
-            $this->errorResponse(400, $this->msg('reject_error') . $e->getMessage());
-        }
+    if (!($isPut || $isPost)) {
+        return $this->errorResponse(405, $this->msg('method_put'));
     }
+
+    $id = $parametros['id'] ?? null;
+    if (!is_string($id) || trim($id) === '') {
+        return $this->jsonResponse(false, $this->msg('invalid_id'));
+    }
+
+    try {
+        $record = $this->model->getByIdWithDetails($id);
+        if (!$record) {
+            return $this->jsonResponse(false, 'Request not found');
+        }
+
+        $this->model->rejectRequest($id);
+
+        NotificationModel::create([
+            'user_id' => $record['specialist_id'],
+            'rol' => 'specialist',
+            'type' => 'VERIFICATION_REJECTED',
+            'status' => 'UNREAD',
+            'template_key' => 'verification_rejected',
+            'route' => '/profile',
+            'template_params' => null
+        ]);
+
+        $this->jsonResponse(true, $this->msg('reject_ok'));
+    } catch (mysqli_sql_exception $e) {
+        $this->errorResponse(400, $this->msg('reject_error') . $e->getMessage());
+    }
+}
 
     /* ========================
      * DELETE /verification-requests/{id}

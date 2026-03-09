@@ -194,7 +194,7 @@ async function _autoSubscribeIfMissing() {
   if (Notification.permission !== 'granted') return
 
   try {
-    const swUrl = getBaseUrl().replace(/\/+$/, '') + '/public/sw.js'
+    const swUrl = getBaseUrl().replace(/\/+$/, '') + '/sw.js'
     const registration = await navigator.serviceWorker.register(swUrl)
     await navigator.serviceWorker.ready
 
@@ -347,7 +347,7 @@ async function initPushSubscription() {
 async function subscribePush() {
   try {
     const baseUrl = getBaseUrl()
-    const swUrl = baseUrl.replace(/\/+$/, '') + '/public/sw.js'
+    const swUrl = baseUrl.replace(/\/+$/, '') + '/sw.js'
 
     const registration = await navigator.serviceWorker.register(swUrl)
     await navigator.serviceWorker.ready
@@ -392,7 +392,7 @@ async function unsubscribePush() {
   try {
     if (!('serviceWorker' in navigator)) return
 
-    const swUrl = getBaseUrl().replace(/\/+$/, '') + '/public/sw.js'
+    const swUrl = getBaseUrl().replace(/\/+$/, '') + '/sw.js'
     const registration = await navigator.serviceWorker.getRegistration(swUrl) // buscar por URL absoluta
     if (!registration) return
 
