@@ -102,7 +102,19 @@ class Router
         }
 
         if (isset($this->rutas[$metodoSolicitado])) {
-            foreach ($this->rutas[$metodoSolicitado] as $rutaRegex => $datosRuta) {
+            // --- Ordenar rutas por especificidad ---
+            // Las rutas sin wildcards (parámetros capturados) tienen prioridad.
+            // Se cuenta cuántos grupos de captura con nombre tiene cada regex:
+            // menos grupos → más específica → va primero.
+            $rutas = $this->rutas[$metodoSolicitado];
+            uksort($rutas, function (string $a, string $b): int {
+                $countA = preg_match_all('/\(\?P<[^>]+>/', $a);
+                $countB = preg_match_all('/\(\?P<[^>]+>/', $b);
+                // Rutas con menos wildcards primero; si empatan, mantener el orden original
+                return $countA <=> $countB;
+            });
+
+            foreach ($rutas as $rutaRegex => $datosRuta) {
                 if (preg_match($rutaRegex, $rutaSolicitada, $matches)) {
                     // Aplica el middleware si está definido
                     if (isset($datosRuta['middleware'])) {

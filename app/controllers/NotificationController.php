@@ -71,6 +71,26 @@ class NotificationController
     }
 
     /**
+     * Endpoint liviano para el polling del badge: devuelve solo el conteo
+     * de notificaciones con new=1 para el usuario en sesión.
+     * GET /notifications/count-new
+     */
+    public function countNewBySession()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            return $this->errorResponse(401, "User not authenticated.");
+        }
+        $user_id = $_SESSION['user_id'];
+
+        try {
+            $count = $this->notificationModel->countAlertsUser($user_id, 1);
+            $this->jsonResponse(true, 'New notification count retrieved.', $count);
+        } catch (Exception $e) {
+            $this->jsonResponse(false, $e->getMessage());
+        }
+    }
+
+    /**
      * Muestra notificaciones para el usuario actual (paginado).
      */
     public function showByUserId()

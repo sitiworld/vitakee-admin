@@ -1223,6 +1223,7 @@ $router->delete('/specialist-verification-requests/{id}', [
     $router->get('/notifications/{id}', ['controlador' => NotificationController::class, 'accion' => 'showById']);
     $router->get('/notifications/all/{id}', ['controlador' => NotificationController::class, 'accion' => 'showAllAdmin']);
     $router->get('/notifications/user-count/{id}', ['controlador' => NotificationController::class, 'accion' => 'countAlertsUser']);
+    $router->get('/notifications/count-new', ['controlador' => NotificationController::class, 'accion' => 'countNewBySession']);
     $router->post('/notifications', ['controlador' => NotificationController::class, 'accion' => 'create']);
     $router->put('/notifications/{id}', ['controlador' => NotificationController::class, 'accion' => 'update']);
     $router->delete('/notifications/{id}', ['controlador' => NotificationController::class, 'accion' => 'delete']);
@@ -1241,6 +1242,14 @@ $router->delete('/specialist-verification-requests/{id}', [
     $router->post('/notifications/no-alert-admin', ['controlador' => NotificationController::class, 'accion' => 'updateNoAlertAdmin']);
     $router->post('/notifications/no-alert-user-all', ['controlador' => NotificationController::class, 'accion' => 'updateNoAlertUserByUserId']);
     $router->post('/notifications/no-alert-admin-all', ['controlador' => NotificationController::class, 'accion' => 'updateNoAlertAdminAll']);
+
+    // Notification Preferences
+    $router->get('/notifications/preferences', ['controlador' => NotificationPreferenceController::class, 'accion' => 'getPreferences']);
+    $router->post('/notifications/preferences', ['controlador' => NotificationPreferenceController::class, 'accion' => 'updatePreferences']);
+
+    // Push Subscriptions
+    $router->post('/notifications/push-subscribe', ['controlador' => PushSubscriptionController::class, 'accion' => 'subscribe']);
+    $router->post('/notifications/push-unsubscribe', ['controlador' => PushSubscriptionController::class, 'accion' => 'unsubscribe']);
 });
 
 
