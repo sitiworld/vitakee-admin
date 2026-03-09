@@ -138,27 +138,65 @@ $rol = strtolower($_SESSION['roles_user']);
                         <div class="row align-items-center">
                             <div class="col">
                                 <h6 class="m-0 font-16 fw-semibold">
-                                    <?= $traducciones['dashboard_top_alerts_alerts'] ?>
+                                    <?= $traducciones['dashboard_top_alerts_alerts'] ?? 'Alerts' ?>
                                 </h6>
                             </div>
                             <div class="col-auto">
                                 <a href="javascript:void(0);" id="clear-all-alerts"
                                     class="text-dark text-decoration-underline">
-                                    <small><?= $traducciones['clear_all'] ?></small>
+                                    <small><?= $traducciones['clear_all'] ?? 'Clear All' ?></small>
                                 </a>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-2">
-                        <div class="d-flex gap-1" id="notification-tabs" role="tablist">
-                            <button class="btn notification-button btn-sm text-bold" id="all-tab" data-bs-toggle="tab"
-                                type="button" role="tab"
-                                aria-selected="false"><?= $traducciones['notification_all'] ?></button>
-                            <button class="btn notification-button btn-sm text-bold active" id="unread-tab"
-                                data-bs-toggle="tab" data-bs-target="#unread-tab-pane" type="button" role="tab"
-                                aria-selected="true"><?= $traducciones['notification_unread'] ?> (<span
-                                    id="unread-count">0</span>)</button>
+                        <div class="d-flex gap-1 align-items-center justify-content-between" id="notification-tabs" role="tablist">
+                            <div class="d-flex gap-1">
+                                <button class="btn notification-button btn-sm text-bold" id="all-tab" data-bs-toggle="tab"
+                                    type="button" role="tab"
+                                    aria-selected="false"><?= $traducciones['notification_all'] ?? 'All' ?></button>
+                                <button class="btn notification-button btn-sm text-bold active" id="unread-tab"
+                                    data-bs-toggle="tab" data-bs-target="#unread-tab-pane" type="button" role="tab"
+                                    aria-selected="true"><?= $traducciones['notification_unread'] ?? 'Unread' ?> (<span
+                                        id="unread-count">0</span>)</button>
+                            </div>
+                            <!-- Botón engranaje preferencias -->
+                            <button type="button" id="notification-pref-toggle"
+                                class="btn btn-sm btn-link text-muted p-1"
+                                title="<?= $traducciones['notification_settings'] ?? 'Notification settings' ?>"
+                                aria-expanded="false" aria-controls="notification-pref-panel">
+                                <i class="mdi mdi-cog-outline font-18"></i>
+                            </button>
+                        </div>
+
+                        <!-- Panel de preferencias (oculto por defecto) -->
+                        <div id="notification-pref-panel" class="mt-2 px-1" style="display:none;">
+                            <div class="d-flex flex-column gap-2 p-2 rounded"
+                                style="background:#f8f9fa;border:1px solid #e9ecef;">
+                                <!-- Push -->
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <label for="pref-push" class="mb-0 d-flex align-items-center gap-1" style="font-size:13px;cursor:pointer;">
+                                        <i class="mdi mdi-bell-outline font-16 text-primary-app"></i>
+                                        <?= $traducciones['notification_push'] ?? 'Push notifications' ?>
+                                    </label>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input notification-pref-switch" type="checkbox"
+                                            role="switch" id="pref-push" data-pref="push_enabled">
+                                    </div>
+                                </div>
+                                <!-- Email -->
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <label for="pref-email" class="mb-0 d-flex align-items-center gap-1" style="font-size:13px;cursor:pointer;">
+                                        <i class="mdi mdi-email-outline font-16 text-primary-app"></i>
+                                        <?= $traducciones['notification_email'] ?? 'Email notifications' ?>
+                                    </label>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input notification-pref-switch" type="checkbox"
+                                            role="switch" id="pref-email" data-pref="email_enabled">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="px-1 overflow-auto" style="max-height: 300px;" data-simplebar="init">

@@ -72,6 +72,8 @@ require_once "app/middleware/SessionRedirectMiddleware.php";
 require_once "app/controllers/AuditLogController.php";
 require_once "app/controllers/RecoveryPasswordController.php";
 require_once "app/controllers/NotificationController.php";
+require_once "app/controllers/PushSubscriptionController.php";
+require_once "app/controllers/NotificationPreferenceController.php";
 require_once "app/controllers/UserController.php";
 require_once "app/controllers/AuthController.php";
 require_once "app/controllers/BackupController.php";
@@ -341,8 +343,25 @@ $router->group(['middleware' => 'AuthMiddleware', 'roles' => ['administrator']],
         'accion' => 'getCountryDistribution'
     ]);
 
-
-
+    // ============================================================
+    // --- NOTIFICATIONS & PUSH ---
+    // ============================================================
+    $router->agregarRuta('GET', 'notifications/preferences', [
+        'controlador' => NotificationPreferenceController::class,
+        'accion' => 'getPreferences'
+    ]);
+    $router->agregarRuta('POST', 'notifications/preferences', [
+        'controlador' => NotificationPreferenceController::class,
+        'accion' => 'updatePreferences'
+    ]);
+    $router->agregarRuta('POST', 'push/subscribe', [
+        'controlador' => PushSubscriptionController::class,
+        'accion' => 'subscribe'
+    ]);
+    $router->agregarRuta('POST', 'push/unsubscribe', [
+        'controlador' => PushSubscriptionController::class,
+        'accion' => 'unsubscribe'
+    ]);
 
 });
 

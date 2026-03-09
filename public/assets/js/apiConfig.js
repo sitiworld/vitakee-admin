@@ -178,7 +178,7 @@ export const getUserDashboardData = async ({
 }) => {
   return await handleRequest(
     `/biomarkers/filtered/${id_biomarker}/${minDate}/${maxDate}/${status}`,
-    'GET'
+    'GET',
   )
 }
 
@@ -191,7 +191,7 @@ export const userInOutRange = async ({ id_biomarker, minDate, maxDate }) => {
       min: minDate,
       max: maxDate,
       status: 'all',
-    }
+    },
   )
 }
 
@@ -282,7 +282,7 @@ export const deleteTitle = async (id) =>
 export const getRecordsByUser = async (user_id, id_biomarker) => {
   return await handleRequest(
     `/biomarkers/values/${id_biomarker}/${user_id}`,
-    'GET'
+    'GET',
   )
 }
 
@@ -335,7 +335,7 @@ export const getMostFrequentBiomarker = async (userId, minDate, maxDate) =>
       min: minDate,
       max: maxDate,
     },
-    false
+    false,
   )
 export const getMostFrequentGlobal = async (minDate, maxDate) =>
   await handleRequest(
@@ -345,11 +345,11 @@ export const getMostFrequentGlobal = async (minDate, maxDate) =>
       min: minDate,
       max: maxDate,
     },
-    false
+    false,
   )
 export async function getApexLanguage(lang) {
   let response = await fetch(
-    `public/assets/libs/apexcharts/locales/${lang}.json`
+    `public/assets/libs/apexcharts/locales/${lang}.json`,
   )
   let json = await response.json()
 
@@ -416,7 +416,7 @@ export async function getNewNotificationsByUser(page = 1, limit = 10) {
     `/notifications/active-by-user/1?limit=${limit}&offset=${offset}`, // Pasa limit y offset a la URL
     'GET',
     null,
-    false
+    false,
   )
 }
 export async function getReadNotificationsByUser(page = 1, limit = 10) {
@@ -428,7 +428,7 @@ export async function getReadNotificationsByUser(page = 1, limit = 10) {
     `/notifications/dismissed-by-user/1?limit=${limit}&offset=${offset}`, // Pasa limit y offset a la URL
     'GET',
     null,
-    false
+    false,
   )
 }
 
@@ -441,7 +441,7 @@ export async function getAllNotificationsByUser(page = 1, limit = 10) {
     `/notifications/all-by-user/1?limit=${limit}&offset=${offset}`, // Pasa limit y offset a la URL
     'GET',
     null,
-    false
+    false,
   )
 }
 
@@ -459,7 +459,7 @@ export async function getActiveAlertNotifications() {
 export async function getNotificationsByBiomarkerId(id_biomarker) {
   return await handleRequestFetch(
     `/notifications/by-biomarker/${id_biomarker}`,
-    'GET'
+    'GET',
   )
 }
 
@@ -467,7 +467,7 @@ export async function getNotificationsByBiomarkerId(id_biomarker) {
 export async function getNotificationsByUserAndBiomarker(id_biomarker) {
   return await handleRequest(
     `/notifications/by-user-biomarker/${id_biomarker}`,
-    'GET'
+    'GET',
   )
 }
 
@@ -479,7 +479,7 @@ export async function updateNoAlertUser(record_id) {
     {
       record_id,
     },
-    false
+    false,
   )
 }
 
@@ -496,7 +496,7 @@ export async function clearUserAlerts() {
     '/notifications/no-alert-user-all',
     'POST',
     null,
-    false
+    false,
   )
 }
 export async function clearNewAlerts() {
@@ -504,7 +504,7 @@ export async function clearNewAlerts() {
     '/notifications/update-new',
     'POST',
     null,
-    false
+    false,
   )
 }
 
@@ -558,8 +558,6 @@ export async function deleteState(id) {
   return await handleRequest(`/states/${id}`, 'DELETE')
 }
 
-
-
 /* ===================== CITIES ===================== */
 
 // GET /cities
@@ -592,4 +590,18 @@ export async function deleteCity(id) {
   return await handleRequest(`/cities/${id}`, 'DELETE')
 }
 
-
+// ============================================================
+// --- PUSH & PREFERENCES ---
+// ============================================================
+export async function getNotificationPreferences() {
+  return await handleRequestFetch('/notifications/preferences', 'GET')
+}
+export async function updateNotificationPreferences(data) {
+  return await handleRequestFetch('/notifications/preferences', 'POST', data)
+}
+export async function subscribePush(data) {
+  return await handleRequestFetch('/push/subscribe', 'POST', data)
+}
+export async function unsubscribePush(data) {
+  return await handleRequestFetch('/push/unsubscribe', 'POST', data)
+}

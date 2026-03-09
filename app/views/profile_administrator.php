@@ -56,6 +56,14 @@
                             <?= $traducciones['security'] ?>
                         </a>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <a href="notifications-tab" class="nav-link text-gray" id="notifications-tab" data-bs-toggle="tab"
+                            data-bs-target="#notifications-tab-pane" role="tab" aria-controls="notifications-tab-pane"
+                            aria-selected="false" tabindex="-1">
+                            <i class="mdi mdi-bell-outline"></i>
+                            <?= $traducciones['title_notification'] ?? 'Notificationes' ?>
+                        </a>
+                    </li>
                 </ul>
 
             </div>
@@ -224,6 +232,56 @@
                     </div>
 
                 </div>
+                
+                <div class="tab-pane fade" id="notifications-tab-pane" role="tabpanel" aria-labelledby="notifications-tab" tabindex="0">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            <?= $traducciones['notification_settings'] ?? 'Notification Settings' ?>
+                        </h4>
+                        <p class="text-muted mb-4"><?= $traducciones['notification_pref_desc'] ?? 'Configure how you want to receive your notifications.' ?></p>
+                        
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="d-flex flex-column gap-3 p-3 rounded border bg-light">
+                                    <!-- Push -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="avatar-sm bg-primary-app rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                                                <i class="mdi mdi-bell-outline font-18 text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0 font-14 fw-bold"><?= $traducciones['notification_push'] ?? 'Push Notifications' ?></h5>
+                                                <small class="text-muted"><?= $traducciones['notification_push_desc'] ?? 'Receive alerts in your browser' ?></small>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input notification-pref-switch" type="checkbox"
+                                                role="switch" id="pref-push-profile" data-pref="push_enabled">
+                                        </div>
+                                    </div>
+                                    <hr class="my-1">
+                                    <!-- Email -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="avatar-sm bg-primary-app rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                                                <i class="mdi mdi-email-outline font-18 text-white"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0 font-14 fw-bold"><?= $traducciones['notification_email'] ?? 'Email Notifications' ?></h5>
+                                                <small class="text-muted"><?= $traducciones['notification_email_desc'] ?? 'Receive updates in your inbox' ?></small>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input notification-pref-switch" type="checkbox"
+                                                role="switch" id="pref-email-profile" data-pref="email_enabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
