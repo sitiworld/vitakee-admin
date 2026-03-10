@@ -188,10 +188,17 @@ class SpecialistVerificationRequestsModel
         $res = $this->db->query($sql);
         if (!$res) return [];
 
+        $specialistUrl = $_ENV['APP_URL_Specialists'] ?? 'http://localhost/vitakee-users/specialist';
         $grouped = [];
         while ($row = $res->fetch_assoc()) {
             $sid = $row['specialist_id'];
             if (!isset($grouped[$sid])) $grouped[$sid] = [];
+            
+            // Format full URL for certificates since they are uploaded via the users repo
+            if (!empty($row['file_url'])) {
+                $row['file_url'] = rtrim($specialistUrl, '/') . '/' . ltrim($row['file_url'], '/');
+            }
+
             $grouped[$sid][] = $row;
         }
         return $grouped;

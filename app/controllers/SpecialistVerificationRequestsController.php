@@ -219,7 +219,7 @@ public function approve($parametros)
             'type' => 'VERIFICATION_APPROVED',
             'status' => 'UNREAD',
             'template_key' => 'verification_approved',
-            'route' => '/profile',
+            'route' => '/my_profile',
             'template_params' => null
         ]);
 
@@ -260,7 +260,7 @@ public function reject($parametros)
             'type' => 'VERIFICATION_REJECTED',
             'status' => 'UNREAD',
             'template_key' => 'verification_rejected',
-            'route' => '/profile',
+            'route' => '/my_profile',
             'template_params' => null
         ]);
 
