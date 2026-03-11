@@ -39,6 +39,7 @@ return [
   'no_notifications_avaliable' => 'You have no notifications',
   'notification_all' => 'All',
   'notification_unread' => 'Unread',
+  'preferences_updated' => 'Preferences updated successfully',
   'device_type' => 'Device Type',
   // Tabs
   'tab_range' => 'Range',

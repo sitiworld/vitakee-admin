@@ -248,8 +248,12 @@ async function savePreferences(triggeringSwitch) {
       },
     )
 
-    // 3. Reaccionar al cambio del toggle push en tiempo real
-    onPushToggleChanged(body.push_enabled === 1)
+    // 3. Reaccionar al cambio del toggle push en tiempo real solo si ese fue el activado
+    if (triggeringSwitch && triggeringSwitch.getAttribute('data-pref') === 'push_enabled') {
+      onPushToggleChanged(body.push_enabled === 1)
+    } else if (triggeringSwitch) {
+      showPushToast(language?.preferences_updated || 'Preferences updated successfully', 'success')
+    }
   } catch (e) {
     // silencioso
   }
@@ -372,7 +376,7 @@ async function subscribePush() {
     })
 
     showPushToast(
-      language?.push_enabled_toast || 'Push notifications enabled',
+      language?.preferences_updated || 'Preferences updated successfully',
       'success',
     )
   } catch (err) {
@@ -410,8 +414,8 @@ async function unsubscribePush() {
     })
 
     showPushToast(
-      language?.push_disabled_toast || 'Push notifications disabled',
-      'info',
+      language?.preferences_updated || 'Preferences updated successfully',
+      'success',
     )
   } catch (err) {
     console.error('[Push] Unsubscribe error:', err)
@@ -473,6 +477,7 @@ function showPushToast(message, icon = 'info') {
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
+      backdrop: false,
     })
   }
 }

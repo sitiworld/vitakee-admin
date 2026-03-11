@@ -41,6 +41,7 @@ return [
   'notification_error_load' => 'Error al cargar notificaciones',
   'notification_all' => 'Todas',
   'notification_unread' => 'No Leídas',
+  'preferences_updated' => 'Preferencias actualizadas correctamente',
   'device_type' => 'Tipo de Dispositivo',
 
   // Tabs
