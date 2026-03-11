@@ -847,6 +847,8 @@ input[type='range']::-moz-range-thumb {
   align-items: center; /* Centrar verticalmente */
   padding: 4px 0; /* Espaciado interno */
   box-sizing: border-box; /* Incluir padding en el ancho/alto */
+  width: 100%;
+  overflow: hidden;
 }
 
 /* Estilo para el sufijo (ej. VE) */
@@ -865,6 +867,8 @@ input[type='range']::-moz-range-thumb {
   display: flex;
   flex-direction: column; /* Para apilar el prefijo y el nombre */
   line-height: 1.2; /* Espaciado entre líneas */
+  flex: 1;
+  min-width: 0;
 }
 
 /* Estilo para el prefijo (+58) */
@@ -872,12 +876,23 @@ input[type='range']::-moz-range-thumb {
   font-size: 0.7rem; /* Tamaño normal del texto */
   font-weight: normal;
   color: var(--color-gray-dark); /* Color oscuro */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Estilo para el nombre del país (VENEZUELA) */
 .country-name {
   font-size: 0.7rem; /* Tamaño normal del texto */
   color: var(--color-gray-dark); /* Un color ligeramente más claro */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.country-select-dropdown {
+  min-width: 250px !important;
+  max-width: 90vw !important;
 }
 
 /* Estilos específicos para la selección de Select2 (el que se ve en el input) */

@@ -173,6 +173,8 @@ export async function countrySelect(
       placeholder: 'Select a country',
       templateResult: formatOptionWithFlag,
       templateSelection: formatOptionWithFlag,
+      dropdownAutoWidth: true,
+      dropdownCssClass: 'country-select-dropdown',
     }
 
     let $modalBody = $selectElem.closest('.modal-body')
