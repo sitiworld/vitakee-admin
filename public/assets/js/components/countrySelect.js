@@ -191,6 +191,13 @@ export async function countrySelect(
     $selectElem.select2(select2Options).on('change', function () {
       const selectedValue = $(this).val()
       applyMask(selectedValue, '')
+    }).on('select2:open', function () {
+      setTimeout(() => {
+        const openDropdown = document.querySelector('.select2-container--open .select2-dropdown');
+        if (openDropdown) {
+          openDropdown.classList.add('country-select-dropdown');
+        }
+      }, 0);
     })
 
     let selectedCountryId = countrySelect.options[0].value // Valor por defecto si no se encuentra nada
