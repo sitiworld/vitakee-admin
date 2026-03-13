@@ -18,6 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Iniciar sesión si no está iniciada
 }
 define('APP_ROOT', __DIR__ . '/'); // Define la ruta raíz de la aplicación
+define('PROJECT_ROOT', __DIR__);
 
 // 1. Determinar el protocolo (http o https)
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
@@ -34,7 +35,11 @@ $path = rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . '/';
 define('BASE_URL', "$protocol://$host$path");
 
 
+$lang = $_SESSION['lang'];
 
+
+
+$traducciones = Language::loadLanguage($lang);
 
 if (isset($_GET['lang'])) {
     $_SESSION['lang'] = strtoupper($_GET['lang']);
@@ -47,24 +52,16 @@ if (isset($_GET['lang'])) {
 }
 
 
-$lang = $_SESSION['lang'];
-
-
 
 $traducciones = Language::loadLanguage($lang);
 
 
 
-
-
-
-define('PROJECT_ROOT', __DIR__);
-
 // --- Carga de Clases ---
 require_once "app/core/ViewRenderer.php";
 require_once "app/Router.php";
 
-// Middleware
+// Otros Middleware
 require_once "app/middleware/AuthMiddleware.php";
 require_once "app/middleware/SessionRedirectMiddleware.php";
 
@@ -107,6 +104,7 @@ require_once "app/controllers/CitiesController.php";
 require_once "app/controllers/StatesController.php";
 require_once "app/controllers/ContactEmailController.php";
 require_once "app/controllers/ContactPhoneController.php";
+require_once "app/controllers/DashboardAdminController.php";
 
 
 // --- Inicialización ---
@@ -174,6 +172,7 @@ $router->group(['middleware' => 'AuthMiddleware', 'roles' => ['administrator']],
         $router->agregarRuta('GET', 'my_profile', ['vista' => 'profile_administrator', 'vistaData' => ['titulo' => 'Profile Administrator', '' => '']]);
     }
     $router->agregarRuta('GET', 'dashboard_administrator', ['vista' => 'dashboard_administrator', 'vistaData' => ['titulo' => 'Dashboard - VITAKEE', '' => '']]);
+    $router->agregarRuta('GET', 'dashboard_administrator2', ['vista' => 'dashboard_administrator2', 'vistaData' => ['titulo' => 'Dashboard IA Demo - VITAKEE', '' => '']]);
     $router->agregarRuta('GET', 'backups_view', ['vista' => 'admin_backups', 'vistaData' => ['titulo' => 'Backups - VITAKEE', '' => '']]);
     $router->agregarRuta('GET', 'biomarkers', ['vista' => 'admin_biomarkers', 'vistaData' => ['titulo' => 'Biomarkers - VITAKEE', '' => '']]);
     $router->agregarRuta('GET', 'test_panels', ['vista' => 'admin_test_panels', 'vistaData' => ['titulo' => 'Test Panels - VITAKEE', '' => '']]);
@@ -319,10 +318,45 @@ $router->group(['middleware' => 'AuthMiddleware', 'roles' => ['administrator']],
         'accion' => 'delete'
     ]);
 
+    // ============================================================
+    // --- DASHBOARD ADMIN API (KPIs y tablas de ranking) ---
+    // ============================================================
+    $router->agregarRuta('GET', 'admin-dashboard/kpis', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getKpis'
+    ]);
+    $router->agregarRuta('GET', 'admin-dashboard/top-users', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getTopUsersByExams'
+    ]);
+    $router->agregarRuta('GET', 'admin-dashboard/top-specialists', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getTopSpecialistsByConsultations'
+    ]);
+    $router->agregarRuta('GET', 'admin-dashboard/country-distribution', [
+        'controlador' => DashboardAdminController::class,
+        'accion' => 'getCountryDistribution'
+    ]);
 
-
-
-
+    // ============================================================
+    // --- NOTIFICATIONS & PUSH ---
+    // ============================================================
+    $router->agregarRuta('GET', 'notifications/preferences', [
+        'controlador' => NotificationPreferenceController::class,
+        'accion' => 'getPreferences'
+    ]);
+    $router->agregarRuta('POST', 'notifications/preferences', [
+        'controlador' => NotificationPreferenceController::class,
+        'accion' => 'updatePreferences'
+    ]);
+    $router->agregarRuta('POST', 'push/subscribe', [
+        'controlador' => PushSubscriptionController::class,
+        'accion' => 'subscribe'
+    ]);
+    $router->agregarRuta('POST', 'push/unsubscribe', [
+        'controlador' => PushSubscriptionController::class,
+        'accion' => 'unsubscribe'
+    ]);
 
 });
 
@@ -1184,6 +1218,7 @@ $router->delete('/specialist-verification-requests/{id}', [
     $router->get('/notifications/{id}', ['controlador' => NotificationController::class, 'accion' => 'showById']);
     $router->get('/notifications/all/{id}', ['controlador' => NotificationController::class, 'accion' => 'showAllAdmin']);
     $router->get('/notifications/user-count/{id}', ['controlador' => NotificationController::class, 'accion' => 'countAlertsUser']);
+    $router->get('/notifications/count-new', ['controlador' => NotificationController::class, 'accion' => 'countNewBySession']);
     $router->post('/notifications', ['controlador' => NotificationController::class, 'accion' => 'create']);
     $router->put('/notifications/{id}', ['controlador' => NotificationController::class, 'accion' => 'update']);
     $router->delete('/notifications/{id}', ['controlador' => NotificationController::class, 'accion' => 'delete']);
@@ -1202,6 +1237,14 @@ $router->delete('/specialist-verification-requests/{id}', [
     $router->post('/notifications/no-alert-admin', ['controlador' => NotificationController::class, 'accion' => 'updateNoAlertAdmin']);
     $router->post('/notifications/no-alert-user-all', ['controlador' => NotificationController::class, 'accion' => 'updateNoAlertUserByUserId']);
     $router->post('/notifications/no-alert-admin-all', ['controlador' => NotificationController::class, 'accion' => 'updateNoAlertAdminAll']);
+
+    // Notification Preferences
+    $router->get('/notifications/preferences', ['controlador' => NotificationPreferenceController::class, 'accion' => 'getPreferences']);
+    $router->post('/notifications/preferences', ['controlador' => NotificationPreferenceController::class, 'accion' => 'updatePreferences']);
+
+    // Push Subscriptions
+    $router->post('/notifications/push-subscribe', ['controlador' => PushSubscriptionController::class, 'accion' => 'subscribe']);
+    $router->post('/notifications/push-unsubscribe', ['controlador' => PushSubscriptionController::class, 'accion' => 'unsubscribe']);
 });
 
 
