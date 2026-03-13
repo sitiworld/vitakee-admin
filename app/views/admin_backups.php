@@ -154,6 +154,19 @@
 
         $(document).on('click', '.restoreBackupBtn', function () {
           const backupId = $(this).data('id');
+
+          const restaurandoTitle = idioma === 'ES' ? 'Restaurando...' : 'Restoring...';
+          const restaurandoText = idioma === 'ES' ? 'Por favor espere, es posible que la restauración tarde unos minutos dependiendo de su tamaño.' : 'Please wait, restoration may take a few minutes depending on its size.';
+
+          Swal.fire({
+            title: restaurandoTitle,
+            text: restaurandoText,
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            }
+          });
+
           $.ajax({
             url: `backups/${backupId}/restore`,
             type: 'POST',
@@ -166,16 +179,25 @@
                   icon: 'success',
                   confirmButtonText: 'Okay'
                 }).then(() => {
-                  loadBackups();
+                  location.reload();
                 });
               } else {
                 Swal.fire({
                   title: t.tituloError,
-                  text: t.restaurarError,
+                  text: response.message || t.restaurarError,
                   icon: 'error',
                   confirmButtonText: 'Okay'
                 });
               }
+            },
+            error: function (xhr, status, error) {
+              console.error('Error:', error);
+              Swal.fire({
+                title: t.tituloError,
+                text: t.restaurarError,
+                icon: 'error',
+                confirmButtonText: 'Okay'
+              });
             }
           });
         });

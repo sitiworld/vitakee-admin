@@ -257,23 +257,45 @@ class BackupModel
                 return ['status' => 'error', 'message' => 'No se pudo leer el archivo de respaldo'];
             }
 
-            // 🔁 Eliminar cualquier DEFINER problemático
-            $sql = preg_replace('/CREATE DEFINER=`[^`]+`@`[^`]+`\s+/', 'CREATE ', $sql);
+            // 🔁 Eliminar cualquier DEFINER problemático de forma segura (previene error por pcre limit en archivos grandes)
+            $sqlClean = preg_replace('/CREATE DEFINER=`[^`]+`@`[^`]+`\s+/', 'CREATE ', $sql);
+            if ($sqlClean !== null) {
+                $sql = $sqlClean;
+            }
 
-            $this->db->query("SET FOREIGN_KEY_CHECKS = 0");
+            // Aumentar temporalmente el max_allowed_packet para permitir enviar dumps grandes
+            @$this->db->query("SET GLOBAL max_allowed_packet=1073741824");
 
-            if (!$this->db->multi_query($sql)) {
-                return ['status' => 'error', 'message' => 'Error ejecutando el respaldo: ' . $this->db->error];
+            // Crear una nueva conexión dedicada para restaurar, 
+            // así se adopta el nuevo max_allowed_packet global
+            $host = $_ENV['DB_HOST'] ?? 'localhost';
+            $user = $_ENV['DB_USER'] ?? 'root';
+            $pass = $_ENV['DB_PASSWORD'] ?? '';
+            $dbname = 'bd_vitakee';
+            
+            $restoreDb = new mysqli($host, $user, $pass, $dbname);
+            if ($restoreDb->connect_error) {
+                return ['status' => 'error', 'message' => 'Error de conexión para restaurar: ' . $restoreDb->connect_error];
+            }
+            $restoreDb->set_charset("utf8mb4");
+
+            $restoreDb->query("SET FOREIGN_KEY_CHECKS = 0");
+
+            if (!$restoreDb->multi_query($sql)) {
+                $err = $restoreDb->error;
+                $restoreDb->close();
+                return ['status' => 'error', 'message' => 'Error ejecutando el respaldo: ' . $err];
             }
 
             // Ejecutar todos los bloques hasta el final
             do {
-                if ($result = $this->db->store_result()) {
+                if ($result = $restoreDb->store_result()) {
                     $result->free();
                 }
-            } while ($this->db->more_results() && $this->db->next_result());
+            } while ($restoreDb->more_results() && $restoreDb->next_result());
 
-            $this->db->query("SET FOREIGN_KEY_CHECKS = 1");
+            $restoreDb->query("SET FOREIGN_KEY_CHECKS = 1");
+            $restoreDb->close();
 
             return ['status' => 'success', 'message' => 'Respaldo ejecutado completamente.'];
         } catch (mysqli_sql_exception $e) {
