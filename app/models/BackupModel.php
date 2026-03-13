@@ -80,10 +80,10 @@ class BackupModel
 
     public function crearBackup(): array
     {
-        $database = 'bd_vitakee_developer';
+        $database = 'bd_vitakee';
         $date = date('Y-m-d_H-i-s');
         $backupDir = $this->obtenerRutaBackupDir();
-        $backupFile = $backupDir . DIRECTORY_SEPARATOR . "bd_vitakee_developer-{$date}.sql";
+        $backupFile = $backupDir . DIRECTORY_SEPARATOR . "bd_vitakee-{$date}.sql";
 
         $this->db->query("SET NAMES 'utf8'");
         $sqlDump = "-- Backup completo generado por PHP\n";
