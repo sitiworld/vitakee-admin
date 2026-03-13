@@ -12,6 +12,30 @@ class SpecialistModel
         $this->db = Database::getInstance();
     }
 
+    public function setIdioma(string $specialistId, string $lang): bool
+    {
+        try {
+            $lang = strtoupper(trim($lang));
+            if (!in_array($lang, ['EN', 'ES'])) {
+                return false;
+            }
+
+            $stmt = $this->db->prepare("UPDATE {$this->table} SET interface_language = ? WHERE specialist_id = ?");
+            if (!$stmt) {
+                return false;
+            }
+
+            $stmt->bind_param("ss", $lang, $specialistId);
+            $success = $stmt->execute();
+            $stmt->close();
+
+            return $success;
+        } catch (\Exception $e) {
+            error_log("Error setIdioma in {$this->table}: " . $e->getMessage());
+            return false;
+        }
+    }
+
     // Dentro de tu SpecialistModel (o el modelo donde viven estas funciones)
     /**
      * Verifica si existe una imagen para un especialista específico.

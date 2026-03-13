@@ -91,12 +91,34 @@ class NotificationEmailService
         $isES    = ($idioma === 'ES');
         $baseUrl = defined('BASE_URL') ? BASE_URL : (($_ENV['APP_URL'] ?? 'https://app.vitakee.com') . '/');
 
+        // --- FIX CROSS-REPO URLS PARA LOCAL Y PRODUCCIÓN ---
+        $isCrossAdmin = ($userType === 'administrator');
+        $isCrossUsers = (in_array($userType, ['specialist', 'user']));
+
+        if ($isCrossAdmin) {
+            if (!empty($_ENV['CROSS_REPO_ADMIN_URL'])) {
+                $baseUrl = rtrim($_ENV['CROSS_REPO_ADMIN_URL'], '/');
+            } elseif (strpos($baseUrl, 'vitakee-users') !== false) {
+                $baseUrl = str_replace('vitakee-users', 'vitakee-admin', $baseUrl);
+            }
+            $ctaUrl  = rtrim($baseUrl, '/') . '/administrator';
+        } elseif ($isCrossUsers) {
+            if (!empty($_ENV['CROSS_REPO_USERS_URL'])) {
+                $baseUrl = rtrim($_ENV['CROSS_REPO_USERS_URL'], '/');
+            } elseif (strpos($baseUrl, 'vitakee-admin') !== false) {
+                $baseUrl = str_replace('vitakee-admin', 'vitakee-users', $baseUrl);
+            }
+            $ctaUrl  = rtrim($baseUrl, '/') . ($userType === 'specialist' ? '/specialist' : '/user');
+        } else {
+            // Comportamiento por defecto
+            $ctaUrl  = rtrim($baseUrl, '/') . '/administrator';
+        }
+
         $greeting       = $isES ? "Hola" : "Hello";
         $subTitle       = $isES
-            ? 'Tienes notificaciones pendientes en el panel de administrador:'
-            : 'You have pending notifications on the admin dashboard:';
+            ? 'Tienes notificaciones pendientes en tu panel:'
+            : 'You have pending notifications on your dashboard:';
         $ctaText        = $isES ? 'Ir al Panel' : 'Go to Dashboard';
-        $ctaUrl         = $baseUrl . 'administrator';
         $footerText     = $isES
             ? 'Recibiste este correo porque tienes habilitadas las notificaciones por email en Vitakee Admin.'
             : 'You received this email because you have email notifications enabled in Vitakee Admin.';

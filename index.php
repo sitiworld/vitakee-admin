@@ -18,6 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Iniciar sesión si no está iniciada
 }
 define('APP_ROOT', __DIR__ . '/'); // Define la ruta raíz de la aplicación
+define('PROJECT_ROOT', __DIR__);
 
 // 1. Determinar el protocolo (http o https)
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
@@ -36,16 +37,14 @@ define('BASE_URL', "$protocol://$host$path");
 
 
 
-if (isset($_GET['lang'])) {
-    $_SESSION['lang'] = strtoupper($_GET['lang']);
-    $_SESSION['idioma'] = strtoupper($_GET['lang']);
-} else {
-    if (!isset($_SESSION['lang'])) {
-        $_SESSION['lang'] = 'EN'; // Idioma por defecto
-        $_SESSION['idioma'] = 'EN'; // Idioma por defecto
-    }
-}
+// Middleware (Carga temprana para sincronizar idioma desde DB)
+require_once "app/middleware/LanguageSyncMiddleware.php";
+LanguageSyncMiddleware::handle();
 
+if (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'EN'; // Idioma por defecto
+    $_SESSION['idioma'] = 'EN'; 
+}
 
 $lang = $_SESSION['lang'];
 
@@ -55,16 +54,11 @@ $traducciones = Language::loadLanguage($lang);
 
 
 
-
-
-
-define('PROJECT_ROOT', __DIR__);
-
 // --- Carga de Clases ---
 require_once "app/core/ViewRenderer.php";
 require_once "app/Router.php";
 
-// Middleware
+// Otros Middleware
 require_once "app/middleware/AuthMiddleware.php";
 require_once "app/middleware/SessionRedirectMiddleware.php";
 

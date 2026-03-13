@@ -923,11 +923,8 @@ class NotificationModel
             $stmt->close();
             $this->db->commit();
             
-            // --- INICIO DISPARO DE EMAIL (Una sola vez por request) ---
-            if (!isset(self::$emailScheduledFor[$user_id])) {
-                self::$emailScheduledFor[$user_id] = true;
-                
-                // Extraer el email del destinatario según su rol
+            // Recopilar información del destinatario
+            if (!isset(self::$emailScheduledFor[$user_id . '_info'])) {
                 if ($rol === 'specialist') {
                     $targetTable = 'specialists';
                     $idColumn    = 'specialist_id';
@@ -939,38 +936,50 @@ class NotificationModel
                     $idColumn    = 'user_id';
                 }
 
-                $stmtUser = $this->db->prepare("SELECT email, CONCAT(first_name, ' ', last_name) as full_name FROM {$targetTable} WHERE {$idColumn} = ? LIMIT 1");
+                $stmtUser = $this->db->prepare("SELECT email, CONCAT(first_name, ' ', last_name) as full_name, IFNULL(interface_language, 'EN') as interface_language FROM {$targetTable} WHERE {$idColumn} = ? LIMIT 1");
                 if ($stmtUser) {
                     $stmtUser->bind_param('s', $user_id);
                     $stmtUser->execute();
                     $resUser = $stmtUser->get_result();
                     if ($userData = $resUser->fetch_assoc()) {
-                        $userEmail = $userData['email'];
-                        $userName  = $userData['full_name'];
-                        $currentLang = $_SESSION['idioma'] ?? 'EN';
-                        
-                        // Registramos el evento al finalizar el request para no bloquear
-                        register_shutdown_function(function() use ($user_id, $rol, $userEmail, $userName, $currentLang) {
-                            try {
-                                require_once __DIR__ . '/../services/NotificationEmailService.php';
-                                error_log("[NotificationModel] Ejecutando shutdown de email para {$user_id} ({$rol}) - lang: {$currentLang}");
-                                NotificationEmailService::dispatchIfEnabled($user_id, $rol, $userEmail, null, $userName, $currentLang);
-                            } catch (\Throwable $e) {
-                                error_log("[NotificationModel] Error en shutdown email: " . $e->getMessage());
-                            }
-                        });
+                        self::$emailScheduledFor[$user_id . '_info'] = [
+                            'email' => $userData['email'],
+                            'full_name' => $userData['full_name'],
+                            'lang' => strtoupper($userData['interface_language'])
+                        ];
                     }
                     $stmtUser->close();
                 }
             }
+
+            $recipientInfo = self::$emailScheduledFor[$user_id . '_info'] ?? null;
+            $currentLang = $recipientInfo['lang'] ?? strtoupper($_SESSION['idioma'] ?? 'EN');
+
+            // --- INICIO DISPARO DE EMAIL (Una sola vez por request) ---
+            if (!isset(self::$emailScheduledFor[$user_id]) && $recipientInfo) {
+                self::$emailScheduledFor[$user_id] = true;
+                
+                $userEmail = $recipientInfo['email'];
+                $userName  = $recipientInfo['full_name'];
+                
+                // Registramos el evento al finalizar el request para no bloquear
+                register_shutdown_function(function() use ($user_id, $rol, $userEmail, $userName, $currentLang) {
+                    try {
+                        require_once __DIR__ . '/../services/NotificationEmailService.php';
+                        error_log("[NotificationModel] Ejecutando shutdown de email para {$user_id} ({$rol}) - lang: {$currentLang}");
+                        NotificationEmailService::dispatchIfEnabled($user_id, $rol, $userEmail, null, $userName, $currentLang);
+                    } catch (\Throwable $e) {
+                         error_log("[NotificationModel] Error en shutdown email: " . $e->getMessage());
+                    }
+                });
+            }
             // --- FIN DISPARO DE EMAIL ---
 
             // --- INICIO DISPARO DE PUSH ---
-            register_shutdown_function(function() use ($user_id, $rol, $template_key, $data, $route) {
+            register_shutdown_function(function() use ($user_id, $rol, $template_key, $data, $route, $currentLang) {
                 try {
                     require_once __DIR__ . '/../services/NotificationPushService.php';
                     require_once __DIR__ . '/../helpers/NotificationTemplateHelper.php';
-                    $currentLang = $_SESSION['idioma'] ?? 'EN';
                     $rendered = NotificationTemplateHelper::render($template_key, $data['template_params'] ?? [], $currentLang);
                     $title = $rendered['title'] ?? 'Vitakee Admin';
                     $body  = $rendered['desc']  ?? '';

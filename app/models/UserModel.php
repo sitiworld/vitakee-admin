@@ -222,18 +222,26 @@ public function getUserByTelephone($telephone)
     }
 
 
-    public function setIdioma(string $lang): bool
+    public function setIdioma(string $userId, string $lang): bool
     {
         try {
             $lang = strtoupper(trim($lang));
             if (!in_array($lang, ['EN', 'ES'])) {
-                throw new \InvalidArgumentException("Idioma no válido: $lang");
+                return false;
             }
 
-            $_SESSION['idioma'] = $lang;
-            return true;
+            $stmt = $this->db->prepare("UPDATE {$this->table} SET interface_language = ? WHERE user_id = ?");
+            if (!$stmt) {
+                return false;
+            }
+
+            $stmt->bind_param("ss", $lang, $userId);
+            $success = $stmt->execute();
+            $stmt->close();
+
+            return $success;
         } catch (\Exception $e) {
-            // Puedes loguear el error si es necesario: error_log($e->getMessage());
+            error_log("Error setIdioma in {$this->table}: " . $e->getMessage());
             return false;
         }
     }
