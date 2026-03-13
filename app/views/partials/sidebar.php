@@ -244,10 +244,10 @@ $user_role = strtolower((string) $rawRole);
                 </a>
                 <div class="dropdown-menu user-pro-dropdown">
                     <a href="profile_user" class="dropdown-item notify-item">
-                        <i class="fe-user me-1"></i><span>My Account</span>
+                        <i class="fe-user me-1"></i><span><?= $traducciones['my_account'] ?? 'My Account' ?></span>
                     </a>
                     <a href="logout" class="dropdown-item notify-item">
-                        <i class="fe-log-out me-1"></i><span>Logout</span>
+                        <i class="fe-log-out me-1"></i><span><?= $traducciones['logout'] ?? 'Logout' ?></span>
                     </a>
                 </div>
             </div>

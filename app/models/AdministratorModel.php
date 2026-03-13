@@ -12,6 +12,30 @@ class AdministratorModel
         $this->db = Database::getInstance();
     }
 
+    public function setIdioma(string $adminId, string $lang): bool
+    {
+        try {
+            $lang = strtoupper(trim($lang));
+            if (!in_array($lang, ['EN', 'ES'])) {
+                return false;
+            }
+
+            $stmt = $this->db->prepare("UPDATE {$this->table} SET interface_language = ? WHERE administrator_id = ?");
+            if (!$stmt) {
+                return false;
+            }
+
+            $stmt->bind_param("ss", $lang, $adminId);
+            $success = $stmt->execute();
+            $stmt->close();
+
+            return $success;
+        } catch (\Exception $e) {
+            error_log("Error setIdioma in {$this->table}: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function getAll()
     {
         try {
@@ -513,17 +537,18 @@ class AdministratorModel
             /* ================ Insert en administrators ================ */
             $stmt = $this->db->prepare("
             INSERT INTO {$this->table}
-                (administrator_id, first_name, last_name, email, phone, password, system_type, timezone, created_at, created_by)
+                (administrator_id, first_name, last_name, email, phone, password, system_type, timezone, interface_language, created_at, created_by)
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
             if (!$stmt) {
                 error_log('[admin.create][prepare-error] insert admin | ' . $this->db->error);
                 throw new \mysqli_sql_exception(($t['error_preparing_insert'] ?? 'Error preparando insert: ') . $this->db->error);
             }
 
+            $interfaceLanguage = strtoupper($data['language'] ?? 'EN');
             $stmt->bind_param(
-                "ssssssssss",
+                "sssssssssss",
                 $uuid,
                 $firstName,
                 $lastName,
@@ -532,6 +557,7 @@ class AdministratorModel
                 $hashedPassword,
                 $systemType,
                 $timezone,
+                $interfaceLanguage,
                 $createdAt,
                 $createdBy
             );
@@ -627,14 +653,15 @@ class AdministratorModel
             $uuid = $this->generateUUIDv4();
 
             $stmt = $this->db->prepare("INSERT INTO {$this->table} 
-            (administrator_id, first_name, last_name, email, phone, password, system_type, timezone, created_at, created_by)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            (administrator_id, first_name, last_name, email, phone, password, system_type, timezone, interface_language, created_at, created_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             if (!$stmt) {
                 throw new mysqli_sql_exception($translations['error_preparing_insert'] . $this->db->error);
             }
 
+            $interfaceLanguage = strtoupper($data['language'] ?? 'EN');
             $stmt->bind_param(
-                "ssssssssss",
+                "sssssssssss",
                 $uuid,
                 $data['first_name'],
                 $data['last_name'],
@@ -643,6 +670,7 @@ class AdministratorModel
                 $hashedPassword,
                 $systemType,
                 $timezone,
+                $interfaceLanguage,
                 $createdAt,
                 $uuid // El mismo UUID como created_by
             );
@@ -773,6 +801,7 @@ class AdministratorModel
 
             /* ============== Update base ============== */
             // status es opcional; si no se envía, no lo modificamos
+            $interfaceLanguage = strtoupper($data['language'] ?? 'EN');
             $setParts = [
                 "first_name = ?",
                 "last_name  = ?",
@@ -780,10 +809,11 @@ class AdministratorModel
                 "phone      = ?",
                 "system_type= ?",
                 "timezone   = ?",
+                "interface_language = ?",
                 "updated_at = ?",
                 "updated_by = ?",
             ];
-            $types = "ssssssss";
+            $types = "sssssssss";
             $params = [
                 $firstName,
                 $lastName,
@@ -791,6 +821,7 @@ class AdministratorModel
                 $phoneIn,
                 $systemType,
                 $timezone,
+                $interfaceLanguage,
                 $updatedAt,
                 $updatedBy
             ];
@@ -915,11 +946,13 @@ class AdministratorModel
             }
 
             // ===== UPDATE (email y phone SIEMPRE incluidos) =====
+            $interfaceLanguage = strtoupper($data['language'] ?? 'EN');
             $sql = "UPDATE {$this->table} SET
                     first_name   = ?,
                     last_name    = ?,
                     system_type  = ?,
                     timezone     = ?,
+                    interface_language = ?,
                     email        = ?,
                     phone        = ?,
                     updated_at   = ?,
@@ -930,12 +963,13 @@ class AdministratorModel
                 $this->last_name,
                 $this->system_type,
                 $this->timezone,
+                $interfaceLanguage,
                 $this->email,
                 $this->phone,
                 $updatedAt,
                 $updatedBy
             ];
-            $types = "ssssssss";
+            $types = "sssssssss";
 
             // status opcional (respetando la estructura de la tabla)
             if ($statusIn !== null) {

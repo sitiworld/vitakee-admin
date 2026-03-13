@@ -34,7 +34,28 @@ class NotificationPushService
             }
 
             $baseUrl = defined('BASE_URL') ? BASE_URL : ($_ENV['APP_URL'] ?? '');
+            
+            // --- FIX CROSS-REPO URLS (LOCAL Y PRODUCCIÓN) ---
+            if ($userType === 'administrator') {
+                if (!empty($_ENV['CROSS_REPO_ADMIN_URL'])) {
+                    $baseUrl = rtrim($_ENV['CROSS_REPO_ADMIN_URL'], '/');
+                } elseif (strpos($baseUrl, 'vitakee-users') !== false) {
+                    $baseUrl = str_replace('vitakee-users', 'vitakee-admin', $baseUrl);
+                }
+            } elseif (in_array($userType, ['specialist', 'user'])) {
+                if (!empty($_ENV['CROSS_REPO_USERS_URL'])) {
+                    $baseUrl = rtrim($_ENV['CROSS_REPO_USERS_URL'], '/');
+                } elseif (strpos($baseUrl, 'vitakee-admin') !== false) {
+                    $baseUrl = str_replace('vitakee-admin', 'vitakee-users', $baseUrl);
+                }
+            }
+
             $baseUrl = rtrim($baseUrl, '/');
+
+            // Asegurar que la ruta sea absoluta para el Service Worker
+            if (!empty($url) && !preg_match('~^(?:f|ht)tps?://~i', $url)) {
+                $url = $baseUrl . '/' . ltrim($url, '/');
+            }
 
             $payload = json_encode([
                 'title' => $title,

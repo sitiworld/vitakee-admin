@@ -65,11 +65,12 @@ self.addEventListener('notificationclick', function (event) {
 
   event.waitUntil(
     clients
-      .matchAll({ type: 'window', includeUncontrolled: false })
+      .matchAll({ type: 'window', includeUncontrolled: true })
       .then(function (clientList) {
-        // Buscar pestaña ya abierta de Vitakee (solo controladas por este SW)
+        const baseUrl = self.location.origin + SW_BASE;
+        // Buscar pestaña ya abierta de Vitakee (de esta app particular)
         for (const client of clientList) {
-          if ('focus' in client) {
+          if ('focus' in client && client.url.startsWith(baseUrl)) {
             client.navigate(targetUrl)
             return client.focus()
           }
