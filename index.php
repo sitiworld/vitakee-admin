@@ -35,12 +35,6 @@ $path = rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . '/';
 define('BASE_URL', "$protocol://$host$path");
 
 
-$lang = $_SESSION['lang'];
-
-
-
-$traducciones = Language::loadLanguage($lang);
-
 if (isset($_GET['lang'])) {
     $_SESSION['lang'] = strtoupper($_GET['lang']);
     $_SESSION['idioma'] = strtoupper($_GET['lang']);
@@ -51,8 +45,7 @@ if (isset($_GET['lang'])) {
     }
 }
 
-
-
+$lang = $_SESSION['lang'];
 $traducciones = Language::loadLanguage($lang);
 
 
